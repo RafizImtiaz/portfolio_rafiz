@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting...</title>
+    <script>
+        const pathname = window.location.pathname;
+        if (pathname.includes('/showcase_playground')) {
+            window.location.replace(pathname.replace(/\/showcase_playground\/?$/, '/showcase_playground.html') + window.location.search + window.location.hash);
+        } else {
+            window.location.replace('./');
+        }
+    </script>
+</head>
+<body style="background:#090d16; color:#94a3b8; display:flex; align-items:center; justify-content:center; height:100vh; font-family:system-ui, sans-serif; text-align:center;">
+    <div>
+        <p style="font-size:18px; color:#ffffff; font-weight:700; margin-bottom:8px;">Entering Rafiz's Portfolio...</p>
+        <p style="font-size:14px;">Redirecting seamlessly...</p>
+    </div>
+</body>
+</html>

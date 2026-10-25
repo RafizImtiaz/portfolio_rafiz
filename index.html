@@ -13,9 +13,15 @@
     <meta property="og:image" content="assets/profile_photo.png">
 
     <script>
-        // Gatekeeper: If no active session, redirect to showcase_playground.html
+        // Clean URL: Hide index.html and .html from the address bar
+        if (window.location.protocol !== 'file:' && window.history && window.history.replaceState) {
+            const cleanPath = window.location.pathname.replace(/\/index\.html$/i, '/').replace(/\.html$/i, '');
+            window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
+        }
+
+        // Gatekeeper: If no active session, redirect to showcase_playground (clean URL)
         if (!sessionStorage.getItem('rafiz_session_auth')) {
-            window.location.replace('showcase_playground.html');
+            window.location.replace('showcase_playground');
         }
     </script>
 
@@ -2679,7 +2685,7 @@
         if (lockBtn) {
             lockBtn.addEventListener('click', () => {
                 sessionStorage.removeItem('rafiz_session_auth');
-                window.location.href = 'showcase_playground.html';
+                window.location.href = 'showcase_playground';
             });
         }
 

@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rafiz's Portfolio | Authentication & Interactive Showcase</title>
     <link rel="icon" type="image/png" href="assets/profile_photo.png">
+    <script>
+        // Clean URL: Hide .html from the address bar
+        if (window.location.protocol !== 'file:' && window.history && window.history.replaceState) {
+            const cleanPath = window.location.pathname.replace(/\.html$/i, '');
+            window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
+        }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -1155,7 +1162,6 @@
                     </div>
                     <div class="brand-info">
                         <h2>Rafiz's Portfolio</h2>
-                        <p>Interactive Gateway & Showcase</p>
                     </div>
                 </div>
 
@@ -1183,11 +1189,10 @@
             <div class="auth-view-panel" data-auth-view="login">
                 <div class="view-header">
                     <h3>Welcome Explorer</h3>
-                    <p>Enter to unlock Rafiz Imtiaz's portfolio and architecture projects.</p>
                 </div>
 
                 <!-- QUICK ACCESS HINT BANNER -->
-                <div class="auth-hint-banner" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%); border: 1.5px solid rgba(56, 189, 248, 0.4); border-radius: 14px; padding: 13px 15px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 6px; box-shadow: 0 8px 24px -6px rgba(56, 189, 248, 0.2);">
+                <div class="auth-hint-banner" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%); border: 1.5px solid rgba(56, 189, 248, 0.4); border-radius: 14px; padding: 13px 15px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 6px; box-shadow: 0 8px 24px -6px rgba(56, 189, 248, 0.2);">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-cyan); display: flex; align-items: center; gap: 6px;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px;"><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
@@ -1198,10 +1203,6 @@
                     <p style="font-size: 12.5px; color: var(--text-main); line-height: 1.45;">
                         Simply tap <strong style="color: #38bdf8;">Sign In</strong> below (no credentials needed) to enter Rafiz's Portfolio directly!
                     </p>
-                    <button type="button" id="btn-quick-instant-enter" style="width: 100%; background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(56, 189, 248, 0.3) 100%); border: 1px solid rgba(56, 189, 248, 0.45); border-radius: 10px; padding: 9px 12px; font-family: inherit; font-size: 12.5px; font-weight: 800; color: #ffffff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:15px;height:15px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
-                        <span>Instant Enter ⚡</span>
-                    </button>
                 </div>
 
                 <form id="auth-login-form" class="auth-form">
@@ -1389,9 +1390,9 @@
             <div class="sp-headline-block">
                 <div class="sp-eyebrow">
                     <span class="sp-ping-dot"></span>
-                    <span>Interactive Constellation Mesh</span>
+                    <span>Interactive</span>
                 </div>
-                <h1 class="sp-title">Rafiz Imtiaz <span>Portfolio Gateway</span></h1>
+                <h1 class="sp-title">Rafiz Imtiaz</h1>
                 <p class="sp-description">
                     Drag, throw and collide interactive aesthetic nodes. Click anywhere on space to propagate kinetic shockwaves. Tap Sign In to enter.
                 </p>
@@ -2440,7 +2441,7 @@
                     setTimeout(() => {
                         resolve({ success: true, message: `Welcome! Unlocking Rafiz Imtiaz Portfolio...` });
                         setTimeout(() => {
-                            window.location.href = 'index.html';
+                            window.location.href = './';
                         }, 400);
                     }, 350);
                 });
@@ -2474,7 +2475,7 @@
                         sessionStorage.setItem('rafiz_session_auth', 'true');
                         resolve({ success: true, message: 'Signed in! Unlocking Rafiz Imtiaz Portfolio...' });
                         setTimeout(() => {
-                            window.location.href = 'index.html';
+                            window.location.href = './';
                         }, 350);
                     });
                 }
@@ -2489,7 +2490,7 @@
 
             const themeManager = new ThemeManager(playground);
 
-            // Hook Instant Enter button
+            // Hook Instant Enter button (if present)
             const instantBtn = document.getElementById('btn-quick-instant-enter');
             if (instantBtn) {
                 instantBtn.addEventListener('click', () => {
@@ -2497,7 +2498,7 @@
                     if (playground && playground.sfx) playground.sfx.playChime();
                     auth.showToast('Unlocking Rafiz Imtiaz Portfolio...', 'success');
                     setTimeout(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = './';
                     }, 350);
                 });
             }
@@ -2509,7 +2510,7 @@
                     if (playground && playground.sfx) playground.sfx.playChime();
                     auth.showToast('Authenticating with provider... Entering portfolio!', 'success');
                     setTimeout(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = './';
                     }, 350);
                 });
             });
