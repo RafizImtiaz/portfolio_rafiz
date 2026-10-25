@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rafiz Imtiaz | Software Engineer</title>
+    <meta name="description" content="Portfolio of Rafiz Imtiaz — Software Engineer specializing in backend APIs, FastAPI, Django, Laravel, PostgreSQL, and scalable system design.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========================================================================== */
+        /* RESET & CORE VARIABLES                                                     */
+        /* ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --brand-primary: #6366f1;
+            --brand-cyan: #38bdf8;
+            --brand-emerald: #10b981;
+            --brand-glow: rgba(99, 102, 241, 0.45);
+            
+            --bg-deep: #090c13;
+            --bg-card: rgba(15, 23, 42, 0.75);
+            --bg-card-hover: rgba(22, 32, 58, 0.85);
+            --border-glass: rgba(255, 255, 255, 0.12);
+            --border-glow: rgba(99, 102, 241, 0.5);
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-faint: #64748b;
+            
+            --cursor-color: #38bdf8;
+            --cursor-glow: rgba(56, 189, 248, 0.5);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            cursor: default;
+        }
+
+        /* Hide native cursor when custom cursor is active on desktop */
+        @media (pointer: fine) {
+            body, a, button, input, textarea, select {
+                cursor: none !important;
+            }
+        }
+
+        /* ========================================================================== */
+        /* ULTRA-FAST CUSTOM INTERACTIVE CURSOR                                       */
+        /* ========================================================================== */
+        #custom-cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #ffffff, 0 0 20px var(--cursor-glow);
+            transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+        }
+
+        #custom-cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+            transform: translate(-50%, -50%);
+            transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                        height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.22s ease,
+                        background 0.22s ease;
+        }
+
+        #custom-cursor-ring.cursor-hover {
+            width: 54px;
+            height: 54px;
+            border-color: var(--brand-cyan);
+            background: rgba(56, 189, 248, 0.08);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+        }
+
+        #custom-cursor-ring.cursor-down {
+            width: 28px;
+            height: 28px;
+            border-color: #818cf8;
+            background: rgba(129, 140, 248, 0.25);
+        }
+
+        /* Cursor Sparkle Canvas */
+        #cursor-trail-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 99990;
+        }
+
+        /* ========================================================================== */
+        /* FIXED TOP NAVIGATION BAR (3 BUTTONS)                                       */
+        /* ========================================================================== */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 60px;
+            transition: all 0.35s ease;
+            backdrop-filter: blur(0px);
+        }
+
+        .site-header.scrolled {
+            padding: 16px 60px;
+            background: rgba(9, 12, 19, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-glass);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        .brand-logo {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+        }
+
+        .brand-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--brand-cyan);
+            box-shadow: 0 0 12px var(--brand-cyan);
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.4); }
+        }
+
+        /* 3 Buttons Navigation: Home, About me, Contact */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+            list-style: none;
+        }
+
+        .nav-item a {
+            position: relative;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            padding: 8px 0;
+            transition: color 0.25s ease;
+        }
+
+        .nav-item a:hover {
+            color: #ffffff;
+        }
+
+        /* Active underline matching user reference image */
+        .nav-item a.active {
+            color: #ffffff;
+        }
+
+        .nav-item a.active::after,
+        .nav-item a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+            transition: width 0.3s ease;
+        }
+
+        /* ========================================================================== */
+        /* HERO LANDING SECTION (HOME)                                                */
+        /* ========================================================================== */
+        .hero-section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            min-height: 640px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background: #090c13 url('assets/hero_bg.jpg') center center / cover no-repeat;
+        }
+
+        /* Dark atmospheric overlay */
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at center, rgba(9, 12, 19, 0.35) 0%, rgba(9, 12, 19, 0.85) 100%),
+                linear-gradient(to bottom, rgba(9, 12, 19, 0.4) 0%, transparent 40%, rgba(9, 12, 19, 0.95) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Canvas for dynamic drifting mist, fog and kinetic ambient particles */
+        #dynamic-bg-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Center Content Group */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            max-width: 860px;
+            padding: 0 20px;
+            animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes heroFadeIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Circular Avatar with crisp white border ring */
+        .avatar-ring-container {
+            position: relative;
+            width: 154px;
+            height: 154px;
+            margin-bottom: 8px;
+        }
+
+        .avatar-outer-glow {
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, transparent 70%);
+            animation: avatarPulse 4s infinite alternate;
+        }
+
+        @keyframes avatarPulse {
+            0% { transform: scale(0.96); opacity: 0.5; }
+            100% { transform: scale(1.08); opacity: 0.9; }
+        }
+
+        .avatar-frame {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3.5px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            background: #111827;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .avatar-frame:hover {
+            transform: scale(1.06);
+            border-color: #ffffff;
+            box-shadow: 0 12px 40px rgba(56, 189, 248, 0.4), 0 0 30px rgba(255, 255, 255, 0.4);
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        /* Name Headline */
+        .hero-name {
+            font-size: clamp(36px, 5.5vw, 64px);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            color: #ffffff;
+            line-height: 1.15;
+            text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Subtitle with dynamic typewriter text */
+        .hero-title-typewriter {
+            font-size: clamp(14px, 2vw, 19px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: rgba(255, 255, 255, 0.85);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 28px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: var(--brand-cyan);
+            animation: blink 0.9s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Hero Quick Action Buttons */
+        .hero-action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-hero-primary {
+            background: rgba(255, 255, 255, 0.95);
+            color: #090c13;
+            border: 1px solid #ffffff;
+            border-radius: 9999px;
+            padding: 13px 28px;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            background: #ffffff;
+            box-shadow: 0 16px 36px rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-hero-outline {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 9999px;
+            padding: 13px 28px;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-hero-outline:hover {
+            transform: translateY(-3px);
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Scroll Down Indicator */
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            transition: color 0.2s ease;
+        }
+
+        .hero-scroll-indicator:hover {
+            color: #ffffff;
+        }
+
+        .mouse-icon-pill {
+            width: 22px;
+            height: 34px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .mouse-wheel-dot {
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 6px;
+            background: #ffffff;
+            border-radius: 2px;
+            animation: scrollWheel 1.8s infinite;
+        }
+
+        @keyframes scrollWheel {
+            0% { opacity: 0; transform: translateX(-50%) translateY(0); }
+            40% { opacity: 1; }
+            100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+        }
+
+        /* ========================================================================== */
+        /* MAIN BODY WRAPPER                                                          */
+        /* ========================================================================== */
+        .site-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 100px 32px 60px 32px;
+        }
+
+        .section-header-wrap {
+            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .section-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--brand-cyan);
+        }
+
+        .section-main-heading {
+            font-size: clamp(30px, 4.5vw, 44px);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            color: #ffffff;
+        }
+
+        .section-subtext {
+            font-size: 15px;
+            color: var(--text-muted);
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        /* ========================================================================== */
+        /* ABOUT ME SECTION (3 TABS ON THE LEFT: PROJECTS, EXPERIENCE, HOBBIES)       */
+        /* ========================================================================== */
+        .about-split-layout {
+            display: grid;
+            grid-template-columns: 290px 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* Left Side: 3 Navigation Tabs */
+        .about-tabs-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: sticky;
+            top: 100px;
+        }
+
+        .about-tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 18px;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .about-tab-btn-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .tab-icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.28s ease;
+        }
+
+        .tab-label-title {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            color: var(--text-main);
+            display: block;
+        }
+
+        .tab-label-sub {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-faint);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .tab-arrow-icon {
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: all 0.25s ease;
+            color: var(--brand-cyan);
+        }
+
+        .about-tab-btn:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateX(4px);
+            background: var(--bg-card-hover);
+        }
+
+        .about-tab-btn.active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.22) 0%, rgba(56, 189, 248, 0.12) 100%);
+            border-color: var(--brand-cyan);
+            color: #ffffff;
+            box-shadow: 0 10px 30px -6px rgba(56, 189, 248, 0.25);
+        }
+
+        .about-tab-btn.active .tab-icon-box {
+            background: var(--brand-primary);
+            color: #ffffff;
+            box-shadow: 0 4px 16px var(--brand-glow);
+        }
+
+        .about-tab-btn.active .tab-arrow-icon {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Right Side: Dynamic Tab Panes */
+        .about-panes-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 36px;
+            min-height: 520px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .tab-pane {
+            display: none;
+            flex-direction: column;
+            gap: 28px;
+            animation: paneFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .tab-pane.active {
+            display: flex;
+        }
+
+        @keyframes paneFadeIn {
+            0% { opacity: 0; transform: translateY(16px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* TAB 1: PROJECTS CONTENT STYLING */
+        .projects-list-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Highlighted RPMS Card */
+        .project-item-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 18px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-item-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(56, 189, 248, 0.45);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-item-card.featured-rpms {
+            border: 1.5px solid rgba(56, 189, 248, 0.5);
+            background: linear-gradient(145deg, rgba(56, 189, 248, 0.08) 0%, rgba(99, 102, 241, 0.06) 100%);
+            box-shadow: 0 12px 34px -8px rgba(56, 189, 248, 0.2);
+        }
+
+        .project-header-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .project-title-group h3 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .project-role-badge {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--brand-cyan);
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 9999px;
+            padding: 3px 10px;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        .project-rpms-live-btn {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 9px 18px;
+            font-size: 13px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .project-rpms-live-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            box-shadow: 0 10px 24px rgba(14, 165, 233, 0.5);
+        }
+
+        .project-desc-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .project-desc-bullets li {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .project-desc-bullets li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--brand-cyan);
+            font-weight: bold;
+        }
+
+        .project-tech-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .tech-pill {
+            font-size: 11px;
+            font-weight: 700;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-glass);
+            border-radius: 9999px;
+            padding: 4px 10px;
+        }
+
+        /* TAB 2: EXPERIENCE CONTENT STYLING */
+        .experience-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            position: relative;
+            padding-left: 24px;
+            border-left: 2px solid var(--border-glass);
+        }
+
+        .exp-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .exp-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--brand-cyan);
+            border: 3px solid var(--bg-deep);
+            box-shadow: 0 0 10px var(--brand-cyan);
+        }
+
+        .exp-date-tag {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--brand-cyan);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .exp-role-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .exp-company-sub {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .exp-details-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 13.5px;
+            line-height: 1.5;
+            margin-top: 4px;
+        }
+
+        .exp-details-list li {
+            position: relative;
+            padding-left: 18px;
+        }
+
+        .exp-details-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--brand-primary);
+        }
+
+        /* Education Card */
+        .education-block {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 18px;
+            padding: 22px;
+            margin-top: 8px;
+        }
+
+        .edu-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 14px;
+        }
+
+        .edu-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .edu-degree {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .edu-school {
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        /* Technical Skills Matrix */
+        .skills-matrix-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .skill-group-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .skill-group-label {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--brand-cyan);
+        }
+
+        /* TAB 3: HOBBIES CONTENT STYLING */
+        .hobbies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .hobby-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 18px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.28s ease;
+        }
+
+        .hobby-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.45);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        .hobby-icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hobby-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .hobby-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+
+        /* ========================================================================== */
+        /* CONTACT SECTION                                                            */
+        /* ========================================================================== */
+        .contact-layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .contact-channel-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .contact-row-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .contact-row-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--brand-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .contact-row-meta {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-row-label {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-faint);
+        }
+
+        .contact-row-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .contact-row-value:hover {
+            color: var(--brand-cyan);
+        }
+
+        .copy-email-chip {
+            margin-top: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            align-self: flex-start;
+            transition: all 0.2s ease;
+        }
+
+        .copy-email-chip:hover {
+            color: #ffffff;
+            border-color: var(--brand-cyan);
+            background: rgba(56, 189, 248, 0.12);
+        }
+
+        /* Contact Form */
+        .contact-form-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .form-group-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-input-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .form-control-input,
+        .form-control-textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-family: inherit;
+            font-size: 13.5px;
+            color: #ffffff;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-control-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-control-input:focus,
+        .form-control-textarea:focus {
+            border-color: var(--brand-cyan);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        .btn-submit-message {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 24px -4px var(--brand-glow);
+            transition: all 0.22s ease;
+            margin-top: 4px;
+        }
+
+        .btn-submit-message:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px -4px var(--brand-glow);
+            background: linear-gradient(135deg, #7174f8 0%, #5b53f0 100%);
+        }
+
+        /* Toast Popup */
+        #site-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100000;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 12px 22px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        #site-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ========================================================================== */
+        /* FOOTER                                                                     */
+        /* ========================================================================== */
+        .site-footer {
+            border-top: 1px solid var(--border-glass);
+            padding: 32px 32px 48px 32px;
+            max-width: 1280px;
+            margin: 60px auto 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-faint);
+            font-size: 13px;
+        }
+
+        /* ========================================================================== */
+        /* RESPONSIVE STYLES                                                          */
+        /* ========================================================================== */
+        @media (max-width: 900px) {
+            .site-header {
+                padding: 16px 24px;
+            }
+
+            .site-header.scrolled {
+                padding: 14px 24px;
+            }
+
+            .nav-menu {
+                gap: 20px;
+            }
+
+            .about-split-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .about-tabs-nav {
+                position: static;
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+
+            .about-tab-btn {
+                flex: 1;
+                min-width: 180px;
+                padding: 14px 16px;
+            }
+
+            .contact-layout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .site-footer {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas for dynamic sparkle cursor trail -->
+    <canvas id="cursor-trail-canvas"></canvas>
+
+    <!-- Custom Cursor elements -->
+    <div id="custom-cursor-dot"></div>
+    <div id="custom-cursor-ring"></div>
+
+    <!-- Toast Notification -->
+    <div id="site-toast">Message Dispatched!</div>
+
+    <!-- ========================================================================== -->
+    <!-- FIXED HEADER WITH EXACTLY 3 BUTTONS: Home, About me, Contact               -->
+    <!-- ========================================================================== -->
+    <header class="site-header" id="navbar">
+        <a href="#home" class="brand-logo">
+            <span class="brand-dot"></span>
+            <span>Rafiz Imtiaz</span>
+        </a>
+
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="active" id="nav-btn-home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" id="nav-btn-about">About me</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" id="nav-btn-contact">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ========================================================================== -->
+    <!-- HERO SECTION (HOME) MATCHING THE USER REFERENCE DESIGN                     -->
+    <!-- ========================================================================== -->
+    <section class="hero-section" id="home">
+        <!-- Atmospheric moody overlay -->
+        <div class="hero-overlay"></div>
+
+        <!-- Canvas for dynamic drifting mist, fog and kinetic ambient particles -->
+        <canvas id="dynamic-bg-canvas"></canvas>
+
+        <div class="hero-content">
+            <!-- Circular Avatar with crisp white border ring -->
+            <div class="avatar-ring-container">
+                <div class="avatar-outer-glow"></div>
+                <div class="avatar-frame">
+                    <img src="assets/profile_photo.png" alt="Rafiz Imtiaz" class="avatar-img">
+                </div>
+            </div>
+
+            <!-- Name Headline -->
+            <h1 class="hero-name">Hi, I'm Rafiz Imtiaz</h1>
+
+            <!-- Subtitle with dynamic typewriter text -->
+            <div class="hero-title-typewriter">
+                <span>I'M </span>
+                <span id="typewriter-text" style="color:var(--brand-cyan);">SOFTWARE ENGINEER</span>
+                <span class="typewriter-cursor"></span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="hero-action-buttons">
+                <a href="assets/cv/Rafiz_Imtiaz_Resume.pdf" download="Rafiz_Imtiaz_Resume.pdf" class="btn-hero-primary" id="btn-download-cv">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span>Download CV</span>
+                </a>
+                <a href="#about" class="btn-hero-outline">
+                    <span>Explore About Me</span>
+                </a>
+                <a href="#contact" class="btn-hero-outline">
+                    <span>Contact Me</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Down Mouse Indicator -->
+        <a href="#about" class="hero-scroll-indicator">
+            <div class="mouse-icon-pill">
+                <div class="mouse-wheel-dot"></div>
+            </div>
+            <span>Scroll</span>
+        </a>
+    </section>
+
+    <!-- ========================================================================== -->
+    <!-- ABOUT ME SECTION (3 LEFT NAVIGATION TABS: PROJECTS, EXPERIENCE, HOBBIES)   -->
+    <!-- ========================================================================== -->
+    <div class="site-container" id="about">
+        
+        <div class="section-header-wrap">
+            <span class="section-eyebrow">
+                <span class="brand-dot"></span>
+                <span>Professional Profile</span>
+            </span>
+            <h2 class="section-main-heading">About Me</h2>
+            <p class="section-subtext">
+                Self-motivated Software Engineer passionate about backend development, APIs, database management, and scalable system design. Explore my engineering projects, professional experience, and personal passions below.
+            </p>
+        </div>
+
+        <div class="about-split-layout">
+            
+            <!-- LEFT NAVIGATION TABS -->
+            <aside class="about-tabs-nav">
+                <!-- Tab 1: Projects -->
+                <button type="button" class="about-tab-btn active" data-target="tab-projects">
+                    <div class="about-tab-btn-content">
+                        <div class="tab-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        </div>
+                        <div>
+                            <span class="tab-label-title">Projects</span>
+                            <span class="tab-label-sub">Systems & Architecture</span>
+                        </div>
+                    </div>
+                    <svg class="tab-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+
+                <!-- Tab 2: Experience -->
+                <button type="button" class="about-tab-btn" data-target="tab-experience">
+                    <div class="about-tab-btn-content">
+                        <div class="tab-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        </div>
+                        <div>
+                            <span class="tab-label-title">Experience</span>
+                            <span class="tab-label-sub">Career, Edu & Skills</span>
+                        </div>
+                    </div>
+                    <svg class="tab-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+
+                <!-- Tab 3: Hobbies -->
+                <button type="button" class="about-tab-btn" data-target="tab-hobbies">
+                    <div class="about-tab-btn-content">
+                        <div class="tab-icon-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </div>
+                        <div>
+                            <span class="tab-label-title">Hobbies</span>
+                            <span class="tab-label-sub">Passions & Interests</span>
+                        </div>
+                    </div>
+                    <svg class="tab-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </aside>
+
+            <!-- RIGHT DYNAMIC TAB CONTENT PANES -->
+            <main class="about-panes-wrapper">
+
+                <!-- ========================================================== -->
+                <!-- TAB 1: PROJECTS                                            -->
+                <!-- ========================================================== -->
+                <div class="tab-pane active" id="tab-projects">
+                    <div style="border-bottom: 1px solid var(--border-glass); padding-bottom: 16px;">
+                        <span class="section-eyebrow">Production Architectures</span>
+                        <h3 style="font-size:22px; font-weight:800; color:#ffffff; margin-top:4px;">Featured Engineering Projects</h3>
+                    </div>
+
+                    <div class="projects-list-stack">
+                        <!-- Project 1: RPMS (HYPERLINKED TO http://gis.iwmbd.com:9097/) -->
+                        <div class="project-item-card featured-rpms">
+                            <div class="project-header-row">
+                                <div class="project-title-group">
+                                    <h3>
+                                        <span>River Pollution Monitoring System (RPMS)</span>
+                                        <span class="brand-dot"></span>
+                                    </h3>
+                                    <span class="project-role-badge">Lead Backend & Core Developer • Government Project</span>
+                                </div>
+                                <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="project-rpms-live-btn" title="Open River Pollution Monitoring System Live">
+                                    <span>Visit RPMS Live</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                </a>
+                            </div>
+
+                            <p style="font-size:14px; color:#e2e8f0; line-height:1.5;">
+                                High-profile nationwide river monitoring platform built for the Institute of Water Modelling (IWM) to detect, report, and analyze industrial water pollution levels in real-time.
+                            </p>
+
+                            <ul class="project-desc-bullets">
+                                <li>
+                                    <strong>End-to-End Development:</strong> Architected a high-concurrency FastAPI middleware backend integrated with JWT authentication, synchronizing citizen mobile application field reports with the central web portal.
+                                </li>
+                                <li>
+                                    <strong>Workflows & Dashboards:</strong> Engineered a comprehensive Water Sample Collection Dashboard providing real-time telemetry and status tracking across multiple river stations.
+                                </li>
+                                <li>
+                                    <strong>Automated Verification:</strong> Designed a multi-level administration approval workflow engine for automated data verification and laboratory result verification.
+                                </li>
+                            </ul>
+
+                            <div class="project-tech-pills">
+                                <span class="tech-pill">FastAPI</span>
+                                <span class="tech-pill">Python</span>
+                                <span class="tech-pill">JWT Auth</span>
+                                <span class="tech-pill">PostgreSQL</span>
+                                <span class="tech-pill">GIS Integration</span>
+                                <span class="tech-pill">REST APIs</span>
+                            </div>
+                        </div>
+
+                        <!-- Project 2: ERP Ecosystem & Gantt System -->
+                        <div class="project-item-card">
+                            <div class="project-header-row">
+                                <div class="project-title-group">
+                                    <h3>Modular Django ERP Ecosystem</h3>
+                                    <span class="project-role-badge">Internal Systems Architecture</span>
+                                </div>
+                            </div>
+                            <ul class="project-desc-bullets">
+                                <li>
+                                    <strong>Interactive Gantt Engine:</strong> Architected a modular Django-based enterprise ERP ecosystem, embedding an interactive Gantt Chart resource allocation system to monitor division employee allocations and project document preparation pipelines.
+                                </li>
+                                <li>
+                                    <strong>Workflow Automation:</strong> Streamlined cross-departmental operations and administrative project milestones with granular role-based access controls.
+                                </li>
+                            </ul>
+                            <div class="project-tech-pills">
+                                <span class="tech-pill">Django</span>
+                                <span class="tech-pill">Python</span>
+                                <span class="tech-pill">Interactive Gantt</span>
+                                <span class="tech-pill">MySQL</span>
+                                <span class="tech-pill">ERP Architecture</span>
+                            </div>
+                        </div>
+
+                        <!-- Project 3: Inventory & Requisition System -->
+                        <div class="project-item-card">
+                            <div class="project-header-row">
+                                <div class="project-title-group">
+                                    <h3>Synchronized Inventory & Procurement System</h3>
+                                    <span class="project-role-badge">Automated Procurement Workflow</span>
+                                </div>
+                            </div>
+                            <ul class="project-desc-bullets">
+                                <li>
+                                    <strong>Procurement Pipeline:</strong> Developed an automated Inventory & Requisition System with automated internal memo routing and Comparative Statement (CS) vendor quotation collection.
+                                </li>
+                                <li>
+                                    <strong>Stock Reconciliation:</strong> Implemented real-time stock reconciliation via custom database triggers and automated transaction hooks.
+                                </li>
+                            </ul>
+                            <div class="project-tech-pills">
+                                <span class="tech-pill">Django / Python</span>
+                                <span class="tech-pill">Database Hooks</span>
+                                <span class="tech-pill">Comparative Statement (CS)</span>
+                                <span class="tech-pill">PostgreSQL</span>
+                            </div>
+                        </div>
+
+                        <!-- Project 4: Database Optimization -->
+                        <div class="project-item-card">
+                            <div class="project-header-row">
+                                <div class="project-title-group">
+                                    <h3>Geospatial & Administrative Database Optimization</h3>
+                                    <span class="project-role-badge">Query Performance & Schemas</span>
+                                </div>
+                            </div>
+                            <ul class="project-desc-bullets">
+                                <li>
+                                    Designed and normalized highly structured PostgreSQL and MySQL schemas to manage large-scale geospatial and administrative datasets.
+                                </li>
+                                <li>
+                                    Engineered indexing strategies and optimized query execution plans, resulting in significantly lower API response times across enterprise platforms.
+                                </li>
+                            </ul>
+                            <div class="project-tech-pills">
+                                <span class="tech-pill">PostgreSQL</span>
+                                <span class="tech-pill">MySQL</span>
+                                <span class="tech-pill">Geospatial Indexing</span>
+                                <span class="tech-pill">Query Tuning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- TAB 2: EXPERIENCE, EDUCATION & SKILLS                       -->
+                <!-- ========================================================== -->
+                <div class="tab-pane" id="tab-experience">
+                    <div style="border-bottom: 1px solid var(--border-glass); padding-bottom: 16px;">
+                        <span class="section-eyebrow">Professional History</span>
+                        <h3 style="font-size:22px; font-weight:800; color:#ffffff; margin-top:4px;">Work Experience & Background</h3>
+                    </div>
+
+                    <!-- Work Timeline -->
+                    <div class="experience-timeline">
+                        <!-- Role 1: IWM Programmer -->
+                        <div class="exp-item">
+                            <span class="exp-date-tag">Sept 2025 — Present • Uttara, Dhaka</span>
+                            <h4 class="exp-role-title">Programmer</h4>
+                            <span class="exp-company-sub">Institute of Water Modelling (IWM)</span>
+                            <ul class="exp-details-list">
+                                <li>Lead backend developer for the national River Pollution Monitoring System (RPMS).</li>
+                                <li>Architected modular Django-based ERP modules with Gantt chart resource tracking.</li>
+                                <li>Built synchronized requisition, inventory, and automated comparative statement systems.</li>
+                                <li>Optimized PostgreSQL and MySQL schemas for large-scale geospatial and administrative datasets.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Role 2: IWM Data Analyst -->
+                        <div class="exp-item">
+                            <span class="exp-date-tag">June 2025 — Sept 2025 • Uttara, Dhaka</span>
+                            <h4 class="exp-role-title">Data Analyst</h4>
+                            <span class="exp-company-sub">Institute of Water Modelling (IWM)</span>
+                            <ul class="exp-details-list">
+                                <li>Designed and implemented GIS applications for national government initiatives.</li>
+                                <li>Managed and verified large-scale geospatial databases, ensuring spatial data integrity.</li>
+                                <li>Conducted stakeholder interviews with officials from BPDB, Bangladesh Bank, and partner agencies.</li>
+                                <li>Authored comprehensive technical documentation in English and Bangla.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Role 3: BETS Consulting -->
+                        <div class="exp-item">
+                            <span class="exp-date-tag">June 2024 — Dec 2024 • Dhaka</span>
+                            <h4 class="exp-role-title">GIS Engineer & Junior Developer</h4>
+                            <span class="exp-company-sub">BETS Consulting Services Limited</span>
+                            <ul class="exp-details-list">
+                                <li>Contributed to the Rural Connectivity Improvement Project and BPDB power distribution mapping.</li>
+                                <li>Maintained, validated, and normalized geospatial datasets and database pipelines.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div style="border-top:1px solid var(--border-glass); padding-top:20px;">
+                        <span class="section-eyebrow">Academic Qualifications</span>
+                        <div class="education-block">
+                            <div class="edu-item">
+                                <h4 class="edu-degree">B.S. in Computer Science and Engineering</h4>
+                                <span class="edu-school">United International University (UIU) • Aug 2018 – Dec 2023</span>
+                                <p style="font-size:12.5px; color:var(--text-muted); margin-top:4px;">
+                                    Relevant Coursework: Data Structures, Algorithms, Database Systems, Software Engineering, Artificial Intelligence.
+                                </p>
+                            </div>
+                            <div class="edu-item" style="border-top:1px solid var(--border-glass); padding-top:12px;">
+                                <h4 class="edu-degree">Higher Secondary School Certificate (H.S.C)</h4>
+                                <span class="edu-school">Government Debendra College, Manikganj • 2017</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills Matrix -->
+                    <div style="border-top:1px solid var(--border-glass); padding-top:20px;">
+                        <span class="section-eyebrow">Comprehensive Skills Matrix</span>
+                        <div class="skills-matrix-wrap">
+                            <div class="skill-group-row">
+                                <span class="skill-group-label">Programming Languages</span>
+                                <div class="project-tech-pills">
+                                    <span class="tech-pill">Python</span>
+                                    <span class="tech-pill">JavaScript</span>
+                                    <span class="tech-pill">PHP</span>
+                                    <span class="tech-pill">SQL</span>
+                                    <span class="tech-pill">C++</span>
+                                    <span class="tech-pill">C#</span>
+                                </div>
+                            </div>
+
+                            <div class="skill-group-row">
+                                <span class="skill-group-label">Frameworks & Technologies</span>
+                                <div class="project-tech-pills">
+                                    <span class="tech-pill">FastAPI</span>
+                                    <span class="tech-pill">Django</span>
+                                    <span class="tech-pill">Laravel</span>
+                                    <span class="tech-pill">Node.js</span>
+                                    <span class="tech-pill">Flutter</span>
+                                </div>
+                            </div>
+
+                            <div class="skill-group-row">
+                                <span class="skill-group-label">Databases & Storage</span>
+                                <div class="project-tech-pills">
+                                    <span class="tech-pill">PostgreSQL</span>
+                                    <span class="tech-pill">MySQL</span>
+                                    <span class="tech-pill">MongoDB</span>
+                                </div>
+                            </div>
+
+                            <div class="skill-group-row">
+                                <span class="skill-group-label">Architectural Disciplines</span>
+                                <div class="project-tech-pills">
+                                    <span class="tech-pill">RESTful APIs</span>
+                                    <span class="tech-pill">JWT Authentication</span>
+                                    <span class="tech-pill">Database Normalization</span>
+                                    <span class="tech-pill">ERP Development</span>
+                                    <span class="tech-pill">GIS Applications</span>
+                                    <span class="tech-pill">Git / GitHub</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- TAB 3: HOBBIES & PASSIONS                                  -->
+                <!-- ========================================================== -->
+                <div class="tab-pane" id="tab-hobbies">
+                    <div style="border-bottom: 1px solid var(--border-glass); padding-bottom: 16px;">
+                        <span class="section-eyebrow">Personal Interests</span>
+                        <h3 style="font-size:22px; font-weight:800; color:#ffffff; margin-top:4px;">Hobbies & Creative Pursuits</h3>
+                    </div>
+
+                    <p style="font-size:14px; color:var(--text-muted); line-height:1.6;">
+                        Beyond writing production code, these are the activities and creative pursuits that inspire my analytical thinking, creativity, and drive for continuous learning:
+                    </p>
+
+                    <div class="hobbies-grid">
+                        <!-- Hobby 1 -->
+                        <div class="hobby-card">
+                            <div class="hobby-icon-circle">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M6 12h4m-2-2v4m10-2h.01m-3-2h.01"></path></svg>
+                            </div>
+                            <h4 class="hobby-title">Gaming & Simulation</h4>
+                            <p class="hobby-desc">
+                                Passionate about interactive simulations, strategy titles, and game engine mechanics. Fascinated by how physics rendering and low-latency networking create immersive worlds.
+                            </p>
+                        </div>
+
+                        <!-- Hobby 2 -->
+                        <div class="hobby-card">
+                            <div class="hobby-icon-circle" style="color:var(--brand-cyan); background:rgba(56,189,248,0.15);">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                            </div>
+                            <h4 class="hobby-title">Open-Source & Tech Exploring</h4>
+                            <p class="hobby-desc">
+                                Always experimenting with emerging web tools, async microservices, and database indexing strategies. I love prototyping side experiments and exploring developer utility libraries.
+                            </p>
+                        </div>
+
+                        <!-- Hobby 3 -->
+                        <div class="hobby-card">
+                            <div class="hobby-icon-circle" style="color:#10b981; background:rgba(16,185,129,0.15);">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>
+                            </div>
+                            <h4 class="hobby-title">Nature Wandering & Travel</h4>
+                            <p class="hobby-desc">
+                                Inspired by tranquil lakes, moody pine forests, and misty landscapes (just like my portfolio theme). Traveling and outdoor walking help me recharge and gain fresh problem-solving perspectives.
+                            </p>
+                        </div>
+
+                        <!-- Hobby 4 -->
+                        <div class="hobby-card">
+                            <div class="hobby-icon-circle" style="color:#f59e0b; background:rgba(245,158,11,0.15);">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            </div>
+                            <h4 class="hobby-title">Algorithmic Problem Solving</h4>
+                            <p class="hobby-desc">
+                                Tackling algorithmic logic puzzles, recursive graph traversals, and dynamic programming optimizations to keep my data structure intuition razor sharp.
+                            </p>
+                        </div>
+
+                        <!-- Hobby 5 -->
+                        <div class="hobby-card">
+                            <div class="hobby-icon-circle" style="color:#ec4899; background:rgba(236,72,153,0.15);">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                            </div>
+                            <h4 class="hobby-title">Music & Audio Atmosphere</h4>
+                            <p class="hobby-desc">
+                                Enjoying deep ambient soundscapes, synthesizer chord progressions, and instrumental lo-fi while architecting clean backend code and database schemas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ========================================================================== -->
+    <!-- CONTACT SECTION                                                            -->
+    <!-- ========================================================================== -->
+    <div class="site-container" id="contact" style="padding-top:60px;">
+        
+        <div class="section-header-wrap">
+            <span class="section-eyebrow">
+                <span class="brand-dot"></span>
+                <span>Get In Touch</span>
+            </span>
+            <h2 class="section-main-heading">Contact</h2>
+            <p class="section-subtext">
+                Whether you have an inquiry regarding engineering roles, API architectures, or collaborative opportunities, feel free to reach out directly.
+            </p>
+        </div>
+
+        <div class="contact-layout-grid">
+            <!-- Left: Direct Channels extracted from CV -->
+            <div class="contact-channel-card">
+                <div class="contact-row-item">
+                    <div class="contact-row-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                    </div>
+                    <div class="contact-row-meta">
+                        <span class="contact-row-label">Direct Email</span>
+                        <a href="mailto:rafizimtiaz100@gmail.com" class="contact-row-value" id="email-address-text">rafizimtiaz100@gmail.com</a>
+                        <button type="button" class="copy-email-chip" id="btn-copy-email">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            <span>Copy Email</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="contact-row-item">
+                    <div class="contact-row-icon" style="color:#10b981; background:rgba(16,185,129,0.12);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    </div>
+                    <div class="contact-row-meta">
+                        <span class="contact-row-label">Phone</span>
+                        <a href="tel:+8801798418624" class="contact-row-value">+880 1798-418624</a>
+                    </div>
+                </div>
+
+                <div class="contact-row-item">
+                    <div class="contact-row-icon" style="color:#f59e0b; background:rgba(245,158,11,0.12);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </div>
+                    <div class="contact-row-meta">
+                        <span class="contact-row-label">Location</span>
+                        <span class="contact-row-value">Dhaka, Bangladesh</span>
+                    </div>
+                </div>
+
+                <div class="contact-row-item">
+                    <div class="contact-row-icon" style="color:#38bdf8; background:rgba(56,189,248,0.12);">
+                        <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </div>
+                    <div class="contact-row-meta">
+                        <span class="contact-row-label">Social & Repositories</span>
+                        <div style="display:flex; gap:12px; margin-top:3px;">
+                            <a href="https://github.com" target="_blank" rel="noopener" class="contact-row-value" style="font-size:13.5px;">GitHub ↗</a>
+                            <span style="color:var(--text-faint);">•</span>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-row-value" style="font-size:13.5px;">LinkedIn ↗</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download CV Box inside Contact -->
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 20px; display:flex; flex-direction:column; gap:8px;">
+                    <span class="contact-row-label">Official Resume</span>
+                    <a href="assets/cv/Rafiz_Imtiaz_Resume.pdf" download="Rafiz_Imtiaz_Resume.pdf" class="btn-hero-primary" style="justify-content:center; padding:12px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:16px;height:16px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span>Download Rafiz Imtiaz CV (PDF)</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: Direct Message Form -->
+            <div class="contact-form-panel">
+                <form id="contact-form" style="display:flex; flex-direction:column; gap:16px;">
+                    <div class="form-group-wrap">
+                        <label class="form-input-label" for="form-name">Your Full Name</label>
+                        <input class="form-control-input" type="text" id="form-name" name="name" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="form-group-wrap">
+                        <label class="form-input-label" for="form-email">Your Email Address</label>
+                        <input class="form-control-input" type="email" id="form-email" name="email" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="form-group-wrap">
+                        <label class="form-input-label" for="form-subject">Subject</label>
+                        <input class="form-control-input" type="text" id="form-subject" name="subject" placeholder="Project Inquiry / Job Opportunity" required>
+                    </div>
+
+                    <div class="form-group-wrap">
+                        <label class="form-input-label" for="form-message">Message</label>
+                        <textarea class="form-control-textarea" id="form-message" name="message" placeholder="Hi Rafiz, I came across your portfolio and wanted to discuss..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit-message" id="btn-send-message">
+                        <span>Send Message</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ========================================================================== -->
+    <!-- FOOTER                                                                     -->
+    <!-- ========================================================================== -->
+    <footer class="site-footer">
+        <div>
+            © <span id="year-num">2026</span> Rafiz Imtiaz. All rights reserved.
+        </div>
+        <div>
+            Hosted on GitHub Pages • Single-File Architecture
+        </div>
+    </footer>
+
+    <!-- ========================================================================== -->
+    <!-- JAVASCRIPT: Dynamic Canvas Background + Fast Custom Cursor + Tabs + Logic  -->
+    <!-- ========================================================================== -->
+    <script>
+        // Set dynamic copyright year
+        document.getElementById('year-num').textContent = new Date().getFullYear();
+
+        // -------------------------------------------------------------------------- //
+        // 1. FAST, ULTRA-RESPONSIVE CUSTOM MOUSE CURSOR & SPARKLE TRAILS             //
+        // -------------------------------------------------------------------------- //
+        (function initCustomCursor() {
+            const dot = document.getElementById('custom-cursor-dot');
+            const ring = document.getElementById('custom-cursor-ring');
+            const canvas = document.getElementById('cursor-trail-canvas');
+            if (!dot || !ring || !canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            let mouseX = -100, mouseY = -100;
+            let ringX = -100, ringY = -100;
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            // Particle for kinetic mouse spark trail
+            class SparkParticle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 2.2 + 0.5;
+                    this.vx = Math.cos(angle) * speed;
+                    this.vy = Math.sin(angle) * speed;
+                    this.alpha = 1;
+                    this.decay = Math.random() * 0.04 + 0.02;
+                    this.size = Math.random() * 2.5 + 1;
+                    this.color = Math.random() > 0.4 ? '#38bdf8' : '#ffffff';
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.alpha -= this.decay;
+                }
+                draw(ctx) {
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, this.alpha);
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            window.addEventListener('pointermove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+
+                // Emit particles on move for fun interactive feel
+                if (Math.random() < 0.6) {
+                    particles.push(new SparkParticle(mouseX, mouseY));
+                }
+            });
+
+            window.addEventListener('pointerdown', (e) => {
+                ring.classList.add('cursor-down');
+                // Burst of sparks on click
+                for (let i = 0; i < 8; i++) {
+                    particles.push(new SparkParticle(e.clientX, e.clientY));
+                }
+            });
+
+            window.addEventListener('pointerup', () => {
+                ring.classList.remove('cursor-down');
+            });
+
+            // Hover state tracking on buttons and links
+            const hoverTargets = document.querySelectorAll('a, button, .about-tab-btn, .avatar-frame, input, textarea');
+            hoverTargets.forEach((target) => {
+                target.addEventListener('pointerenter', () => ring.classList.add('cursor-hover'));
+                target.addEventListener('pointerleave', () => ring.classList.remove('cursor-hover'));
+            });
+
+            // Smooth lerp loop for outer ring + render particles
+            function renderCursor() {
+                // High lerp speed (0.28) for instant, snappy response
+                ringX += (mouseX - ringX) * 0.28;
+                ringY += (mouseY - ringY) * 0.28;
+                ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+
+                // Update & draw sparks
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    p.update();
+                    p.draw(ctx);
+                    if (p.alpha <= 0) {
+                        particles.splice(i, 1);
+                    }
+                }
+
+                requestAnimationFrame(renderCursor);
+            }
+            requestAnimationFrame(renderCursor);
+        })();
+
+        // -------------------------------------------------------------------------- //
+        // 2. DYNAMIC BACKGROUND CANVAS (DRIFTING FOG / MIST & LIGHT PARTICLES)        //
+        // -------------------------------------------------------------------------- //
+        (function initDynamicHeroCanvas() {
+            const canvas = document.getElementById('dynamic-bg-canvas');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            let width = 0, height = 0;
+            let mistParticles = [];
+
+            function resize() {
+                width = canvas.parentElement.offsetWidth;
+                height = canvas.parentElement.offsetHeight;
+                canvas.width = width;
+                canvas.height = height;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            class MistOrb {
+                constructor() {
+                    this.reset(true);
+                }
+                reset(initial = false) {
+                    this.x = initial ? Math.random() * width : -100;
+                    this.y = Math.random() * height * 0.85 + (height * 0.1);
+                    this.radius = Math.random() * 120 + 80;
+                    this.vx = Math.random() * 0.4 + 0.15;
+                    this.vy = (Math.random() - 0.5) * 0.15;
+                    this.alpha = 0;
+                    this.maxAlpha = Math.random() * 0.12 + 0.04;
+                    this.fadeSpeed = Math.random() * 0.003 + 0.002;
+                    this.isFadingIn = true;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.isFadingIn) {
+                        this.alpha += this.fadeSpeed;
+                        if (this.alpha >= this.maxAlpha) {
+                            this.alpha = this.maxAlpha;
+                            this.isFadingIn = false;
+                        }
+                    } else if (this.x > width + 100) {
+                        this.reset();
+                    }
+                }
+                draw(ctx) {
+                    ctx.save();
+                    const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+                    grad.addColorStop(0, `rgba(220, 235, 255, ${this.alpha})`);
+                    grad.addColorStop(0.6, `rgba(180, 210, 245, ${this.alpha * 0.4})`);
+                    grad.addColorStop(1, 'rgba(180, 210, 245, 0)');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            // Create initial mist orbs
+            for (let i = 0; i < 22; i++) {
+                mistParticles.push(new MistOrb());
+            }
+
+            function loop() {
+                ctx.clearRect(0, 0, width, height);
+                for (let i = 0; i < mistParticles.length; i++) {
+                    mistParticles[i].update();
+                    mistParticles[i].draw(ctx);
+                }
+                requestAnimationFrame(loop);
+            }
+            requestAnimationFrame(loop);
+        })();
+
+        // -------------------------------------------------------------------------- //
+        // 3. DYNAMIC TYPEWRITER TEXT                                                 //
+        // -------------------------------------------------------------------------- //
+        (function initTypewriter() {
+            const el = document.getElementById('typewriter-text');
+            if (!el) return;
+
+            const titles = [
+                'SOFTWARE ENGINEER',
+                'BACKEND & API DEVELOPER',
+                'FASTAPI & DJANGO DEVELOPER',
+                'GIS & ERP ARCHITECT'
+            ];
+
+            let titleIndex = 0;
+            let charIndex = titles[0].length;
+            let isDeleting = true;
+            let waitTimer = null;
+
+            function tick() {
+                const currentTitle = titles[titleIndex];
+
+                if (isDeleting) {
+                    el.textContent = currentTitle.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    el.textContent = currentTitle.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                let typingSpeed = isDeleting ? 45 : 85;
+
+                if (!isDeleting && charIndex === currentTitle.length) {
+                    typingSpeed = 2200; // Pause at end of text
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    titleIndex = (titleIndex + 1) % titles.length;
+                    typingSpeed = 400; // Pause before new word
+                }
+
+                waitTimer = setTimeout(tick, typingSpeed);
+            }
+
+            waitTimer = setTimeout(tick, 2000);
+        })();
+
+        // -------------------------------------------------------------------------- //
+        // 4. ABOUT ME SECTION: 3 LEFT TABS (PROJECTS, EXPERIENCE, HOBBIES)           //
+        // -------------------------------------------------------------------------- //
+        (function initAboutTabs() {
+            const tabButtons = document.querySelectorAll('.about-tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabButtons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    tabPanes.forEach(p => p.classList.remove('active'));
+
+                    btn.classList.add('active');
+                    const targetId = btn.dataset.target;
+                    const targetPane = document.getElementById(targetId);
+                    if (targetPane) {
+                        targetPane.classList.add('active');
+                    }
+                });
+            });
+        })();
+
+        // -------------------------------------------------------------------------- //
+        // 5. NAVBAR SCROLL & ACTIVE STATE TRACKING                                   //
+        // -------------------------------------------------------------------------- //
+        (function initNavScroll() {
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.querySelectorAll('.nav-item a');
+            const sections = [
+                document.getElementById('home'),
+                document.getElementById('about'),
+                document.getElementById('contact')
+            ];
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+
+                // Active section indicator
+                let current = 'home';
+                sections.forEach((sec) => {
+                    if (!sec) return;
+                    const top = sec.offsetTop - 120;
+                    if (window.scrollY >= top) {
+                        current = sec.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach((link) => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        })();
+
+        // -------------------------------------------------------------------------- //
+        // 6. COPY EMAIL CHIP & TOAST NOTIFICATION                                   //
+        // -------------------------------------------------------------------------- //
+        function showToast(message) {
+            const toast = document.getElementById('site-toast');
+            if (!toast) return;
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        const copyEmailBtn = document.getElementById('btn-copy-email');
+        if (copyEmailBtn) {
+            copyEmailBtn.addEventListener('click', () => {
+                const email = 'rafizimtiaz100@gmail.com';
+                navigator.clipboard.writeText(email).then(() => {
+                    copyEmailBtn.innerHTML = `<span>✓ Copied!</span>`;
+                    showToast('Email address copied to clipboard!');
+                    setTimeout(() => {
+                        copyEmailBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>Copy Email</span>`;
+                    }, 2500);
+                });
+            });
+        }
+
+        // Contact Form Submission (Mailto Fallback & Visual Feedback)
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('btn-send-message');
+                const orig = btn.innerHTML;
+
+                btn.disabled = true;
+                btn.innerHTML = `<span>Dispatching...</span>`;
+
+                const name = document.getElementById('form-name').value;
+                const email = document.getElementById('form-email').value;
+                const subject = document.getElementById('form-subject').value;
+                const message = document.getElementById('form-message').value;
+
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = orig;
+                    contactForm.reset();
+                    showToast(`Thank you, ${name}! Your message was dispatched to Rafiz.`);
+
+                    // Trigger direct mailto client as helpful assistance
+                    const mailtoUrl = `mailto:rafizimtiaz100@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("From: " + name + " (" + email + ")\n\n" + message)}`;
+                    window.location.href = mailtoUrl;
+                }, 500);
+            });
+        }
+    </script>
+</body>
+</html>

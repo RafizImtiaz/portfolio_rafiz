@@ -1,0 +1,2407 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fury's Paradise | Authentication & Interactive Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --brand-primary: #6366f1;
+            --brand-primary-hover: #4f46e5;
+            --brand-glow: rgba(99, 102, 241, 0.45);
+            --brand-cyan: #38bdf8;
+
+            /* Dark Theme (Default) */
+            --bg-deep: #090d16;
+            --bg-card: linear-gradient(145deg, rgba(15, 23, 42, 0.96) 0%, rgba(9, 13, 22, 0.98) 100%);
+            --border-glass: rgba(255, 255, 255, 0.12);
+            --border-glass-focus: rgba(129, 140, 248, 0.55);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-faint: #64748b;
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-border: rgba(255, 255, 255, 0.12);
+            --input-color: #ffffff;
+            --input-placeholder: #64748b;
+            --pill-switch-bg: rgba(255, 255, 255, 0.06);
+            --node-chip-bg: rgba(255, 255, 255, 0.08);
+            --node-chip-border: rgba(255, 255, 255, 0.12);
+            --node-chip-shadow: rgba(0, 0, 0, 0.6);
+            --hud-bg: rgba(15, 23, 42, 0.82);
+            --hud-color: #cbd5e1;
+            --social-bg: rgba(255, 255, 255, 0.04);
+            --social-border: rgba(255, 255, 255, 0.12);
+            --social-color: #cbd5e1;
+            --secondary-btn-bg: rgba(255, 255, 255, 0.05);
+            --secondary-btn-border: rgba(255, 255, 255, 0.12);
+            --secondary-btn-color: #e2e8f0;
+            --dots-color: rgba(255, 255, 255, 0.12);
+            --title-color: #ffffff;
+            --card-shadow: 20px 0 60px -15px rgba(0, 0, 0, 0.75);
+            --panel-border-right: 1px solid var(--border-glass);
+            --toast-bg: rgba(15, 23, 42, 0.95);
+            --toast-color: #ffffff;
+        }
+
+        /* White Mode (Light Theme) */
+        [data-theme="light"] {
+            --bg-deep: #f1f5f9;
+            --bg-card: linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.96) 100%);
+            --border-glass: rgba(15, 23, 42, 0.1);
+            --border-glass-focus: rgba(99, 102, 241, 0.65);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --text-faint: #94a3b8;
+            --input-bg: #ffffff;
+            --input-border: #cbd5e1;
+            --input-color: #0f172a;
+            --input-placeholder: #94a3b8;
+            --pill-switch-bg: rgba(15, 23, 42, 0.06);
+            --node-chip-bg: rgba(255, 255, 255, 0.92);
+            --node-chip-border: rgba(15, 23, 42, 0.1);
+            --node-chip-shadow: rgba(15, 23, 42, 0.12);
+            --hud-bg: rgba(255, 255, 255, 0.94);
+            --hud-color: #1e293b;
+            --social-bg: #ffffff;
+            --social-border: #cbd5e1;
+            --social-color: #1e293b;
+            --secondary-btn-bg: #ffffff;
+            --secondary-btn-border: #cbd5e1;
+            --secondary-btn-color: #1e293b;
+            --dots-color: rgba(15, 23, 42, 0.08);
+            --title-color: #0f172a;
+            --card-shadow: 20px 0 60px -15px rgba(15, 23, 42, 0.1);
+            --panel-border-right: 1px solid rgba(15, 23, 42, 0.1);
+            --toast-bg: rgba(255, 255, 255, 0.96);
+            --toast-color: #0f172a;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Full-screen application layout */
+        .auth-app-shell {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background: var(--bg-deep);
+            transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* LEFT 460px / 36% desktop: Auth Card Panel */
+        .auth-panel {
+            position: relative;
+            z-index: 30;
+            width: 100%;
+            max-width: 460px;
+            height: 100%;
+            overflow-y: auto;
+            background: var(--bg-card);
+            border-right: var(--panel-border-right);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 36px 32px;
+            box-shadow: var(--card-shadow);
+            transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .auth-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+        .auth-panel::-webkit-scrollbar-thumb {
+            background: rgba(128, 128, 128, 0.25);
+            border-radius: 9999px;
+        }
+
+        /* RIGHT: Interactive Physics Showcase Playground */
+        .showcase-stage-wrapper {
+            position: relative;
+            flex: 1;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-deep);
+            transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Ambient backdrop */
+        .sp-backdrop {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.28), transparent 45%),
+                radial-gradient(circle at 80% 70%, rgba(56, 189, 248, 0.22), transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.14), transparent 55%),
+                linear-gradient(145deg, #090d16 0%, #0f172a 50%, #090d16 100%);
+            z-index: 0;
+            pointer-events: none;
+            transition: background 0.4s ease;
+        }
+
+        [data-theme="light"] .sp-backdrop {
+            background:
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.12), transparent 45%),
+                radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.14), transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.08), transparent 55%),
+                linear-gradient(145deg, #f8fafc 0%, #edf2f7 50%, #f1f5f9 100%);
+        }
+
+        .sp-dots {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 1px 1px, var(--dots-color) 1px, transparent 0);
+            background-size: 32px 32px;
+            opacity: 0.6;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .sp-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .sp-stage {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+        }
+
+        /* Floating Interactive Nodes */
+        .float-node {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: var(--size, 64px);
+            height: var(--size, 64px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            will-change: transform;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+            z-index: 10;
+        }
+
+        .float-node.is-dragging {
+            cursor: grabbing;
+            z-index: 60 !important;
+        }
+
+        .node-chip {
+            width: 100%;
+            height: 100%;
+            border-radius: 22px;
+            border: 1px solid var(--node-chip-border);
+            background: var(--node-chip-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 32px -8px var(--node-chip-shadow);
+            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        border-color 0.22s ease,
+                        box-shadow 0.22s ease,
+                        background 0.3s ease;
+        }
+
+        .node-chip svg {
+            width: 50%;
+            height: 50%;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+        }
+
+        .float-node:hover .node-chip {
+            transform: scale(1.18);
+            border-color: var(--accent, var(--brand-primary));
+            box-shadow: 0 20px 40px -6px var(--brand-glow);
+        }
+
+        .float-node.is-dragging .node-chip {
+            transform: scale(1.26) rotate(4deg);
+            border-color: #a5b4fc;
+            box-shadow: 0 24px 50px -4px var(--brand-glow);
+        }
+
+        @keyframes popPulse {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1.35) rotate(12deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        .float-node.popping .node-chip {
+            animation: popPulse 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .node-pill {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%) translateY(6px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(12px);
+            border-radius: 9999px;
+            padding: 4px 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            z-index: 80;
+        }
+
+        .float-node:hover .node-pill,
+        .float-node.is-dragging .node-pill {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .pill-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 9999px;
+            animation: pulseDot 1.8s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.4); }
+        }
+
+        .pill-title {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-main);
+        }
+
+        .pill-sub {
+            font-size: 9px;
+            font-weight: 700;
+            color: #818cf8;
+        }
+
+        .node-label {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            white-space: nowrap;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="light"] .node-label {
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
+        }
+
+        .float-node:hover .node-label,
+        .float-node.is-dragging .node-label {
+            opacity: 1;
+        }
+
+        /* Top HUD Control Bar */
+        .sp-hud-bar {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            z-index: 25;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--hud-bg);
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(20px);
+            padding: 6px 8px;
+            border-radius: 18px;
+            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .sp-btn {
+            background: transparent;
+            border: none;
+            color: var(--hud-color);
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 7px 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .sp-btn:hover {
+            color: var(--text-main);
+            background: rgba(128, 128, 128, 0.15);
+        }
+
+        .sp-btn.active {
+            color: #fff !important;
+            background: var(--brand-primary);
+            box-shadow: 0 0 16px var(--brand-glow);
+        }
+
+        .sp-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .sp-divider {
+            width: 1px;
+            height: 16px;
+            background: var(--border-glass);
+            margin: 0 2px;
+        }
+
+        .sp-guide-badge {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            z-index: 25;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--hud-bg);
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(16px);
+            padding: 7px 14px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            pointer-events: none;
+            box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .sp-ping-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 9999px;
+            background: #34d399;
+            box-shadow: 0 0 10px #34d399;
+            animation: pulseDot 2s infinite;
+        }
+
+        /* Headline Banner overlay */
+        .sp-headline-block {
+            position: absolute;
+            bottom: 36px;
+            left: 36px;
+            right: 36px;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .sp-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--brand-cyan);
+            margin-bottom: 6px;
+        }
+
+        .sp-title {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            color: var(--title-color);
+            text-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="light"] .sp-title {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .sp-title span {
+            background: linear-gradient(135deg, #818cf8 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sp-description {
+            font-size: 13px;
+            color: var(--text-muted);
+            max-width: 440px;
+            margin-top: 6px;
+            line-height: 1.5;
+            transition: color 0.3s ease;
+        }
+
+        /* -------------------------------------------------------------------------- */
+        /* Auth Card Components (Header, Segmented Tabs, Forms, Inputs, Buttons)      */
+        /* -------------------------------------------------------------------------- */
+        .auth-brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .auth-brand-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #6366f1 0%, #38bdf8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px -4px var(--brand-glow);
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-badge svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .brand-info h2 {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+            transition: color 0.3s ease;
+        }
+
+        .brand-info p {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        /* Mode Switcher Pill Control in Header */
+        .theme-toggle-btn {
+            background: transparent;
+            border: none;
+            padding: 2px;
+            cursor: pointer;
+            outline: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-pill-track {
+            position: relative;
+            width: 58px;
+            height: 30px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            padding: 2px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] .theme-pill-track {
+            background: #e2e8f0;
+            border-color: #cbd5e1;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .theme-pill-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+            transform: translateX(0);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+        }
+
+        .theme-pill-thumb svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        .thumb-icon-sun {
+            display: block;
+        }
+        .thumb-icon-moon {
+            display: none;
+        }
+
+        [data-theme="light"] .theme-pill-thumb {
+            transform: translateX(28px);
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+        }
+
+        [data-theme="light"] .thumb-icon-sun {
+            display: none;
+        }
+        [data-theme="light"] .thumb-icon-moon {
+            display: block;
+        }
+
+        /* Segmented Mode Switcher (Log In / Sign Up) */
+        .auth-pill-switcher {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--pill-switch-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 4px;
+            margin-bottom: 24px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .auth-pill-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: calc(50% - 4px);
+            height: calc(100% - 8px);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(79, 70, 229, 0.95));
+            border-radius: 10px;
+            box-shadow: 0 4px 14px var(--brand-glow);
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .auth-pill-tab {
+            position: relative;
+            z-index: 2;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 9px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            text-align: center;
+        }
+
+        .auth-pill-tab.active {
+            color: #fff !important;
+        }
+
+        /* View Panels */
+        @keyframes authFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .auth-view-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .auth-view-panel.hidden {
+            display: none !important;
+        }
+
+        .view-header {
+            margin-bottom: 2px;
+        }
+
+        .view-header h3 {
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
+            transition: color 0.3s ease;
+        }
+
+        .view-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.45;
+            transition: color 0.3s ease;
+        }
+
+        /* Forms & Inputs */
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            padding-left: 2px;
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            width: 17px;
+            height: 17px;
+            color: var(--text-faint);
+            pointer-events: none;
+            transition: color 0.2s ease;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 14px;
+            padding: 12px 14px 12px 42px;
+            font-family: inherit;
+            font-size: 13.5px;
+            color: var(--input-color);
+            outline: none;
+            transition: all 0.22s ease;
+        }
+
+        .form-input::placeholder {
+            color: var(--input-placeholder);
+        }
+
+        .form-input:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .input-wrapper:focus-within .input-icon {
+            color: #818cf8;
+        }
+
+        .password-toggle-btn {
+            position: absolute;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-faint);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: color 0.2s ease;
+        }
+
+        .password-toggle-btn:hover {
+            color: var(--text-main);
+        }
+
+        .password-toggle-btn svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        /* Password Strength Meter */
+        .password-strength-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 3px;
+        }
+
+        .strength-bar-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            height: 4px;
+        }
+
+        .strength-segment {
+            background: rgba(128, 128, 128, 0.2);
+            border-radius: 9999px;
+            transition: background 0.3s ease;
+        }
+
+        .strength-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10.5px;
+            font-weight: 600;
+        }
+
+        .form-options-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12.5px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--text-muted);
+            user-select: none;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            accent-color: var(--brand-primary);
+            width: 15px;
+            height: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .link-btn {
+            background: transparent;
+            border: none;
+            color: #818cf8;
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .link-btn:hover {
+            color: #a5b4fc;
+            text-decoration: underline;
+        }
+
+        /* Buttons */
+        .btn-submit-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            padding: 13px 20px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 10px 24px -4px var(--brand-glow);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 2px;
+        }
+
+        .btn-submit-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px -4px var(--brand-glow);
+            background: linear-gradient(135deg, #6d70f5 0%, #5850ec 100%);
+        }
+
+        .btn-submit-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit-primary svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-submit-primary:hover svg {
+            transform: translateX(3px);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            background: var(--secondary-btn-bg);
+            border: 1px solid var(--secondary-btn-border);
+            border-radius: 14px;
+            padding: 12px 20px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--secondary-btn-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(128, 128, 128, 0.12);
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 4px 0;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-glass);
+        }
+
+        .auth-divider span {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-faint);
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .social-btn {
+            background: var(--social-bg);
+            border: 1px solid var(--social-border);
+            border-radius: 12px;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--social-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        .social-btn:hover {
+            background: rgba(128, 128, 128, 0.1);
+            color: var(--text-main);
+            border-color: rgba(128, 128, 128, 0.3);
+        }
+
+        .social-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .success-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-icon-wrap svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .success-box h4 {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .success-box p {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        .auth-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+            background: var(--toast-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 12px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--toast-color);
+            box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(20px);
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .auth-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .auth-toast.success {
+            border-color: rgba(52, 211, 153, 0.5);
+            color: #10b981;
+        }
+
+        .auth-toast.error {
+            border-color: rgba(244, 63, 94, 0.5);
+            color: #f43f5e;
+        }
+
+        @media (max-width: 900px) {
+            .auth-app-shell {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+            }
+
+            .showcase-stage-wrapper {
+                height: 36vh;
+                min-height: 240px;
+                order: 1;
+            }
+
+            .auth-panel {
+                max-width: 100%;
+                border-right: none;
+                border-top: 1px solid var(--border-glass);
+                order: 2;
+                padding: 28px 20px;
+                box-shadow: none;
+            }
+
+            .sp-headline-block,
+            .sp-guide-badge {
+                display: none;
+            }
+
+            .sp-btn span {
+                display: none;
+            }
+
+            .sp-hud-bar {
+                top: 14px;
+                right: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-app-shell">
+
+        <!-- ====================================================================== -->
+        <!-- LEFT 460px: Auth Panel (Log In, Sign Up, Password Reset)                -->
+        <!-- ====================================================================== -->
+        <aside class="auth-panel" id="auth-container">
+
+            <!-- Brand Header with Dark/White Mode Switcher -->
+            <div class="auth-brand">
+                <div class="auth-brand-left">
+                    <div class="brand-logo-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="brand-info">
+                        <h2>Fury's Paradise</h2>
+                        <p>Exclusive Workspace & Access</p>
+                    </div>
+                </div>
+
+                <!-- Sleek Dark / White Mode Switcher Button -->
+                <button type="button" class="theme-toggle-btn" id="theme-toggle-header" title="Switch between Dark and White mode">
+                    <div class="theme-pill-track">
+                        <span class="theme-pill-thumb">
+                            <svg class="thumb-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                            <svg class="thumb-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                        </span>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Segmented Mode Switcher (Log In / Sign Up) -->
+            <div class="auth-pill-switcher" id="auth-mode-switcher">
+                <div class="auth-pill-slider"></div>
+                <button type="button" class="auth-pill-tab active" data-auth-target="login">Log In</button>
+                <button type="button" class="auth-pill-tab" data-auth-target="signup">Sign Up</button>
+            </div>
+
+            <!-- ================================================================== -->
+            <!-- VIEW 1: LOGIN VIEW                                                 -->
+            <!-- ================================================================== -->
+            <div class="auth-view-panel" data-auth-view="login">
+                <div class="view-header">
+                    <h3>Welcome back</h3>
+                    <p>Enter your credentials to access your workspace and fleet telemetry.</p>
+                </div>
+
+                <form id="auth-login-form" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label" for="login-username">Username or Email</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <input class="form-input" type="text" id="login-username" name="username" placeholder="alex@example.com" required autocomplete="username">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="login-password">Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            <input class="form-input" type="password" id="login-password" name="password" placeholder="••••••••" required autocomplete="current-password">
+                            <button type="button" class="password-toggle-btn" data-target-input="login-password" title="Show or hide password">
+                                <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="icon-eye-off" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-options-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="remember" checked>
+                            <span>Remember me</span>
+                        </label>
+                        <button type="button" class="link-btn" data-auth-target="reset">Forgot password?</button>
+                    </div>
+
+                    <button type="submit" class="btn-submit-primary">
+                        <span>Sign In</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </button>
+
+                    <div class="auth-divider">
+                        <span>Or continue with</span>
+                    </div>
+
+                    <div class="social-grid">
+                        <button type="button" class="social-btn">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+                            <span>Google</span>
+                        </button>
+                        <button type="button" class="social-btn">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                            <span>GitHub</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ================================================================== -->
+            <!-- VIEW 2: SIGN UP VIEW                                               -->
+            <!-- ================================================================== -->
+            <div class="auth-view-panel hidden" data-auth-view="signup">
+                <div class="view-header">
+                    <h3>Create account</h3>
+                    <p>Get started with your collaborative dashboard and device management.</p>
+                </div>
+
+                <form id="auth-signup-form" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label" for="signup-name">Full Name</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <input class="form-input" type="text" id="signup-name" name="name" placeholder="John Doe" required autocomplete="name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signup-email">Work Email</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            <input class="form-input" type="email" id="signup-email" name="email" placeholder="john@company.com" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signup-password">Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            <input class="form-input" type="password" id="signup-password" name="password" placeholder="At least 8 characters" required autocomplete="new-password">
+                            <button type="button" class="password-toggle-btn" data-target-input="signup-password" title="Show or hide password">
+                                <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="icon-eye-off" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+                            </button>
+                        </div>
+                        <div class="password-strength-container">
+                            <div class="strength-bar-grid" id="password-strength-bar">
+                                <div class="strength-segment"></div>
+                                <div class="strength-segment"></div>
+                                <div class="strength-segment"></div>
+                                <div class="strength-segment"></div>
+                            </div>
+                            <div class="strength-info">
+                                <span id="password-strength-label" style="color:var(--text-faint);">Password strength</span>
+                                <span style="color:var(--text-faint);">8+ chars, upper & number</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signup-confirm-password">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            <input class="form-input" type="password" id="signup-confirm-password" name="confirm_password" placeholder="Repeat password" required autocomplete="new-password">
+                        </div>
+                    </div>
+
+                    <label class="checkbox-label" style="font-size:12px; margin-top:2px;">
+                        <input type="checkbox" name="terms" required checked>
+                        <span>I agree to the <a href="#" style="color:#818cf8; text-decoration:none;">Terms of Service</a> & <a href="#" style="color:#818cf8; text-decoration:none;">Privacy Policy</a></span>
+                    </label>
+
+                    <button type="submit" class="btn-submit-primary">
+                        <span>Create Account</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </button>
+
+                    <div style="text-align:center; font-size:12.5px; color:var(--text-muted); margin-top:4px;">
+                        Already registered? <button type="button" class="link-btn" data-auth-target="login">Log In here</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ================================================================== -->
+            <!-- VIEW 3: PASSWORD RESET VIEW                                        -->
+            <!-- ================================================================== -->
+            <div class="auth-view-panel hidden" data-auth-view="reset">
+                <div class="view-header">
+                    <h3>Reset password</h3>
+                    <p>Enter the email address tied to your account and we'll dispatch a secure recovery code.</p>
+                </div>
+
+                <div id="reset-form-state" class="auth-view-panel" style="gap:16px;">
+                    <form id="auth-reset-form" class="auth-form">
+                        <div class="form-group">
+                            <label class="form-label" for="reset-email">Your Account Email</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                <input class="form-input" type="email" id="reset-email" name="email" placeholder="name@domain.com" required autocomplete="email">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit-primary">
+                            <span>Send Recovery Link</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </button>
+                    </form>
+
+                    <button type="button" class="btn-secondary" data-auth-target="login">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="m15 18-6-6 6-6"/></svg>
+                        <span>Back to Log In</span>
+                    </button>
+                </div>
+
+                <!-- Reset Success Box -->
+                <div id="reset-success-state" class="auth-view-panel hidden" style="gap:16px;">
+                    <div class="success-box">
+                        <div class="success-icon-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <h4>Recovery link dispatched</h4>
+                        <p>We've sent an encrypted recovery link to <b id="reset-email-display" style="color:var(--text-main);">your email</b>. Please verify your spam folder if it doesn't arrive within 2 minutes.</p>
+                    </div>
+
+                    <button type="button" class="btn-secondary" data-auth-target="login">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="m15 18-6-6 6-6"/></svg>
+                        <span>Return to Log In</span>
+                    </button>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- ====================================================================== -->
+        <!-- RIGHT: Interactive Physics Showcase Playground                         -->
+        <!-- ====================================================================== -->
+        <main class="showcase-stage-wrapper" id="showcase-playground">
+            <!-- Backdrop, canvas, HUD, and floating nodes are generated by the script -->
+
+            <!-- Bottom Headline Banner -->
+            <div class="sp-headline-block">
+                <div class="sp-eyebrow">
+                    <span class="sp-ping-dot"></span>
+                    <span>Interactive Constellation Mesh</span>
+                </div>
+                <h1 class="sp-title">Fury's <span>Paradise</span></h1>
+                <p class="sp-description">
+                    Drag, throw and collide interactive aesthetic nodes. Click anywhere on space to propagate kinetic shockwaves.
+                </p>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- ========================================================================== -->
+    <!-- JAVASCRIPT: Unified Self-Contained Engine (Theme + Auth + Playground)      -->
+    <!-- ========================================================================== -->
+    <script>
+        function rand(min, max) { return Math.random() * (max - min) + min; }
+        function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
+
+        // Aesthetic Modern SVG Icons
+        const AESTHETIC_ICONS = [
+            {
+                name: 'Quantum Core',
+                category: 'Compute',
+                color: '#818cf8',
+                bg: 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(168,85,247,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+            },
+            {
+                name: 'Orbital Telemetry',
+                category: 'Satellite',
+                color: '#38bdf8',
+                bg: 'linear-gradient(135deg, rgba(56,189,248,0.25), rgba(59,130,246,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/></svg>'
+            },
+            {
+                name: 'Global Mesh',
+                category: 'Network',
+                color: '#34d399',
+                bg: 'linear-gradient(135deg, rgba(52,211,153,0.25), rgba(16,185,129,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+            },
+            {
+                name: 'Optic Aperture',
+                category: 'Vision',
+                color: '#fbbf24',
+                bg: 'linear-gradient(135deg, rgba(251,191,36,0.25), rgba(245,158,11,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="14.31" y1="8" x2="20.05" y2="17.94"/><line x1="9.69" y1="8" x2="21.17" y2="8"/><line x1="7.38" y1="12" x2="13.12" y2="2.06"/><line x1="9.69" y1="16" x2="3.95" y2="6.06"/><line x1="14.31" y1="16" x2="2.83" y2="16"/><line x1="16.62" y1="12" x2="10.88" y2="21.94"/></svg>'
+            },
+            {
+                name: 'Geo Navigator',
+                category: 'GIS',
+                color: '#f472b6',
+                bg: 'linear-gradient(135deg, rgba(244,114,182,0.25), rgba(236,72,153,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>'
+            },
+            {
+                name: 'Pulse Radar',
+                category: 'Sensor',
+                color: '#a78bfa',
+                bg: 'linear-gradient(135deg, rgba(167,139,250,0.25), rgba(139,92,246,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.93 4.93a10 10 0 0 1 14.14 0"/><path d="M7.76 7.76a6 6 0 0 1 8.48 0"/><circle cx="12" cy="12" r="2"/><path d="M12 12v9"/></svg>'
+            },
+            {
+                name: 'Shield Sentinel',
+                category: 'Security',
+                color: '#60a5fa',
+                bg: 'linear-gradient(135deg, rgba(96,165,250,0.25), rgba(59,130,246,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>'
+            },
+            {
+                name: 'Neural Pulse',
+                category: 'AI Engine',
+                color: '#2dd4bf',
+                bg: 'linear-gradient(135deg, rgba(45,212,191,0.25), rgba(20,184,166,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>'
+            },
+            {
+                name: 'Aero Drone',
+                category: 'Autonomy',
+                color: '#38bdf8',
+                bg: 'linear-gradient(135deg, rgba(56,189,248,0.25), rgba(14,165,233,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>'
+            },
+            {
+                name: 'Laser LiDAR',
+                category: 'Scanning',
+                color: '#f87171',
+                bg: 'linear-gradient(135deg, rgba(248,113,113,0.25), rgba(239,68,68,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="M2 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="M12 22v-4"/><path d="m19.07 19.07-2.83-2.83"/><path d="M22 12h-4"/><path d="m19.07 4.93-2.83 2.83"/><circle cx="12" cy="12" r="3"/></svg>'
+            },
+            {
+                name: 'Deep Sonar',
+                category: 'Acoustics',
+                color: '#06b6d4',
+                bg: 'linear-gradient(135deg, rgba(6,182,212,0.25), rgba(14,116,144,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6a6 6 0 0 1 6 6"/><path d="M12 9a3 3 0 0 1 3 3"/><circle cx="12" cy="12" r="1"/></svg>'
+            },
+            {
+                name: 'Starlight Prism',
+                category: 'Optics',
+                color: '#c084fc',
+                bg: 'linear-gradient(135deg, rgba(192,132,252,0.25), rgba(168,85,247,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+            },
+            {
+                name: 'Atmosphere Sensor',
+                category: 'Telemetry',
+                color: '#4ade80',
+                bg: 'linear-gradient(135deg, rgba(74,222,128,0.25), rgba(34,197,94,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>'
+            },
+            {
+                name: 'Data Matrix',
+                category: 'Storage',
+                color: '#e879f9',
+                bg: 'linear-gradient(135deg, rgba(232,121,249,0.25), rgba(217,70,239,0.25))',
+                svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>'
+            }
+        ];
+
+        // Synthesizer Audio
+        class SoundFX {
+            constructor() {
+                this.ctx = null;
+                this.enabled = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+                if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+            }
+            toggle() {
+                this.init();
+                this.enabled = !this.enabled;
+                return this.enabled;
+            }
+            playPop(freq = 520, duration = 0.08) {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(freq * 0.4, this.ctx.currentTime + duration);
+                    gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch (e) {}
+            }
+            playChime() {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    [440, 554.37, 659.25, 880].forEach((f, i) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(f, this.ctx.currentTime + i * 0.06);
+                        gain.gain.setValueAtTime(0.035, this.ctx.currentTime + i * 0.06);
+                        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + i * 0.06 + 0.45);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(this.ctx.currentTime + i * 0.06);
+                        osc.stop(this.ctx.currentTime + i * 0.06 + 0.45);
+                    });
+                } catch (e) {}
+            }
+            playShockwave() {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(36, this.ctx.currentTime + 0.4);
+                    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.4);
+                } catch (e) {}
+            }
+            playBounce(velocity) {
+                if (!this.enabled || velocity < 1.0) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const freq = 180 + Math.min(velocity * 25, 360);
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(freq * 0.6, this.ctx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(Math.min(0.04, (velocity / 20) * 0.04), this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.08);
+                } catch (e) {}
+            }
+        }
+
+        // Expanding Shockwave Wavefront
+        class Shockwave {
+            constructor(x, y, maxRadius = 150) {
+                this.x = x;
+                this.y = y;
+                this.radius = 4;
+                this.maxRadius = maxRadius;
+                this.speed = 4.2;
+                this.alpha = 0.75;
+                this.alive = true;
+            }
+            update() {
+                this.radius += this.speed;
+                this.alpha = Math.max(0, 0.75 * (1 - this.radius / this.maxRadius));
+                if (this.radius >= this.maxRadius || this.alpha <= 0.01) this.alive = false;
+            }
+            draw(ctx) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(129, 140, 248, ${this.alpha.toFixed(3)})`;
+                ctx.lineWidth = 2;
+                ctx.shadowColor = 'rgba(99, 102, 241, 0.6)';
+                ctx.shadowBlur = 12;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, Math.max(0, this.radius - 8), 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(56, 189, 248, ${(this.alpha * 0.4).toFixed(3)})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        // Physics Showcase Engine
+        class ShowcasePlayground {
+            constructor(options = {}) {
+                this.container = typeof options.container === 'string'
+                    ? document.querySelector(options.container)
+                    : (options.container || document.getElementById(options.containerId || 'showcase-playground'));
+
+                if (!this.container) return;
+
+                this.icons = options.icons || AESTHETIC_ICONS;
+                this.itemCount = options.itemCount || 14;
+                this.speedMultiplier = options.speedMultiplier !== undefined ? options.speedMultiplier : 0.65;
+                this.friction = options.friction || 0.985;
+                this.zeroGMode = false;
+                this.isGathering = false;
+                this.sfx = new SoundFX();
+                this.onThemeToggle = options.onThemeToggle || null;
+
+                this.nodes = [];
+                this.shockwaves = [];
+                this.width = 0;
+                this.height = 0;
+                this.lastTime = performance.now();
+                this.rafId = null;
+
+                this.pointer = { x: -1000, y: -1000, isOver: false, isDown: false };
+
+                this.initDOM();
+                this.bindEvents();
+                this.resize();
+                this.spawnNodes();
+                this.start();
+            }
+
+            initDOM() {
+                this.backdrop = document.createElement('div');
+                this.backdrop.className = 'sp-backdrop';
+                this.container.appendChild(this.backdrop);
+
+                this.dots = document.createElement('div');
+                this.dots.className = 'sp-dots';
+                this.container.appendChild(this.dots);
+
+                this.canvas = document.createElement('canvas');
+                this.canvas.className = 'sp-canvas';
+                this.container.appendChild(this.canvas);
+                this.ctx = this.canvas.getContext('2d');
+
+                this.stage = document.createElement('div');
+                this.stage.className = 'sp-stage';
+                this.container.appendChild(this.stage);
+
+                // HUD Bar with Mode Switcher
+                this.hud = document.createElement('div');
+                this.hud.className = 'sp-hud-bar';
+                this.hud.innerHTML = `
+                    <button type="button" class="sp-btn" data-action="magnet" title="Hold to Magnetize Nodes">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15-4-4 6.7-6.7a7.5 7.5 0 0 1 10.6 10.6L12.6 21.6 8.6 17.6l4-4"/><path d="m9 5 4 4"/><path d="m5 9 4 4"/></svg>
+                        <span>Magnet</span>
+                    </button>
+                    <button type="button" class="sp-btn" data-action="scatter" title="Scatter Burst">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+                        <span>Scatter</span>
+                    </button>
+                    <button type="button" class="sp-btn" data-action="zerog" title="Toggle Zero-G Floating">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3" r="1.5"/><circle cx="19" cy="5" r="1.5"/><circle cx="5" cy="19" r="1.5"/><path d="M10.4 21.9a10 10 0 0 0 9.9-9.9"/><path d="M3.7 13.6a10 10 0 0 1 9.9-9.9"/></svg>
+                        <span>Zero-G</span>
+                    </button>
+                    
+                    <div class="sp-divider"></div>
+                    <button type="button" class="sp-btn" data-action="sound" title="Toggle Sound FX" style="padding:7px 8px;">
+                        <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                        <svg class="icon-sound-on" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                    </button>
+                `;
+                this.container.appendChild(this.hud);
+
+                // Guide Badge
+                this.guide = document.createElement('div');
+                this.guide.className = 'sp-guide-badge';
+                this.guide.innerHTML = `
+                    <span class="sp-ping-dot"></span>
+                    <span>Interactive Showcase: Drag nodes • Click space to ripple</span>
+                `;
+                this.container.appendChild(this.guide);
+            }
+
+            bindEvents() {
+                window.addEventListener('resize', () => this.resize());
+
+                this.container.addEventListener('pointerenter', (e) => {
+                    this.pointer.isOver = true;
+                    this.updatePointerCoords(e);
+                });
+                this.container.addEventListener('pointermove', (e) => this.updatePointerCoords(e));
+                this.container.addEventListener('pointerleave', () => {
+                    this.pointer.isOver = false;
+                    this.pointer.x = -1000;
+                    this.pointer.y = -1000;
+                });
+
+                this.container.addEventListener('pointerdown', (e) => {
+                    if (e.target.closest('.sp-hud-bar') || e.target.closest('.float-node') || e.target.closest('.auth-panel')) return;
+                    this.updatePointerCoords(e);
+                    this.triggerShockwave(this.pointer.x, this.pointer.y);
+                });
+
+                this.hud.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.sp-btn');
+                    if (!btn) return;
+                    const action = btn.dataset.action;
+
+                    if (action === 'scatter') {
+                        this.triggerSupernova();
+                    } else if (action === 'zerog') {
+                        this.zeroGMode = !this.zeroGMode;
+                        btn.classList.toggle('active', this.zeroGMode);
+                        this.sfx.playChime();
+                    } else if (action === 'theme') {
+                        if (this.onThemeToggle) this.onThemeToggle();
+                    } else if (action === 'sound') {
+                        const enabled = this.sfx.toggle();
+                        btn.classList.toggle('active', enabled);
+                        const offIcon = btn.querySelector('.icon-sound-off');
+                        const onIcon = btn.querySelector('.icon-sound-on');
+                        if (offIcon) offIcon.style.display = enabled ? 'none' : 'block';
+                        if (onIcon) onIcon.style.display = enabled ? 'block' : 'none';
+                        if (enabled) this.sfx.playPop(800, 0.1);
+                    }
+                });
+
+                const magnetBtn = this.hud.querySelector('[data-action="magnet"]');
+                if (magnetBtn) {
+                    const startGather = (e) => {
+                        e.preventDefault();
+                        this.isGathering = true;
+                        magnetBtn.classList.add('active');
+                        this.sfx.playPop(440, 0.15);
+                    };
+                    const stopGather = () => {
+                        this.isGathering = false;
+                        magnetBtn.classList.remove('active');
+                    };
+                    magnetBtn.addEventListener('pointerdown', startGather);
+                    window.addEventListener('pointerup', stopGather);
+                    window.addEventListener('pointercancel', stopGather);
+                }
+            }
+
+            updatePointerCoords(e) {
+                const rect = this.container.getBoundingClientRect();
+                this.pointer.x = e.clientX - rect.left;
+                this.pointer.y = e.clientY - rect.top;
+            }
+
+            resize() {
+                const rect = this.container.getBoundingClientRect();
+                this.width = rect.width;
+                this.height = rect.height;
+
+                const dpr = window.devicePixelRatio || 1;
+                this.canvas.width = this.width * dpr;
+                this.canvas.height = this.height * dpr;
+                this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                this.nodes.forEach((node) => {
+                    node.x = clamp(node.x, node.radius, this.width - node.radius);
+                    node.y = clamp(node.y, node.radius, this.height - node.radius);
+                });
+            }
+
+            triggerShockwave(x, y) {
+                this.shockwaves.push(new Shockwave(x, y, 170));
+                this.sfx.playShockwave();
+
+                this.nodes.forEach((node) => {
+                    const dx = node.x - x;
+                    const dy = node.y - y;
+                    const dist = Math.hypot(dx, dy) || 1;
+                    if (dist < 220) {
+                        const force = (1 - dist / 220) * 8.5;
+                        node.vx += (dx / dist) * force;
+                        node.vy += (dy / dist) * force;
+                        node.vrot += (rand(-3, 3));
+                    }
+                });
+            }
+
+            triggerSupernova() {
+                const centerX = this.width / 2;
+                const centerY = this.height / 2;
+                this.triggerShockwave(centerX, centerY);
+                this.sfx.playChime();
+
+                this.nodes.forEach((node) => {
+                    const angle = Math.atan2(node.y - centerY, node.x - centerX) + rand(-0.3, 0.3);
+                    const speed = rand(8, 14);
+                    node.vx = Math.cos(angle) * speed;
+                    node.vy = Math.sin(angle) * speed;
+                    node.vrot = rand(-6, 6);
+                });
+            }
+
+            spawnNodes() {
+                this.stage.innerHTML = '';
+                this.nodes = [];
+
+                const isMobile = this.width < 768;
+                const count = isMobile ? Math.min(8, this.itemCount) : Math.min(this.itemCount, this.icons.length);
+                const pool = [...this.icons].sort(() => Math.random() - 0.5).slice(0, count);
+
+                const marginX = isMobile ? 30 : 60;
+                const marginY = isMobile ? 30 : 60;
+
+                pool.forEach((item) => {
+                    const size = isMobile ? rand(46, 56) : rand(54, 70);
+                    const x = rand(marginX + size / 2, this.width - marginX - size / 2);
+                    const y = rand(marginY + size / 2, this.height - marginY - size / 2);
+
+                    const wrap = document.createElement('div');
+                    wrap.className = 'float-node';
+                    wrap.style.setProperty('--size', `${size.toFixed(0)}px`);
+                    wrap.style.setProperty('--accent', item.color);
+
+                    const chip = document.createElement('div');
+                    chip.className = 'node-chip';
+                    chip.style.color = item.color;
+                    chip.innerHTML = item.svg;
+
+                    const pill = document.createElement('div');
+                    pill.className = 'node-pill';
+                    pill.innerHTML = `
+                        <span class="pill-dot" style="background:${item.color}"></span>
+                        <span class="pill-title">${item.name}</span>
+                        <span class="pill-sub">${item.category}</span>
+                    `;
+
+                    const label = document.createElement('span');
+                    label.className = 'node-label';
+                    label.textContent = item.name;
+
+                    wrap.appendChild(pill);
+                    wrap.appendChild(chip);
+                    wrap.appendChild(label);
+                    this.stage.appendChild(wrap);
+
+                    const node = {
+                        item,
+                        element: wrap,
+                        size,
+                        radius: size * 0.55,
+                        x,
+                        y,
+                        vx: rand(-0.6, 0.6),
+                        vy: rand(-0.6, 0.6),
+                        rot: rand(-8, 8),
+                        vrot: rand(-0.2, 0.2),
+                        isDragging: false,
+                        dragOffset: { x: 0, y: 0 },
+                        recentMoves: [],
+                        seed: rand(0, 100)
+                    };
+
+                    this.bindDragEvents(node);
+                    this.nodes.push(node);
+                });
+            }
+
+            bindDragEvents(node) {
+                const el = node.element;
+
+                const onPointerDown = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    try { el.setPointerCapture(e.pointerId); } catch (err) {}
+
+                    this.sfx.init();
+                    this.sfx.playPop(520, 0.1);
+
+                    node.isDragging = true;
+                    el.classList.add('is-dragging');
+
+                    const rect = this.container.getBoundingClientRect();
+                    const curX = e.clientX - rect.left;
+                    const curY = e.clientY - rect.top;
+
+                    node.dragOffset.x = curX - node.x;
+                    node.dragOffset.y = curY - node.y;
+                    node.recentMoves = [{ x: curX, y: curY, t: performance.now() }];
+                    node.vx = 0;
+                    node.vy = 0;
+                    node.vrot = 0;
+                };
+
+                const onPointerMove = (e) => {
+                    if (!node.isDragging) return;
+                    const rect = this.container.getBoundingClientRect();
+                    const curX = e.clientX - rect.left;
+                    const curY = e.clientY - rect.top;
+
+                    node.x = curX - node.dragOffset.x;
+                    node.y = curY - node.dragOffset.y;
+
+                    const now = performance.now();
+                    node.recentMoves.push({ x: curX, y: curY, t: now });
+                    if (node.recentMoves.length > 5) node.recentMoves.shift();
+                };
+
+                const onPointerUp = (e) => {
+                    if (!node.isDragging) return;
+                    node.isDragging = false;
+                    el.classList.remove('is-dragging');
+                    try { el.releasePointerCapture(e.pointerId); } catch (err) {}
+
+                    if (node.recentMoves.length >= 2) {
+                        const first = node.recentMoves[0];
+                        const last = node.recentMoves[node.recentMoves.length - 1];
+                        const dt = Math.max(16, last.t - first.t);
+                        const dx = last.x - first.x;
+                        const dy = last.y - first.y;
+
+                        const speed = Math.hypot(dx, dy);
+                        if (speed > 8) {
+                            node.vx = clamp((dx / dt) * 11, -16, 16);
+                            node.vy = clamp((dy / dt) * 11, -16, 16);
+                            node.vrot = clamp((dx / dt) * 6, -8, 8);
+                            this.sfx.playPop(640, 0.15);
+                        } else {
+                            el.classList.add('popping');
+                            setTimeout(() => el.classList.remove('popping'), 450);
+                            this.sfx.playPop(720, 0.12);
+                        }
+                    }
+                };
+
+                el.addEventListener('pointerdown', onPointerDown);
+                el.addEventListener('pointermove', onPointerMove);
+                el.addEventListener('pointerup', onPointerUp);
+                el.addEventListener('pointercancel', onPointerUp);
+
+                el.addEventListener('dblclick', (e) => {
+                    e.stopPropagation();
+                    node.vrot = (Math.random() > 0.5 ? 1 : -1) * 16;
+                    node.vy -= 5;
+                    this.sfx.playChime();
+                });
+            }
+
+            start() {
+                if (!this.rafId) this.loop(performance.now());
+            }
+
+            loop(time) {
+                this.rafId = requestAnimationFrame((t) => this.loop(t));
+                this.lastTime = time;
+                this.updatePhysics(time * 0.001);
+                this.drawCanvas(time * 0.001);
+            }
+
+            updatePhysics(timeSec) {
+                const isMobile = this.width < 768;
+                const padX = isMobile ? 24 : 36;
+                const padTop = isMobile ? 24 : 36;
+                const padBottom = isMobile ? 24 : 48;
+                const friction = this.zeroGMode ? 0.994 : this.friction;
+
+                const targetGatherX = this.pointer.isOver ? this.pointer.x : this.width / 2;
+                const targetGatherY = this.pointer.isOver ? this.pointer.y : this.height / 2;
+
+                this.nodes.forEach((node) => {
+                    if (node.isDragging) {
+                        node.element.style.transform = `translate3d(${node.x.toFixed(1)}px, ${node.y.toFixed(1)}px, 0px) rotate(${node.rot.toFixed(1)}deg)`;
+                        return;
+                    }
+
+                    if (this.isGathering) {
+                        const dx = targetGatherX - node.x;
+                        const dy = targetGatherY - node.y;
+                        const dist = Math.hypot(dx, dy) || 1;
+                        const pull = Math.min(5, 180 / dist);
+                        node.vx += (dx / dist) * pull;
+                        node.vy += (dy / dist) * pull;
+                    }
+
+                    if (this.pointer.isOver && !this.isGathering) {
+                        const dx = node.x - this.pointer.x;
+                        const dy = node.y - this.pointer.y;
+                        const dist = Math.hypot(dx, dy);
+                        const repulseDist = isMobile ? 70 : 110;
+                        if (dist < repulseDist && dist > 1) {
+                            const force = (1 - dist / repulseDist) * 1.1;
+                            node.vx += (dx / dist) * force;
+                            node.vy += (dy / dist) * force;
+                        }
+                    }
+
+                    // Calm, slow ambient drift
+                    const driftFreq = 0.5;
+                    node.vx += Math.cos(timeSec * driftFreq + node.seed) * 0.022;
+                    node.vy += Math.sin(timeSec * driftFreq + node.seed * 1.25) * 0.022;
+
+                    node.x += node.vx * this.speedMultiplier;
+                    node.y += node.vy * this.speedMultiplier;
+                    node.rot += node.vrot * this.speedMultiplier;
+
+                    node.vx *= friction;
+                    node.vy *= friction;
+                    node.vrot *= friction;
+
+                    // Wall Bounds
+                    const minX = padX;
+                    const maxX = this.width - padX;
+                    const minY = padTop;
+                    const maxY = this.height - padBottom;
+                    const restitution = 0.72;
+
+                    if (node.x < minX) {
+                        node.x = minX;
+                        const hit = Math.abs(node.vx);
+                        node.vx = Math.abs(node.vx) * restitution;
+                        node.vrot += rand(-2, 2);
+                        this.sfx.playBounce(hit);
+                    } else if (node.x > maxX) {
+                        node.x = maxX;
+                        const hit = Math.abs(node.vx);
+                        node.vx = -Math.abs(node.vx) * restitution;
+                        node.vrot += rand(-2, 2);
+                        this.sfx.playBounce(hit);
+                    }
+
+                    if (node.y < minY) {
+                        node.y = minY;
+                        const hit = Math.abs(node.vy);
+                        node.vy = Math.abs(node.vy) * restitution;
+                        node.vrot += rand(-2, 2);
+                        this.sfx.playBounce(hit);
+                    } else if (node.y > maxY) {
+                        node.y = maxY;
+                        const hit = Math.abs(node.vy);
+                        node.vy = -Math.abs(node.vy) * restitution;
+                        node.vrot += rand(-2, 2);
+                        this.sfx.playBounce(hit);
+                    }
+
+                    // Inter-node repulsion
+                    for (let j = 0; j < this.nodes.length; j++) {
+                        const other = this.nodes[j];
+                        if (other === node) continue;
+                        const ndx = other.x - node.x;
+                        const ndy = other.y - node.y;
+                        const ndist = Math.hypot(ndx, ndy) || 1;
+                        const minDist = (node.radius + other.radius) * 0.82;
+                        if (ndist < minDist) {
+                            const overlap = (minDist - ndist) * 0.05;
+                            node.vx -= (ndx / ndist) * overlap;
+                            node.vy -= (ndy / ndist) * overlap;
+                        }
+                    }
+
+                    node.element.style.transform = `translate3d(${node.x.toFixed(1)}px, ${node.y.toFixed(1)}px, 0px) rotate(${node.rot.toFixed(1)}deg)`;
+                });
+            }
+
+            drawCanvas(timeSec) {
+                if (!this.ctx) return;
+                this.ctx.clearRect(0, 0, this.width, this.height);
+
+                for (let i = this.shockwaves.length - 1; i >= 0; i--) {
+                    const sw = this.shockwaves[i];
+                    sw.update();
+                    sw.draw(this.ctx);
+                    if (!sw.alive) this.shockwaves.splice(i, 1);
+                }
+
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                const maxLineDist = this.width < 768 ? 120 : 160;
+                const count = this.nodes.length;
+
+                for (let i = 0; i < count; i++) {
+                    const a = this.nodes[i];
+                    for (let j = i + 1; j < count; j++) {
+                        const b = this.nodes[j];
+                        const dx = b.x - a.x;
+                        const dy = b.y - a.y;
+                        const dist = Math.hypot(dx, dy);
+
+                        if (dist < maxLineDist) {
+                            const alpha = (1 - dist / maxLineDist) * (isLight ? 0.38 : 0.32);
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(a.x, a.y);
+                            this.ctx.lineTo(b.x, b.y);
+                            this.ctx.strokeStyle = isLight
+                                ? `rgba(79, 70, 229, ${alpha.toFixed(3)})`
+                                : `rgba(99, 102, 241, ${alpha.toFixed(3)})`;
+                            this.ctx.lineWidth = isLight ? 1.2 : 1;
+                            this.ctx.stroke();
+
+                            const pulsePhase = (timeSec * 1.2 + (i * 5 + j)) % 1;
+                            const px = a.x + dx * pulsePhase;
+                            const py = a.y + dy * pulsePhase;
+                            this.ctx.beginPath();
+                            this.ctx.arc(px, py, 1.8, 0, Math.PI * 2);
+                            this.ctx.fillStyle = isLight
+                                ? `rgba(99, 102, 241, ${(alpha * 1.8).toFixed(3)})`
+                                : `rgba(165, 180, 252, ${(alpha * 1.7).toFixed(3)})`;
+                            this.ctx.fill();
+                        }
+                    }
+
+                    if (this.pointer.isOver) {
+                        const pdx = this.pointer.x - a.x;
+                        const pdy = this.pointer.y - a.y;
+                        const pdist = Math.hypot(pdx, pdy);
+                        if (pdist < 140) {
+                            const palpha = (1 - pdist / 140) * 0.45;
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(a.x, a.y);
+                            this.ctx.lineTo(this.pointer.x, this.pointer.y);
+                            this.ctx.strokeStyle = isLight
+                                ? `rgba(14, 165, 233, ${palpha.toFixed(3)})`
+                                : `rgba(56, 189, 248, ${palpha.toFixed(3)})`;
+                            this.ctx.lineWidth = 1.2;
+                            this.ctx.stroke();
+                        }
+                    }
+                }
+            }
+        }
+
+        // Theme Switcher Manager
+        class ThemeManager {
+            constructor(playground) {
+                this.playground = playground;
+                const saved = localStorage.getItem('furys_theme');
+                this.theme = saved || 'dark';
+                this.apply(this.theme, false);
+                this.bind();
+            }
+
+            apply(theme, playSound = true) {
+                this.theme = theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('furys_theme', theme);
+
+                // Update HUD Theme Button labels
+                const hudThemeText = document.querySelector('.hud-theme-text');
+                const hudSun = document.querySelector('.hud-icon-sun');
+                const hudMoon = document.querySelector('.hud-icon-moon');
+                if (hudThemeText) {
+                    hudThemeText.textContent = theme === 'dark' ? 'White' : 'Dark';
+                }
+                if (hudSun && hudMoon) {
+                    hudSun.style.display = theme === 'dark' ? 'block' : 'none';
+                    hudMoon.style.display = theme === 'dark' ? 'none' : 'block';
+                }
+
+                if (playSound && this.playground && this.playground.sfx) {
+                    this.playground.sfx.playPop(theme === 'light' ? 760 : 480, 0.08);
+                }
+            }
+
+            toggle() {
+                const next = this.theme === 'dark' ? 'light' : 'dark';
+                this.apply(next, true);
+            }
+
+            bind() {
+                const headerToggle = document.getElementById('theme-toggle-header');
+                if (headerToggle) {
+                    headerToggle.addEventListener('click', () => this.toggle());
+                }
+                if (this.playground) {
+                    this.playground.onThemeToggle = () => this.toggle();
+                }
+            }
+        }
+
+        // Auth Panel State & Validation Manager
+        class AuthManager {
+            constructor(options = {}) {
+                this.container = typeof options.container === 'string'
+                    ? document.querySelector(options.container)
+                    : (options.container || document.getElementById('auth-container'));
+
+                this.onSubmit = options.onSubmit || this.defaultSubmitHandler.bind(this);
+                this.currentMode = options.initialMode || 'login';
+
+                if (this.container) this.init();
+            }
+
+            init() {
+                this.bindTabSwitchers();
+                this.bindPasswordToggles();
+                this.bindPasswordStrength();
+                this.bindForms();
+                this.setMode(this.currentMode);
+            }
+
+            bindTabSwitchers() {
+                const triggers = this.container.querySelectorAll('[data-auth-target]');
+                triggers.forEach((btn) => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.setMode(btn.dataset.authTarget);
+                    });
+                });
+            }
+
+            setMode(mode) {
+                this.currentMode = mode;
+
+                const pillTabs = this.container.querySelectorAll('.auth-pill-tab');
+                pillTabs.forEach((tab) => {
+                    tab.classList.toggle('active', tab.dataset.authTarget === mode);
+                });
+
+                const indicator = this.container.querySelector('.auth-pill-slider');
+                if (indicator) {
+                    if (mode === 'login') indicator.style.transform = 'translateX(0%)';
+                    else if (mode === 'signup') indicator.style.transform = 'translateX(100%)';
+                }
+
+                const panels = this.container.querySelectorAll('.auth-view-panel');
+                panels.forEach((panel) => {
+                    if (!panel.dataset.authView) return;
+                    if (panel.dataset.authView === mode) {
+                        panel.classList.remove('hidden');
+                        panel.style.display = 'flex';
+                        panel.style.animation = 'none';
+                        panel.offsetHeight;
+                        panel.style.animation = 'authFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                    } else {
+                        panel.classList.add('hidden');
+                        panel.style.display = 'none';
+                    }
+                });
+
+                const resetSuccess = this.container.querySelector('#reset-success-state');
+                const resetForm = this.container.querySelector('#reset-form-state');
+                if (resetSuccess && resetForm) {
+                    resetSuccess.classList.add('hidden');
+                    resetSuccess.style.display = 'none';
+                    resetForm.classList.remove('hidden');
+                    resetForm.style.display = 'flex';
+                }
+            }
+
+            bindPasswordToggles() {
+                const toggleButtons = this.container.querySelectorAll('.password-toggle-btn');
+                toggleButtons.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        const targetId = btn.dataset.targetInput;
+                        const input = this.container.querySelector(`#${targetId}`);
+                        if (!input) return;
+
+                        const isPassword = input.type === 'password';
+                        input.type = isPassword ? 'text' : 'password';
+
+                        const eyeIcon = btn.querySelector('.icon-eye');
+                        const eyeOffIcon = btn.querySelector('.icon-eye-off');
+                        if (eyeIcon && eyeOffIcon) {
+                            eyeIcon.style.display = isPassword ? 'none' : 'block';
+                            eyeOffIcon.style.display = isPassword ? 'block' : 'none';
+                        }
+                    });
+                });
+            }
+
+            bindPasswordStrength() {
+                const signupPasswordInput = this.container.querySelector('#signup-password');
+                const strengthBar = this.container.querySelector('#password-strength-bar');
+                const strengthLabel = this.container.querySelector('#password-strength-label');
+
+                if (!signupPasswordInput || !strengthBar || !strengthLabel) return;
+
+                signupPasswordInput.addEventListener('input', () => {
+                    const val = signupPasswordInput.value;
+                    const score = this.calculatePasswordScore(val);
+
+                    const segments = strengthBar.querySelectorAll('.strength-segment');
+                    const colors = ['#f43f5e', '#fb923c', '#facc15', '#34d399'];
+                    const labels = ['Too Weak', 'Fair', 'Good', 'Strong'];
+
+                    segments.forEach((seg, idx) => {
+                        if (val.length === 0) {
+                            seg.style.background = 'rgba(128, 128, 128, 0.2)';
+                            strengthLabel.textContent = 'Password strength';
+                            strengthLabel.style.color = 'var(--text-faint)';
+                        } else if (idx <= score) {
+                            seg.style.background = colors[score];
+                            strengthLabel.textContent = labels[score];
+                            strengthLabel.style.color = colors[score];
+                        } else {
+                            seg.style.background = 'rgba(128, 128, 128, 0.2)';
+                        }
+                    });
+                });
+            }
+
+            calculatePasswordScore(pass) {
+                if (!pass) return -1;
+                let score = 0;
+                if (pass.length >= 8) score++;
+                if (/[0-9]/.test(pass)) score++;
+                if (/[A-Z]/.test(pass)) score++;
+                if (/[^A-Za-z0-9]/.test(pass)) score++;
+                return Math.min(3, Math.max(0, score - 1));
+            }
+
+            bindForms() {
+                const loginForm = this.container.querySelector('#auth-login-form');
+                if (loginForm) {
+                    loginForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const data = Object.fromEntries(new FormData(loginForm).entries());
+                        this.handleFormSubmit('login', data, loginForm);
+                    });
+                }
+
+                const signupForm = this.container.querySelector('#auth-signup-form');
+                if (signupForm) {
+                    signupForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const data = Object.fromEntries(new FormData(signupForm).entries());
+                        if (data.password !== data.confirm_password) {
+                            this.showToast('Passwords do not match.', 'error');
+                            return;
+                        }
+                        this.handleFormSubmit('signup', data, signupForm);
+                    });
+                }
+
+                const resetForm = this.container.querySelector('#auth-reset-form');
+                if (resetForm) {
+                    resetForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const data = Object.fromEntries(new FormData(resetForm).entries());
+                        this.handleFormSubmit('reset', data, resetForm);
+                    });
+                }
+            }
+
+            async handleFormSubmit(type, data, formEl) {
+                const submitBtn = formEl.querySelector('button[type="submit"]');
+                const originalBtnContent = submitBtn ? submitBtn.innerHTML : '';
+
+                try {
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = `
+                            <svg class="animate-spin" style="width:16px;height:16px;margin-right:8px;display:inline-block;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                            <span>Processing...</span>
+                        `;
+                    }
+
+                    const result = await this.onSubmit({ type, data });
+
+                    if (type === 'reset') {
+                        const resetSuccess = this.container.querySelector('#reset-success-state');
+                        const resetFormState = this.container.querySelector('#reset-form-state');
+                        const resetEmailDisplay = this.container.querySelector('#reset-email-display');
+                        if (resetSuccess && resetFormState) {
+                            if (resetEmailDisplay) resetEmailDisplay.textContent = data.email || 'your email';
+                            resetFormState.classList.add('hidden');
+                            resetFormState.style.display = 'none';
+                            resetSuccess.classList.remove('hidden');
+                            resetSuccess.style.display = 'flex';
+                        }
+                    } else {
+                        this.showToast(result?.message || `Successfully completed ${type}!`, 'success');
+                    }
+                } catch (err) {
+                    this.showToast(err?.message || 'Something went wrong. Please try again.', 'error');
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnContent;
+                    }
+                }
+            }
+
+            defaultSubmitHandler({ type, data }) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        console.log(`[Fury's Paradise] Form submitted (${type}):`, data);
+                        resolve({ success: true, message: `${type === 'login' ? 'Signed in' : 'Account created'} successfully!` });
+                    }, 800);
+                });
+            }
+
+            showToast(message, type = 'info') {
+                let toast = document.getElementById('auth-toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'auth-toast';
+                    toast.className = 'auth-toast';
+                    document.body.appendChild(toast);
+                }
+
+                toast.textContent = message;
+                toast.className = `auth-toast show ${type}`;
+                clearTimeout(this.toastTimer);
+                this.toastTimer = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3500);
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            const auth = new AuthManager({
+                container: '#auth-container',
+                initialMode: 'login'
+            });
+
+            const playground = new ShowcasePlayground({
+                containerId: 'showcase-playground',
+                speedMultiplier: 0.65,
+                friction: 0.985,
+                itemCount: 14
+            });
+
+            const themeManager = new ThemeManager(playground);
+        });
+    </script>
+</body>
+</html>
