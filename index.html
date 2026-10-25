@@ -122,252 +122,38 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        @media (pointer: fine) {
-
-            body,
-            a,
-            button,
-            input,
-            textarea,
-            select {
-                cursor: none !important;
-            }
-        }
-
         /* ========================================================================== */
-        /* UPGRADED INTERACTIVE COSMIC CURSOR SYSTEM                                  */
+        /* INTERACTIVE HOVER & CLICK RIPPLE SYSTEM                                    */
         /* ========================================================================== */
-        #cursor-trail-canvas {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
+        .ripple-host {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple-wave {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
             pointer-events: none;
-            z-index: 99990;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(99, 102, 241, 0.22) 50%, transparent 72%);
+            animation: rippleExpand 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            z-index: 4;
         }
 
-        /* Hide static reticle on mobile touch screens */
-        @media (hover: none) or (pointer: coarse) {
-            #custom-cursor {
-                display: none !important;
-            }
+        .ripple-wave.click-ripple {
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.65) 0%, rgba(129, 140, 248, 0.35) 50%, transparent 75%);
+            animation: rippleExpand 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        #custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate3d(-100px, -100px, 0);
-            transition: opacity 0.25s ease;
-        }
-
-        .cursor-core-dot {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 8px;
-            height: 8px;
-            background: #ffffff;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px #ffffff, 0 0 20px #38bdf8, 0 0 35px rgba(56, 189, 248, 0.85);
-            transition: transform 0.15s ease, background 0.2s ease;
-        }
-
-        .cursor-reticle {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 38px;
-            height: 38px;
-            border: 1.5px solid rgba(56, 189, 248, 0.5);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
-            transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                height 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.22s ease,
-                background 0.22s ease,
-                box-shadow 0.22s ease,
-                transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* 4 Futuristic Corner Target Ticks */
-        .reticle-tick {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-color: rgba(56, 189, 248, 0.8);
-            border-style: solid;
-            pointer-events: none;
-            transition: all 0.25s ease;
-        }
-
-        .tick-tl {
-            top: -2px;
-            left: -2px;
-            border-width: 1.5px 0 0 1.5px;
-        }
-
-        .tick-tr {
-            top: -2px;
-            right: -2px;
-            border-width: 1.5px 1.5px 0 0;
-        }
-
-        .tick-br {
-            bottom: -2px;
-            right: -2px;
-            border-width: 0 1.5px 1.5px 0;
-        }
-
-        .tick-bl {
-            bottom: -2px;
-            left: -2px;
-            border-width: 0 0 1.5px 1.5px;
-        }
-
-        /* Quantum Orbitals - Satellites circling the cursor */
-        .cursor-orbital {
-            position: absolute;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            border-radius: 50%;
-        }
-
-        .orbital-1 {
-            width: 52px;
-            height: 52px;
-            margin-top: -26px;
-            margin-left: -26px;
-            animation: orbitalSpinClockwise 3.2s linear infinite;
-        }
-
-        .orbital-1::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 4.5px;
-            height: 4.5px;
-            margin-left: -2.25px;
-            background: #38bdf8;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #38bdf8, 0 0 14px rgba(56, 189, 248, 0.85);
-        }
-
-        .orbital-2 {
-            width: 66px;
-            height: 66px;
-            margin-top: -33px;
-            margin-left: -33px;
-            animation: orbitalSpinCounter 4.8s linear infinite;
-        }
-
-        .orbital-2::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: 0;
-            width: 4px;
-            height: 4px;
-            margin-top: -2px;
-            background: #c084fc;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #c084fc, 0 0 14px rgba(192, 132, 252, 0.85);
-        }
-
-        .orbital-3 {
-            width: 80px;
-            height: 80px;
-            margin-top: -40px;
-            margin-left: -40px;
-            animation: orbitalSpinClockwise 2.6s linear infinite;
-        }
-
-        .orbital-3::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 20%;
-            width: 3.5px;
-            height: 3.5px;
-            background: #34d399;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #34d399, 0 0 12px rgba(52, 211, 153, 0.85);
-        }
-
-        @keyframes orbitalSpinClockwise {
+        @keyframes rippleExpand {
             0% {
-                transform: rotate(0deg);
+                transform: scale(0);
+                opacity: 0.95;
             }
-
             100% {
-                transform: rotate(360deg);
+                transform: scale(2.8);
+                opacity: 0;
             }
-        }
-
-        @keyframes orbitalSpinCounter {
-            0% {
-                transform: rotate(360deg);
-            }
-
-            100% {
-                transform: rotate(0deg);
-            }
-        }
-
-        /* Cursor Hover State */
-        #custom-cursor.cursor-hover .cursor-reticle {
-            width: 58px;
-            height: 58px;
-            border-color: #38bdf8;
-            background: rgba(56, 189, 248, 0.08);
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.45), inset 0 0 14px rgba(56, 189, 248, 0.18);
-            transform: translate(-50%, -50%) rotate(45deg);
-        }
-
-        #custom-cursor.cursor-hover .reticle-tick {
-            border-color: #ffffff;
-            width: 8px;
-            height: 8px;
-        }
-
-        #custom-cursor.cursor-hover .cursor-core-dot {
-            transform: translate(-50%, -50%) scale(1.4);
-            background: #38bdf8;
-            box-shadow: 0 0 16px #38bdf8, 0 0 30px #ffffff;
-        }
-
-        #custom-cursor.cursor-hover .orbital-1 {
-            width: 72px;
-            height: 72px;
-            margin-top: -36px;
-            margin-left: -36px;
-        }
-
-        #custom-cursor.cursor-hover .orbital-2 {
-            width: 88px;
-            height: 88px;
-            margin-top: -44px;
-            margin-left: -44px;
-        }
-
-        /* Cursor Click/Down State */
-        #custom-cursor.cursor-down .cursor-reticle {
-            width: 26px;
-            height: 26px;
-            border-color: #818cf8;
-            background: rgba(129, 140, 248, 0.35);
-            box-shadow: 0 0 20px #818cf8;
-            transform: translate(-50%, -50%) scale(0.85);
-        }
-
-        #custom-cursor.cursor-down .cursor-core-dot {
-            transform: translate(-50%, -50%) scale(0.6);
         }
 
         /* ========================================================================== */
@@ -555,6 +341,24 @@
         }
 
         .about-panes-wrapper {
+            .projects-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .project-expand-card {
+                padding: 18px 16px;
+                border-radius: 16px;
+            }
+
+            .card-role-title {
+                font-size: 18px;
+            }
+
+            .card-role-date {
+                font-size: 12.5px;
+            }
+
             background: rgba(12, 17, 30, 0.8) !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
             border-top: 1px solid rgba(255, 255, 255, 0.22) !important;
@@ -1152,87 +956,142 @@
             }
         }
 
-        /* PROJECTS LIST */
-        .projects-list-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
+        /* ========================================================================== */
+        /* COLLAPSIBLE & EXPANDABLE RECENT ROLES & PROJECTS (MATCHING REFERENCE UI)   */
+        /* ========================================================================== */
+        .projects-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            align-items: start;
         }
 
-        .project-item-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-glass);
-            border-radius: 18px;
-            padding: 24px;
+        .project-expand-card {
+            background: rgba(13, 18, 30, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 20px;
+            padding: 24px 26px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s ease,
+                        box-shadow 0.3s ease,
+                        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                        background 0.3s ease;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .project-expand-card:hover,
+        .project-expand-card.is-expanded {
+            border-color: rgba(56, 189, 248, 0.45);
+            background: rgba(16, 24, 40, 0.95);
+            box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7), 0 0 30px -10px rgba(56, 189, 248, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .project-expand-card.featured-rpms {
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 12px 34px -8px rgba(56, 189, 248, 0.15);
+        }
+
+        .card-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .card-company-tag {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-chevron-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease, background 0.25s ease;
+        }
+
+        .card-chevron-icon {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-expand-card:hover .card-chevron-btn,
+        .project-expand-card.is-expanded .card-chevron-btn {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--brand-cyan);
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+
+        .project-expand-card:hover .card-chevron-icon,
+        .project-expand-card.is-expanded .card-chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        .card-role-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            margin-bottom: 6px;
+        }
+
+        .card-role-date {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+
+        /* Collapsible Smooth Accordion Body */
+        .card-expand-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .project-expand-card:hover .card-expand-body,
+        .project-expand-card.is-expanded .card-expand-body {
+            grid-template-rows: 1fr;
+            opacity: 1;
+        }
+
+        .card-expand-inner {
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             gap: 14px;
-            transition: all 0.3s ease;
+            padding-top: 16px;
+            margin-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .project-item-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(56, 189, 248, 0.45);
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5);
-        }
-
-        .project-item-card.featured-rpms {
-            border: 1.5px solid rgba(56, 189, 248, 0.5);
-            background: linear-gradient(145deg, rgba(56, 189, 248, 0.08) 0%, rgba(99, 102, 241, 0.06) 100%);
-            box-shadow: 0 12px 34px -8px rgba(56, 189, 248, 0.2);
-        }
-
-        .project-header-row {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .project-title-group h3 {
-            font-size: 20px;
-            font-weight: 800;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .project-role-badge {
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--brand-cyan);
-            background: rgba(56, 189, 248, 0.12);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            border-radius: 9999px;
-            padding: 3px 10px;
-            margin-top: 4px;
-            display: inline-block;
-        }
-
-        .project-rpms-live-btn {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            padding: 9px 18px;
-            font-size: 13px;
-            font-weight: 800;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
-            transition: all 0.2s ease;
-        }
-
-        .project-rpms-live-btn:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        .card-project-desc {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.6;
         }
 
         .project-desc-bullets {
@@ -1241,8 +1100,10 @@
             flex-direction: column;
             gap: 8px;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13.5px;
             line-height: 1.55;
+            padding: 0;
+            margin: 0;
         }
 
         .project-desc-bullets li {
@@ -1262,7 +1123,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         .tech-pill {
@@ -1273,6 +1134,36 @@
             border: 1px solid var(--border-glass);
             border-radius: 9999px;
             padding: 4px 10px;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .tech-pill:hover {
+            border-color: var(--brand-cyan);
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .card-visit-btn {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            padding: 9px 18px;
+            font-size: 13px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            align-self: flex-start;
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35);
+            transition: all 0.2s ease;
+            margin-top: 4px;
+        }
+
+        .card-visit-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.5);
         }
 
         /* EXPERIENCE & SKILLS */
@@ -2020,24 +1911,6 @@
 
 <body>
 
-    <!-- Canvas for dynamic sparkle cursor trail -->
-    <canvas id="cursor-trail-canvas"></canvas>
-
-    <!-- Custom Cursor elements -->
-    <!-- Custom Cursor with Corner Ticks and Orbitals -->
-    <div id="custom-cursor">
-        <div class="cursor-core-dot"></div>
-        <div class="cursor-reticle">
-            <span class="reticle-tick tick-tl"></span>
-            <span class="reticle-tick tick-tr"></span>
-            <span class="reticle-tick tick-br"></span>
-            <span class="reticle-tick tick-bl"></span>
-        </div>
-        <div class="cursor-orbital orbital-1"></div>
-        <div class="cursor-orbital orbital-2"></div>
-        <div class="cursor-orbital orbital-3"></div>
-    </div>
-
     <!-- Toast Notification -->
     <div id="site-toast">Message Dispatched!</div>
 
@@ -2238,148 +2111,173 @@
                     <div class="tab-pane active" id="tab-projects">
                         <div style="border-bottom: 1px solid var(--border-glass); padding-bottom: 16px;">
                             <span class="section-eyebrow">Production Architectures</span>
-                            <h3 style="font-size:22px; font-weight:800; color:#ffffff; margin-top:4px;">Featured
-                                Engineering Projects</h3>
+                            <h3 style="font-size:24px; font-weight:800; color:#ffffff; margin-top:4px; letter-spacing:-0.02em;">Recent Roles & Projects</h3>
                         </div>
 
-                        <div class="projects-list-stack">
-                            <!-- Project 1: RPMS (HYPERLINKED TO http://gis.iwmbd.com:9097/) -->
-                            <div class="project-item-card featured-rpms">
-                                <div class="project-header-row">
-                                    <div class="project-title-group">
-                                        <h3>
-                                            <span>River Pollution Monitoring System (RPMS)</span>
-                                            <span class="brand-dot"></span>
-                                        </h3>
-                                        <span class="project-role-badge">Lead Backend & Core Developer • Government
-                                            Project</span>
-                                    </div>
-                                    <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener"
-                                        class="project-rpms-live-btn"
-                                        title="Open River Pollution Monitoring System Live">
-                                        <span>Visit RPMS Live</span>
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                                            style="width:14px;height:14px;">
-                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                            <polyline points="15 3 21 3 21 9"></polyline>
-                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        <div class="projects-cards-grid">
+                            <!-- Project 1: RPMS (Expanded by default, matching reference screenshot) -->
+                            <div class="project-expand-card featured-rpms is-expanded">
+                                <div class="card-top-bar">
+                                    <span class="card-company-tag">
+                                        <span>IWM • GOVERNMENT PLATFORM</span>
+                                        <span class="brand-dot"></span>
+                                    </span>
+                                    <div class="card-chevron-btn" title="Toggle Details">
+                                        <svg class="card-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
                                         </svg>
-                                    </a>
-                                </div>
-
-                                <p style="font-size:14px; color:#e2e8f0; line-height:1.5;">
-                                    High-profile nationwide river monitoring platform built for the Institute of Water
-                                    Modelling (IWM) to detect, report, and analyze industrial water pollution levels in
-                                    real-time.
-                                </p>
-
-                                <ul class="project-desc-bullets">
-                                    <li>
-                                        <strong>End-to-End Development:</strong> Architected a high-concurrency FastAPI
-                                        middleware backend integrated with JWT authentication, synchronizing citizen
-                                        mobile application field reports with the central web portal.
-                                    </li>
-                                    <li>
-                                        <strong>Workflows & Dashboards:</strong> Engineered a comprehensive Water Sample
-                                        Collection Dashboard providing real-time telemetry and status tracking across
-                                        multiple river stations.
-                                    </li>
-                                    <li>
-                                        <strong>Automated Verification:</strong> Designed a multi-level administration
-                                        approval workflow engine for automated data verification and laboratory result
-                                        verification.
-                                    </li>
-                                </ul>
-
-                                <div class="project-tech-pills">
-                                    <span class="tech-pill">FastAPI</span>
-                                    <span class="tech-pill">Python</span>
-                                    <span class="tech-pill">JWT Auth</span>
-                                    <span class="tech-pill">PostgreSQL</span>
-                                    <span class="tech-pill">GIS Integration</span>
-                                    <span class="tech-pill">REST APIs</span>
-                                </div>
-                            </div>
-
-                            <!-- Project 2: ERP Ecosystem -->
-                            <div class="project-item-card">
-                                <div class="project-header-row">
-                                    <div class="project-title-group">
-                                        <h3>Modular Django ERP Ecosystem</h3>
-                                        <span class="project-role-badge">Internal Systems Architecture</span>
                                     </div>
                                 </div>
-                                <ul class="project-desc-bullets">
-                                    <li>
-                                        <strong>Interactive Gantt Engine:</strong> Architected a modular Django-based
-                                        enterprise ERP ecosystem, embedding an interactive Gantt Chart resource
-                                        allocation system to monitor division employee allocations and project document
-                                        preparation pipelines.
-                                    </li>
-                                    <li>
-                                        <strong>Workflow Automation:</strong> Streamlined cross-departmental operations
-                                        and administrative project milestones with granular role-based access controls.
-                                    </li>
-                                </ul>
-                                <div class="project-tech-pills">
-                                    <span class="tech-pill">Django</span>
-                                    <span class="tech-pill">Python</span>
-                                    <span class="tech-pill">Interactive Gantt</span>
-                                    <span class="tech-pill">MySQL</span>
+                                <h4 class="card-role-title">Lead Backend & Core Developer</h4>
+                                <div class="card-role-date">Aug 2023 – Present • River Pollution Monitoring System (RPMS)</div>
+                                
+                                <div class="card-expand-body">
+                                    <div class="card-expand-inner">
+                                        <p class="card-project-desc">
+                                            Nationwide real-time river pollution monitoring platform built for the Institute of Water Modelling (IWM) to detect, report, and analyze industrial water pollution levels across river basins.
+                                        </p>
+                                        <ul class="project-desc-bullets">
+                                            <li>
+                                                <strong>Core Architecture:</strong> High-concurrency FastAPI middleware backend integrated with JWT authentication and GIS telemetry.
+                                            </li>
+                                            <li>
+                                                <strong>Live Monitoring:</strong> Water Sample Collection telemetry dashboard across multiple river stations.
+                                            </li>
+                                            <li>
+                                                <strong>Approval Workflows:</strong> Multi-level administrative verification engine for laboratory test results.
+                                            </li>
+                                        </ul>
+                                        <div class="project-tech-pills">
+                                            <span class="tech-pill">FastAPI</span>
+                                            <span class="tech-pill">Python</span>
+                                            <span class="tech-pill">PostgreSQL</span>
+                                            <span class="tech-pill">GIS Integration</span>
+                                            <span class="tech-pill">JWT Auth</span>
+                                            <span class="tech-pill">REST APIs</span>
+                                        </div>
+                                        <div>
+                                            <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="card-visit-btn" title="Open River Pollution Monitoring System Live">
+                                                <span>Visit RPMS Live ↗</span>
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;">
+                                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Project 3: Inventory System -->
-                            <div class="project-item-card">
-                                <div class="project-header-row">
-                                    <div class="project-title-group">
-                                        <h3>Synchronized Inventory & Procurement System</h3>
-                                        <span class="project-role-badge">Automated Procurement Workflow</span>
+                            <!-- Project 2: Modular Django ERP Ecosystem -->
+                            <div class="project-expand-card">
+                                <div class="card-top-bar">
+                                    <span class="card-company-tag">ENTERPRISE SYSTEMS</span>
+                                    <div class="card-chevron-btn" title="Toggle Details">
+                                        <svg class="card-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
                                     </div>
                                 </div>
-                                <ul class="project-desc-bullets">
-                                    <li>
-                                        <strong>Procurement Pipeline:</strong> Developed an automated Inventory &
-                                        Requisition System with automated internal memo routing and Comparative
-                                        Statement (CS) vendor quotation collection.
-                                    </li>
-                                    <li>
-                                        <strong>Stock Reconciliation:</strong> Implemented real-time stock
-                                        reconciliation via custom database triggers and automated transaction hooks.
-                                    </li>
-                                </ul>
-                                <div class="project-tech-pills">
-                                    <span class="tech-pill">Django</span>
-                                    <span class="tech-pill">Comparative Statement (CS)</span>
-                                    <span class="tech-pill">PostgreSQL</span>
+                                <h4 class="card-role-title">ERP Systems Architect</h4>
+                                <div class="card-role-date">2023 – 2024 • Modular Django ERP Ecosystem</div>
+
+                                <div class="card-expand-body">
+                                    <div class="card-expand-inner">
+                                        <p class="card-project-desc">
+                                            Enterprise operational ERP ecosystem streamlining cross-departmental operations, resource allocation, and administrative project milestones.
+                                        </p>
+                                        <ul class="project-desc-bullets">
+                                            <li>
+                                                <strong>Interactive Gantt Engine:</strong> Interactive Gantt Chart resource allocation to monitor division employee pipelines.
+                                            </li>
+                                            <li>
+                                                <strong>Access Control:</strong> Granular role-based access permissions and automated project document workflows.
+                                            </li>
+                                        </ul>
+                                        <div class="project-tech-pills">
+                                            <span class="tech-pill">Django</span>
+                                            <span class="tech-pill">Python</span>
+                                            <span class="tech-pill">Interactive Gantt</span>
+                                            <span class="tech-pill">MySQL</span>
+                                            <span class="tech-pill">REST APIs</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Project 4: Database Optimization -->
-                            <div class="project-item-card">
-                                <div class="project-header-row">
-                                    <div class="project-title-group">
-                                        <h3>Geospatial & Administrative Database Optimization</h3>
-                                        <span class="project-role-badge">Query Performance & Schemas</span>
+                            <!-- Project 3: Synchronized Inventory & Procurement -->
+                            <div class="project-expand-card">
+                                <div class="card-top-bar">
+                                    <span class="card-company-tag">AUTOMATION & SUPPLY</span>
+                                    <div class="card-chevron-btn" title="Toggle Details">
+                                        <svg class="card-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
                                     </div>
                                 </div>
-                                <ul class="project-desc-bullets">
-                                    <li>
-                                        Designed and normalized highly structured PostgreSQL and MySQL schemas to manage
-                                        large-scale geospatial and administrative datasets.
-                                    </li>
-                                    <li>
-                                        Engineered indexing strategies and optimized query execution plans, resulting in
-                                        significantly lower API response times across enterprise platforms.
-                                    </li>
-                                </ul>
-                                <div class="project-tech-pills">
-                                    <span class="tech-pill">PostgreSQL</span>
-                                    <span class="tech-pill">MySQL</span>
-                                    <span class="tech-pill">Geospatial Indexing</span>
+                                <h4 class="card-role-title">Backend Engineer</h4>
+                                <div class="card-role-date">2023 – 2024 • Synchronized Inventory & Procurement</div>
+
+                                <div class="card-expand-body">
+                                    <div class="card-expand-inner">
+                                        <p class="card-project-desc">
+                                            Automated Requisition & Inventory System featuring real-time stock ledger reconciliation and supplier memo routing.
+                                        </p>
+                                        <ul class="project-desc-bullets">
+                                            <li>
+                                                <strong>Procurement Pipeline:</strong> Comparative Statement (CS) quotation collection with automated approval routing.
+                                            </li>
+                                            <li>
+                                                <strong>Real-Time Ledger:</strong> Custom database transaction hooks for instantaneous stock reconciliation.
+                                            </li>
+                                        </ul>
+                                        <div class="project-tech-pills">
+                                            <span class="tech-pill">Django</span>
+                                            <span class="tech-pill">Comparative Statement (CS)</span>
+                                            <span class="tech-pill">PostgreSQL</span>
+                                            <span class="tech-pill">Triggers</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                            <!-- Project 4: Geospatial & DB Optimization -->
+                            <div class="project-expand-card">
+                                <div class="card-top-bar">
+                                    <span class="card-company-tag">DATABASE ARCHITECTURE</span>
+                                    <div class="card-chevron-btn" title="Toggle Details">
+                                        <svg class="card-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h4 class="card-role-title">Database & Systems Engineer</h4>
+                                <div class="card-role-date">2022 – 2023 • High-Scale Database Optimization</div>
+
+                                <div class="card-expand-body">
+                                    <div class="card-expand-inner">
+                                        <p class="card-project-desc">
+                                            Normalized geospatial and administrative schema design for enterprise GIS datasets with high query throughput.
+                                        </p>
+                                        <ul class="project-desc-bullets">
+                                            <li>
+                                                <strong>Index Engineering:</strong> Spatial indexing and query execution plan tuning for ultra-low API latency.
+                                            </li>
+                                            <li>
+                                                <strong>Data Integrity:</strong> High availability clustering and automated archival pipelines.
+                                            </li>
+                                        </ul>
+                                        <div class="project-tech-pills">
+                                            <span class="tech-pill">PostgreSQL</span>
+                                            <span class="tech-pill">MySQL</span>
+                                            <span class="tech-pill">Geospatial Indexing</span>
+                                            <span class="tech-pill">Query Tuning</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- End .projects-cards-grid -->
                     </div>
 
                     <!-- TAB 2: EXPERIENCE -->
@@ -2484,6 +2382,22 @@
                         </div>
 
                         <div class="hobbies-grid">
+                            <!-- Substack Writing Card -->
+                            <div class="hobby-card ripple-host" style="border-color:rgba(255,103,25,0.3); background:rgba(255,103,25,0.04);">
+                                <div class="hobby-icon-circle" style="color:#ff6719; background:rgba(255,103,25,0.16);">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;">
+                                        <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+                                    </svg>
+                                </div>
+                                <h4 class="hobby-title" style="color:#ffffff;">Substack Publication</h4>
+                                <p class="hobby-desc">
+                                    Authoring in-depth technical articles, system architecture insights, and software engineering reflections.
+                                </p>
+                                <a href="https://substack.com/@rafizimtiaz" target="_blank" rel="noopener" class="card-visit-btn" style="margin-top:10px; background:linear-gradient(135deg, #ea580c 0%, #c2410c 100%); box-shadow:0 6px 18px rgba(234,88,12,0.35);">
+                                    <span>Read on Substack ↗</span>
+                                </a>
+                            </div>
+
                             <div class="hobby-card">
                                 <div class="hobby-icon-circle">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -2506,7 +2420,7 @@
                                         <polyline points="8 6 2 12 8 18"></polyline>
                                     </svg>
                                 </div>
-                                <h4 class="hobby-title">Open-Source & Tech Exploring</h4>
+                                <h4 class="hobby-title">Open-Source Engineering</h4>
                                 <p class="hobby-desc">Experimenting with emerging backend tooling, async APIs, and
                                     database indexing strategies.</p>
                             </div>
@@ -2635,6 +2549,22 @@
                         </div>
                     </div>
 
+                    <!-- Substack Publication Channel -->
+                    <div class="contact-row-item">
+                        <div class="contact-row-icon" style="color:#ff6719; background:rgba(255,103,25,0.14);">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
+                                <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+                            </svg>
+                        </div>
+                        <div class="contact-row-meta">
+                            <span class="contact-row-label">Substack Publication</span>
+                            <a href="https://substack.com/@rafizimtiaz" target="_blank" rel="noopener"
+                                class="contact-row-value" style="font-size:13.5px; color:#ff6719; font-weight:700;">
+                                substack.com/@rafizimtiaz ↗
+                            </a>
+                        </div>
+                    </div>
+
                     <div class="contact-row-item">
                         <div class="contact-row-icon" style="color:#38bdf8; background:rgba(56,189,248,0.12);">
                             <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;">
@@ -2644,9 +2574,12 @@
                         </div>
                         <div class="contact-row-meta">
                             <span class="contact-row-label">Social & Repositories</span>
-                            <div style="display:flex; gap:12px; margin-top:3px;">
+                            <div style="display:flex; gap:12px; margin-top:3px; flex-wrap:wrap; align-items:center;">
                                 <a href="https://github.com/RafizImtiaz" target="_blank" rel="noopener"
                                     class="contact-row-value" style="font-size:13.5px;">GitHub ↗</a>
+                                <span style="color:var(--text-faint);">•</span>
+                                <a href="https://substack.com/@rafizimtiaz" target="_blank" rel="noopener"
+                                    class="contact-row-value" style="font-size:13.5px; color:#ff6719; font-weight:600;">Substack ↗</a>
                                 <span style="color:var(--text-faint);">•</span>
                                 <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-row-value"
                                     style="font-size:13.5px;">LinkedIn ↗</a>
@@ -2711,6 +2644,13 @@
         </div> <!-- End .portfolio-ambient-section -->
 
         <footer class="site-footer">
+            <div style="display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:8px; flex-wrap:wrap;">
+                <a href="https://github.com/RafizImtiaz" target="_blank" rel="noopener" style="color:var(--text-muted); text-decoration:none; font-size:12.5px; transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">GitHub</a>
+                <span style="color:var(--text-faint);">•</span>
+                <a href="https://substack.com/@rafizimtiaz" target="_blank" rel="noopener" style="color:#ff6719; text-decoration:none; font-size:12.5px; font-weight:700; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Substack</a>
+                <span style="color:var(--text-faint);">•</span>
+                <a href="https://linkedin.com" target="_blank" rel="noopener" style="color:var(--text-muted); text-decoration:none; font-size:12.5px; transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">LinkedIn</a>
+            </div>
             <div>© <span id="year-num">2026</span> Rafiz Imtiaz. All rights reserved.</div>
         </footer>
     </div>
@@ -2733,235 +2673,54 @@
         }
 
         // -------------------------------------------------------------------------- //
-        // UPGRADED COSMIC INTERACTIVE MOUSE CURSOR & STARDUST TRAIL
+        // INTERACTIVE HOVER & CLICK RIPPLE EFFECT SYSTEM
         // -------------------------------------------------------------------------- //
-        (function initUpgradedCosmicCursor() {
-            const cursorWrap = document.getElementById('custom-cursor');
-            const coreDot = cursorWrap ? cursorWrap.querySelector('.cursor-core-dot') : null;
-            const reticle = cursorWrap ? cursorWrap.querySelector('.cursor-reticle') : null;
-            const canvas = document.getElementById('cursor-trail-canvas');
-            if (!cursorWrap || !canvas) return;
+        (function initHoverRippleSystem() {
+            const rippleTargets = document.querySelectorAll(
+                '.project-expand-card, .btn-hero-primary, .btn-hero-outline, .about-tab-btn, .hobby-card, .contact-channel-card, .contact-form-panel, .contact-row-item, .copy-email-chip, .btn-submit-message, .nav-sub-btn, .card-visit-btn'
+            );
 
-            const ctx = canvas.getContext('2d');
-            let mouseX = -200, mouseY = -200;
-            let reticleX = -200, reticleY = -200;
-            let lastMouseX = -200, lastMouseY = -200;
-            let mouseSpeed = 0;
-            let isStationary = true;
-            let idleTimer = null;
+            function spawnRipple(e, el, isClick = false) {
+                const rect = el.getBoundingClientRect();
+                const ripple = document.createElement('span');
+                ripple.className = 'ripple-wave' + (isClick ? ' click-ripple' : '');
 
-            // Cosmic ribbon coordinates history
-            const trailHistory = [];
-            const MAX_TRAIL_POINTS = 16;
+                const size = Math.max(rect.width, rect.height) * 1.6;
+                ripple.style.width = size + 'px';
+                ripple.style.height = size + 'px';
 
-            // Multi-colored sparkling stardust particles
-            const sparks = [];
-            // Click shockwaves
-            const shockwaves = [];
+                const clientX = e.clientX !== undefined && e.clientX > 0 ? e.clientX : (rect.left + rect.width / 2);
+                const clientY = e.clientY !== undefined && e.clientY > 0 ? e.clientY : (rect.top + rect.height / 2);
 
-            const NEON_PALETTE = [
-                '#38bdf8', // Neon Sky Cyan
-                '#818cf8', // Electric Indigo
-                '#c084fc', // Cyber Violet
-                '#34d399', // Emerald Mint
-                '#fbbf24', // Solar Amber
-                '#ffffff'  // Pure Starlight White
-            ];
+                const x = clientX - rect.left - size / 2;
+                const y = clientY - rect.top - size / 2;
 
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resize();
-            window.addEventListener('resize', resize);
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
 
-            class StardustSpark {
-                constructor(x, y, vx, vy, isBurst = false) {
-                    this.x = x;
-                    this.y = y;
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = isBurst ? (Math.random() * 4.8 + 1.2) : (Math.random() * 2.2 + 0.4);
-                    this.vx = vx !== undefined ? vx : Math.cos(angle) * speed;
-                    this.vy = vy !== undefined ? vy : Math.sin(angle) * speed;
-                    this.alpha = 1;
-                    this.decay = isBurst ? (Math.random() * 0.025 + 0.015) : (Math.random() * 0.04 + 0.02);
-                    this.size = isBurst ? (Math.random() * 3.5 + 1.5) : (Math.random() * 2.6 + 1.2);
-                    this.color = NEON_PALETTE[Math.floor(Math.random() * NEON_PALETTE.length)];
-                    this.rotation = Math.random() * Math.PI;
-                    this.rotSpeed = (Math.random() - 0.5) * 0.2;
-                }
-                update() {
-                    this.x += this.vx;
-                    this.y += this.vy;
-                    this.vx *= 0.96;
-                    this.vy *= 0.96;
-                    this.alpha -= this.decay;
-                    this.rotation += this.rotSpeed;
-                }
-                draw(c) {
-                    c.save();
-                    c.globalAlpha = Math.max(0, this.alpha);
-                    c.fillStyle = this.color;
-                    c.shadowColor = this.color;
-                    c.shadowBlur = 8;
-                    c.translate(this.x, this.y);
-                    c.rotate(this.rotation);
-                    // Draw sparkling diamond star
-                    c.beginPath();
-                    c.moveTo(0, -this.size * 1.5);
-                    c.lineTo(this.size * 0.5, 0);
-                    c.lineTo(0, this.size * 1.5);
-                    c.lineTo(-this.size * 0.5, 0);
-                    c.closePath();
-                    c.fill();
-                    c.restore();
-                }
+                el.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 800);
             }
 
-            class ShockwaveRing {
-                constructor(x, y) {
-                    this.x = x;
-                    this.y = y;
-                    this.radius = 4;
-                    this.maxRadius = 60;
-                    this.alpha = 0.9;
-                }
-                update() {
-                    this.radius += (this.maxRadius - this.radius) * 0.16;
-                    this.alpha -= 0.035;
-                }
-                draw(c) {
-                    c.save();
-                    c.globalAlpha = Math.max(0, this.alpha);
-                    c.strokeStyle = '#38bdf8';
-                    c.lineWidth = 2.5;
-                    c.shadowColor = '#38bdf8';
-                    c.shadowBlur = 14;
-                    c.beginPath();
-                    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                    c.stroke();
-                    c.restore();
-                }
-            }
-
-            function handleMove(cx, cy) {
-                mouseX = cx;
-                mouseY = cy;
-
-                if (coreDot) {
-                    coreDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-                }
-
-                const dx = mouseX - lastMouseX;
-                const dy = mouseY - lastMouseY;
-                mouseSpeed = Math.sqrt(dx * dx + dy * dy);
-                lastMouseX = mouseX;
-                lastMouseY = mouseY;
-
-                trailHistory.unshift({ x: mouseX, y: mouseY, time: Date.now() });
-                if (trailHistory.length > MAX_TRAIL_POINTS) {
-                    trailHistory.pop();
-                }
-
-                if (Math.random() < 0.75) {
-                    const sparkVx = (Math.random() - 0.5) * 1.8 - dx * 0.12;
-                    const sparkVy = (Math.random() - 0.5) * 1.8 - dy * 0.12;
-                    sparks.push(new StardustSpark(mouseX, mouseY, sparkVx, sparkVy));
-                }
-
-                isStationary = false;
-                clearTimeout(idleTimer);
-                idleTimer = setTimeout(() => { isStationary = true; }, 300);
-            }
-
-            function handleDown(cx, cy) {
-                cursorWrap.classList.add('cursor-down');
-                shockwaves.push(new ShockwaveRing(cx, cy));
-                for (let i = 0; i < 18; i++) {
-                    sparks.push(new StardustSpark(cx, cy, undefined, undefined, true));
-                }
-            }
-
-            window.addEventListener('pointermove', (e) => handleMove(e.clientX, e.clientY));
-            window.addEventListener('touchmove', (e) => {
-                if (e.touches && e.touches[0]) handleMove(e.touches[0].clientX, e.touches[0].clientY);
-            }, { passive: true });
-
-            window.addEventListener('pointerdown', (e) => handleDown(e.clientX, e.clientY));
-            window.addEventListener('touchstart', (e) => {
-                if (e.touches && e.touches[0]) handleDown(e.touches[0].clientX, e.touches[0].clientY);
-            }, { passive: true });
-
-            window.addEventListener('pointerup', () => {
-                cursorWrap.classList.remove('cursor-down');
+            rippleTargets.forEach(el => {
+                el.classList.add('ripple-host');
+                el.addEventListener('pointerenter', (e) => spawnRipple(e, el, false));
+                el.addEventListener('pointerdown', (e) => spawnRipple(e, el, true));
             });
+        })();
 
-            // Target lock hover bindings
-            const hoverTargets = 'a, button, input, textarea, .about-tab-btn, .project-item-card, .hobby-card, .copy-email-chip, .tech-pill';
-            function bindHoverListeners() {
-                document.querySelectorAll(hoverTargets).forEach(el => {
-                    el.addEventListener('pointerenter', () => cursorWrap.classList.add('cursor-hover'));
-                    el.addEventListener('pointerleave', () => cursorWrap.classList.remove('cursor-hover'));
+        // -------------------------------------------------------------------------- //
+        // COLLAPSIBLE & EXPANDABLE PROJECTS (HOVER & MOBILE TAP)
+        // -------------------------------------------------------------------------- //
+        (function initCollapsibleProjects() {
+            const cards = document.querySelectorAll('.project-expand-card');
+            cards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Do not toggle if the user is clicking the "Visit Live" button
+                    if (e.target.closest('a')) return;
+                    card.classList.toggle('is-expanded');
                 });
-            }
-            bindHoverListeners();
-
-            // Render loop for smooth cursor reticle, ribbon, and particle physics
-            function render() {
-                // Smooth interpolation for the outer reticle
-                reticleX += (mouseX - reticleX) * 0.24;
-                reticleY += (mouseY - reticleY) * 0.24;
-
-                if (reticle) {
-                    reticle.style.transform = `translate3d(${reticleX}px, ${reticleY}px, 0) translate(-50%, -50%)`;
-                }
-
-                // Clear canvas
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                // 1. Draw glowing cosmic ribbon trail
-                if (trailHistory.length > 2) {
-                    ctx.save();
-                    for (let i = 0; i < trailHistory.length - 1; i++) {
-                        const p1 = trailHistory[i];
-                        const p2 = trailHistory[i + 1];
-                        const factor = 1 - (i / trailHistory.length);
-
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.lineWidth = factor * 4.5;
-                        ctx.lineCap = 'round';
-
-                        const grad = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
-                        grad.addColorStop(0, `rgba(56, 189, 248, ${factor * 0.6})`);
-                        grad.addColorStop(0.5, `rgba(192, 132, 252, ${factor * 0.5})`);
-                        grad.addColorStop(1, `rgba(52, 211, 153, 0)`);
-                        ctx.strokeStyle = grad;
-                        ctx.stroke();
-                    }
-                    ctx.restore();
-                }
-
-                // 2. Draw shockwaves
-                for (let i = shockwaves.length - 1; i >= 0; i--) {
-                    const sw = shockwaves[i];
-                    sw.update();
-                    sw.draw(ctx);
-                    if (sw.alpha <= 0) shockwaves.splice(i, 1);
-                }
-
-                // 3. Draw stardust sparks
-                for (let i = sparks.length - 1; i >= 0; i--) {
-                    const sp = sparks[i];
-                    sp.update();
-                    sp.draw(ctx);
-                    if (sp.alpha <= 0) sparks.splice(i, 1);
-                }
-
-                requestAnimationFrame(render);
-            }
-            requestAnimationFrame(render);
+            });
         })();
 
         // -------------------------------------------------------------------------- //
