@@ -135,608 +135,452 @@
         }
 
         /* ========================================================================== */
-        /* FAST CUSTOM INTERACTIVE MOUSE CURSOR                                       */
+        /* UPGRADED INTERACTIVE COSMIC CURSOR SYSTEM                                  */
         /* ========================================================================== */
-        #custom-cursor-dot {
+        #cursor-trail-canvas {
             position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 99990;
+        }
+
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate3d(-100px, -100px, 0);
+            transition: opacity 0.25s ease;
+        }
+
+        .cursor-core-dot {
+            position: absolute;
             top: 0;
             left: 0;
             width: 8px;
             height: 8px;
             background: #ffffff;
             border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px #ffffff, 0 0 20px var(--cursor-glow);
-            transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+            box-shadow: 0 0 10px #ffffff, 0 0 20px #38bdf8, 0 0 35px rgba(56, 189, 248, 0.85);
+            transition: transform 0.15s ease, background 0.2s ease;
         }
 
-        #custom-cursor-ring {
-            position: fixed;
+        .cursor-reticle {
+            position: absolute;
             top: 0;
             left: 0;
-            width: 36px;
-            height: 36px;
-            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            width: 38px;
+            height: 38px;
+            border: 1.5px solid rgba(56, 189, 248, 0.5);
             border-radius: 50%;
-            pointer-events: none;
-            z-index: 99998;
             transform: translate(-50%, -50%);
-            transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+            transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                height 0.25s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.22s ease,
-                background 0.22s ease;
+                background 0.22s ease,
+                box-shadow 0.22s ease,
+                transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        #custom-cursor-ring.cursor-hover {
-            width: 52px;
-            height: 52px;
-            border-color: var(--brand-cyan);
-            background: rgba(56, 189, 248, 0.08);
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
-        }
-
-        #custom-cursor-ring.cursor-down {
-            width: 28px;
-            height: 28px;
-            border-color: #818cf8;
-            background: rgba(129, 140, 248, 0.25);
-        }
-
-        #cursor-trail-canvas {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 99990;
-        }
-
-        /* ========================================================================== */
-        /* 1. GATEWAY LOGIN SHOWCASE (SHOWN FIRST ON NEW SESSION)                      */
-        /* ========================================================================== */
-        .auth-app-shell {
-            position: fixed;
-            inset: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            overflow: hidden;
-            background: var(--bg-deep);
-            z-index: 500;
-            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .auth-app-shell.unlocked-exit {
-            opacity: 0;
-            transform: scale(1.05);
-            pointer-events: none;
-        }
-
-        /* Left 460px: Auth Card Panel */
-        .auth-panel {
-            position: relative;
-            z-index: 30;
-            width: 100%;
-            max-width: 470px;
-            height: 100%;
-            overflow-y: auto;
-            background: var(--bg-card);
-            border-right: var(--panel-border-right);
-            backdrop-filter: blur(28px);
-            -webkit-backdrop-filter: blur(28px);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            padding: 34px 30px;
-            box-shadow: var(--card-shadow);
-            transition: all 0.3s ease;
-        }
-
-        .auth-panel::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .auth-panel::-webkit-scrollbar-thumb {
-            background: rgba(128, 128, 128, 0.25);
-            border-radius: 9999px;
-        }
-
-        /* Right: Interactive Physics Showcase Playground */
-        .showcase-stage-wrapper {
-            position: relative;
-            flex: 1;
-            height: 100%;
-            overflow: hidden;
-            background: var(--bg-deep);
-        }
-
-        .sp-backdrop {
+        /* 4 Futuristic Corner Target Ticks */
+        .reticle-tick {
             position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.28), transparent 45%),
-                radial-gradient(circle at 80% 70%, rgba(56, 189, 248, 0.22), transparent 45%),
-                radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.14), transparent 55%),
-                linear-gradient(145deg, #090d16 0%, #0f172a 50%, #090d16 100%);
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        [data-theme="light"] .sp-backdrop {
-            background:
-                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.12), transparent 45%),
-                radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.14), transparent 45%),
-                linear-gradient(145deg, #f8fafc 0%, #edf2f7 50%, #f1f5f9 100%);
-        }
-
-        .sp-dots {
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(circle at 1px 1px, var(--dots-color) 1px, transparent 0);
-            background-size: 32px 32px;
-            opacity: 0.6;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .sp-canvas {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .sp-stage {
-            position: absolute;
-            inset: 0;
-            z-index: 10;
-        }
-
-        /* Floating Interactive Nodes */
-        .float-node {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: var(--size, 64px);
-            height: var(--size, 64px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            will-change: transform;
-            cursor: grab;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: none;
-            z-index: 10;
-        }
-
-        .float-node.is-dragging {
-            cursor: grabbing;
-            z-index: 60 !important;
-        }
-
-        .node-chip {
-            width: 100%;
-            height: 100%;
-            border-radius: 22px;
-            border: 1px solid var(--node-chip-border);
-            background: var(--node-chip-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 12px 32px -8px var(--node-chip-shadow);
-            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.22s ease, box-shadow 0.22s ease;
-        }
-
-        .node-chip svg {
-            width: 50%;
-            height: 50%;
-            pointer-events: none;
-        }
-
-        .float-node:hover .node-chip {
-            transform: scale(1.18);
-            border-color: var(--brand-primary);
-            box-shadow: 0 20px 40px -6px var(--brand-glow);
-        }
-
-        .node-pill {
-            position: absolute;
-            bottom: calc(100% + 10px);
-            left: 50%;
-            transform: translateX(-50%) translateY(6px);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.2s ease;
-            background: var(--bg-card);
-            border: 1px solid var(--border-glass);
-            border-radius: 9999px;
-            padding: 4px 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            z-index: 80;
-        }
-
-        .float-node:hover .node-pill {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .pill-dot {
             width: 6px;
             height: 6px;
-            border-radius: 9999px;
-        }
-
-        .sp-hud-bar {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            z-index: 25;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--hud-bg);
-            border: 1px solid var(--border-glass);
-            backdrop-filter: blur(20px);
-            padding: 6px 8px;
-            border-radius: 18px;
-            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.3);
-        }
-
-        .sp-btn {
-            background: transparent;
-            border: none;
-            color: var(--hud-color);
-            font-family: inherit;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            padding: 7px 12px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .sp-btn:hover {
-            color: var(--text-main);
-            background: rgba(128, 128, 128, 0.15);
-        }
-
-        .sp-btn.active {
-            color: #fff !important;
-            background: var(--brand-primary);
-            box-shadow: 0 0 16px var(--brand-glow);
-        }
-
-        .sp-headline-block {
-            position: absolute;
-            bottom: 36px;
-            left: 36px;
-            right: 36px;
-            z-index: 20;
+            border-color: rgba(56, 189, 248, 0.8);
+            border-style: solid;
             pointer-events: none;
+            transition: all 0.25s ease;
         }
 
-        .sp-title {
-            font-size: 32px;
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            color: var(--title-color);
+        .tick-tl {
+            top: -2px;
+            left: -2px;
+            border-width: 1.5px 0 0 1.5px;
         }
 
-        .sp-title span {
-            background: linear-gradient(135deg, #818cf8 0%, #38bdf8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .tick-tr {
+            top: -2px;
+            right: -2px;
+            border-width: 1.5px 1.5px 0 0;
         }
 
-        /* Auth Panel Styles */
-        .auth-brand {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 22px;
+        .tick-br {
+            bottom: -2px;
+            right: -2px;
+            border-width: 0 1.5px 1.5px 0;
         }
 
-        .auth-brand-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .tick-bl {
+            bottom: -2px;
+            left: -2px;
+            border-width: 0 0 1.5px 1.5px;
         }
 
-        .brand-logo-badge {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #6366f1 0%, #38bdf8 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            box-shadow: 0 8px 20px -4px var(--brand-glow);
-        }
-
-        .brand-info h2 {
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        .brand-info p {
-            font-size: 11.5px;
-            color: var(--text-muted);
-        }
-
-        .theme-toggle-btn {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-        }
-
-        .theme-pill-track {
-            width: 48px;
-            height: 26px;
-            border-radius: 9999px;
-            background: var(--pill-switch-bg);
-            border: 1px solid var(--border-glass);
-            position: relative;
-            padding: 2px;
-            display: flex;
-            align-items: center;
-        }
-
-        .theme-pill-thumb {
-            width: 20px;
-            height: 20px;
+        /* Quantum Orbitals - Satellites circling the cursor */
+        .cursor-orbital {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
             border-radius: 50%;
-            background: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: translateX(0);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
-            color: #0f172a;
         }
 
-        [data-theme="light"] .theme-pill-thumb {
-            transform: translateX(22px);
-            background: #0f172a;
-            color: #ffffff;
+        .orbital-1 {
+            width: 52px;
+            height: 52px;
+            margin-top: -26px;
+            margin-left: -26px;
+            animation: orbitalSpinClockwise 3.2s linear infinite;
         }
 
-        .thumb-icon-sun,
-        .thumb-icon-moon {
-            width: 12px;
-            height: 12px;
-        }
-
-        [data-theme="dark"] .thumb-icon-sun {
-            display: none;
-        }
-
-        [data-theme="dark"] .thumb-icon-moon {
-            display: block;
-        }
-
-        [data-theme="light"] .thumb-icon-sun {
-            display: block;
-        }
-
-        [data-theme="light"] .thumb-icon-moon {
-            display: none;
-        }
-
-        /* Mode Switcher */
-        .auth-pill-switcher {
-            position: relative;
-            background: var(--pill-switch-bg);
-            border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            padding: 3px;
-            display: flex;
-            align-items: center;
-            margin-bottom: 18px;
-        }
-
-        .auth-pill-slider {
+        .orbital-1::after {
+            content: '';
             position: absolute;
-            top: 3px;
-            bottom: 3px;
-            left: 3px;
-            width: calc(50% - 3px);
-            background: var(--brand-primary);
-            border-radius: 11px;
-            box-shadow: 0 4px 14px -2px var(--brand-glow);
-            transition: transform 0.25s ease;
-            pointer-events: none;
+            top: 0;
+            left: 50%;
+            width: 4.5px;
+            height: 4.5px;
+            margin-left: -2.25px;
+            background: #38bdf8;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #38bdf8, 0 0 14px rgba(56, 189, 248, 0.85);
         }
 
-        .auth-pill-tab {
-            flex: 1;
-            position: relative;
-            z-index: 2;
-            background: transparent;
-            border: none;
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-muted);
-            padding: 8px 12px;
-            border-radius: 11px;
-            cursor: pointer;
-            text-align: center;
-            transition: color 0.2s ease;
+        .orbital-2 {
+            width: 66px;
+            height: 66px;
+            margin-top: -33px;
+            margin-left: -33px;
+            animation: orbitalSpinCounter 4.8s linear infinite;
         }
 
-        .auth-pill-tab.active {
-            color: #ffffff;
+        .orbital-2::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 4px;
+            height: 4px;
+            margin-top: -2px;
+            background: #c084fc;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #c084fc, 0 0 14px rgba(192, 132, 252, 0.85);
         }
 
-        /* QUICK ACCESS HINT BANNER */
-        .auth-hint-banner {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%);
-            border: 1.5px solid rgba(56, 189, 248, 0.4);
-            border-radius: 14px;
-            padding: 13px 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 12px;
-            box-shadow: 0 8px 24px -6px rgba(56, 189, 248, 0.2);
-            animation: hintGlow 3s infinite alternate;
+        .orbital-3 {
+            width: 80px;
+            height: 80px;
+            margin-top: -40px;
+            margin-left: -40px;
+            animation: orbitalSpinClockwise 2.6s linear infinite;
         }
 
-        @keyframes hintGlow {
+        .orbital-3::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 20%;
+            width: 3.5px;
+            height: 3.5px;
+            background: #34d399;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #34d399, 0 0 12px rgba(52, 211, 153, 0.85);
+        }
+
+        @keyframes orbitalSpinClockwise {
             0% {
-                border-color: rgba(99, 102, 241, 0.35);
+                transform: rotate(0deg);
             }
 
             100% {
-                border-color: rgba(56, 189, 248, 0.6);
-                box-shadow: 0 8px 26px -4px rgba(56, 189, 248, 0.3);
+                transform: rotate(360deg);
             }
         }
 
-        .hint-badge-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        @keyframes orbitalSpinCounter {
+            0% {
+                transform: rotate(360deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
         }
 
-        .hint-badge {
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--brand-cyan);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        /* Cursor Hover State */
+        #custom-cursor.cursor-hover .cursor-reticle {
+            width: 58px;
+            height: 58px;
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.08);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.45), inset 0 0 14px rgba(56, 189, 248, 0.18);
+            transform: translate(-50%, -50%) rotate(45deg);
         }
 
-        .hint-body-text {
-            font-size: 12.5px;
-            color: var(--text-main);
-            line-height: 1.45;
+        #custom-cursor.cursor-hover .reticle-tick {
+            border-color: #ffffff;
+            width: 8px;
+            height: 8px;
         }
 
-        .hint-body-text strong {
-            color: #38bdf8;
+        #custom-cursor.cursor-hover .cursor-core-dot {
+            transform: translate(-50%, -50%) scale(1.4);
+            background: #38bdf8;
+            box-shadow: 0 0 16px #38bdf8, 0 0 30px #ffffff;
         }
 
-        .btn-instant-enter {
-            width: 100%;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(56, 189, 248, 0.3) 100%);
-            border: 1px solid rgba(56, 189, 248, 0.45);
-            border-radius: 10px;
-            padding: 9px 12px;
-            font-family: inherit;
-            font-size: 12.5px;
-            font-weight: 800;
-            color: #ffffff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
+        #custom-cursor.cursor-hover .orbital-1 {
+            width: 72px;
+            height: 72px;
+            margin-top: -36px;
+            margin-left: -36px;
         }
 
-        .btn-instant-enter:hover {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.5) 0%, rgba(56, 189, 248, 0.5) 100%);
-            transform: translateY(-1px);
+        #custom-cursor.cursor-hover .orbital-2 {
+            width: 88px;
+            height: 88px;
+            margin-top: -44px;
+            margin-left: -44px;
         }
 
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        /* Cursor Click/Down State */
+        #custom-cursor.cursor-down .cursor-reticle {
+            width: 26px;
+            height: 26px;
+            border-color: #818cf8;
+            background: rgba(129, 140, 248, 0.35);
+            box-shadow: 0 0 20px #818cf8;
+            transform: translate(-50%, -50%) scale(0.85);
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .form-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-muted);
-        }
-
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 14px;
-            width: 16px;
-            height: 16px;
-            color: var(--text-faint);
-            pointer-events: none;
-        }
-
-        .form-input {
-            width: 100%;
-            background: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 12px;
-            padding: 11px 14px 11px 40px;
-            font-family: inherit;
-            font-size: 13px;
-            color: var(--input-color);
-            outline: none;
-            transition: all 0.2s ease;
-        }
-
-        .form-input:focus {
-            border-color: var(--border-glass-focus);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-        }
-
-        .btn-submit-primary {
-            width: 100%;
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 14px;
-            padding: 13px 20px;
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 800;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 10px 24px -4px var(--brand-glow);
-            transition: all 0.22s ease;
-            margin-top: 4px;
-        }
-
-        .btn-submit-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 30px -4px var(--brand-glow);
-            background: linear-gradient(135deg, #6d70f5 0%, #5850ec 100%);
+        #custom-cursor.cursor-down .cursor-core-dot {
+            transform: translate(-50%, -50%) scale(0.6);
         }
 
         /* ========================================================================== */
+        /* AMBIENT BACKGROUND SYSTEM FOR ABOUT ME & CONTACT SECTIONS                  */
+        /* ========================================================================== */
+        .portfolio-ambient-section {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: #080c14;
+        }
+
+        /* Interactive Ambient Constellation Canvas */
+        #ambient-cyber-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Futuristic Architectural Blueprint Matrix Dot Grid */
+        .ambient-grid-overlay {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(rgba(56, 189, 248, 0.14) 1.2px, transparent 1.2px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 32px 32px, 128px 128px, 128px 128px;
+            pointer-events: none;
+            z-index: 1;
+            mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, #000000 45%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, #000000 45%, transparent 100%);
+            opacity: 0.85;
+        }
+
+        /* Animated Floating Multicolored Aurora Nebulas */
+        .ambient-aurora-orbs {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.7;
+            mix-blend-mode: screen;
+        }
+
+        /* Cyan/Sky Aurora Orb (Top Left) */
+        .ambient-orb-1 {
+            top: 3%;
+            left: -8%;
+            width: 680px;
+            height: 680px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.24) 0%, rgba(14, 165, 233, 0.08) 45%, transparent 70%);
+            filter: blur(120px);
+            animation: floatAurora1 22s ease-in-out infinite alternate;
+        }
+
+        /* Electric Indigo/Purple Orb (Center Right) */
+        .ambient-orb-2 {
+            top: 36%;
+            right: -10%;
+            width: 740px;
+            height: 740px;
+            background: radial-gradient(circle, rgba(129, 140, 248, 0.22) 0%, rgba(99, 102, 241, 0.08) 50%, transparent 70%);
+            filter: blur(140px);
+            animation: floatAurora2 26s ease-in-out infinite alternate;
+        }
+
+        /* Vibrant Violet/Fuchsia Orb (Mid Left / About Tabs) */
+        .ambient-orb-3 {
+            top: 55%;
+            left: 5%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(192, 132, 252, 0.06) 50%, transparent 70%);
+            filter: blur(130px);
+            animation: floatAurora3 20s ease-in-out infinite alternate;
+        }
+
+        /* Deep Emerald/Mint Glow (Bottom Right / Contact) */
+        .ambient-orb-4 {
+            bottom: 2%;
+            right: 8%;
+            width: 650px;
+            height: 650px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.16) 0%, rgba(5, 150, 105, 0.05) 50%, transparent 70%);
+            filter: blur(140px);
+            animation: floatAurora4 24s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatAurora1 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(80px, 60px) scale(1.12); }
+            100% { transform: translate(-40px, 100px) scale(0.95); }
+        }
+
+        @keyframes floatAurora2 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-90px, -70px) scale(1.15); }
+            100% { transform: translate(50px, -40px) scale(0.92); }
+        }
+
+        @keyframes floatAurora3 {
+            0% { transform: translate(0, 0) scale(0.95); }
+            50% { transform: translate(60px, -50px) scale(1.1); }
+            100% { transform: translate(-50px, 40px) scale(1.05); }
+        }
+
+        @keyframes floatAurora4 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-70px, 50px) scale(1.14); }
+            100% { transform: translate(60px, -60px) scale(0.9); }
+        }
+
+        /* Luminous Glowing Section Divider Beams */
+        .section-divider-beam {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 40px 32px 10px 32px;
+        }
+
+        .beam-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.5) 50%, rgba(129, 140, 248, 0.6) 100%);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+        }
+
+        .beam-line.beam-line-rev {
+            background: linear-gradient(90deg, rgba(129, 140, 248, 0.6) 0%, rgba(56, 189, 248, 0.5) 50%, transparent 100%);
+        }
+
+        .beam-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 22px;
+            background: rgba(9, 13, 22, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--brand-cyan);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 0 24px -4px rgba(56, 189, 248, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            margin: 0 20px;
+            white-space: nowrap;
+        }
+
+        .beam-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--brand-cyan);
+            box-shadow: 0 0 8px var(--brand-cyan);
+            animation: pulseDot 1.8s infinite;
+        }
+
+        /* Enhanced Glassmorphism for About & Contact Content */
+        .site-container {
+            position: relative;
+            z-index: 5;
+        }
+
+        .about-panes-wrapper {
+            background: rgba(12, 17, 30, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.22) !important;
+            backdrop-filter: blur(24px) !important;
+            -webkit-backdrop-filter: blur(24px) !important;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px -10px rgba(56, 189, 248, 0.1) !important;
+        }
+
+        .about-tab-btn {
+            background: rgba(12, 17, 30, 0.75) !important;
+            border: 1px solid rgba(255, 255, 255, 0.09) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.18) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .about-tab-btn:hover {
+            border-color: rgba(56, 189, 248, 0.5) !important;
+            background: rgba(18, 25, 44, 0.88) !important;
+            box-shadow: 0 12px 30px -6px rgba(56, 189, 248, 0.25) !important;
+        }
+
+        .contact-channel-card,
+        .contact-form-panel {
+            background: rgba(12, 17, 30, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.22) !important;
+            backdrop-filter: blur(24px) !important;
+            -webkit-backdrop-filter: blur(24px) !important;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px -10px rgba(56, 189, 248, 0.1) !important;
+        }
+/* ========================================================================== */
         /* 2. PORTFOLIO CONTAINER                                                     */
         /* ========================================================================== */
         #portfolio-container {
@@ -1746,37 +1590,6 @@
         }
 
         @media (max-width: 900px) {
-            .auth-app-shell {
-                flex-direction: column;
-                height: auto;
-                min-height: 100vh;
-                overflow-y: auto;
-            }
-
-            .showcase-stage-wrapper {
-                height: 35vh;
-                min-height: 240px;
-                order: 1;
-            }
-
-            .auth-panel {
-                max-width: 100%;
-                border-right: none;
-                border-top: 1px solid var(--border-glass);
-                order: 2;
-                padding: 24px 20px;
-                box-shadow: none;
-            }
-
-            .sp-headline-block {
-                display: none;
-            }
-
-            .sp-hud-bar {
-                top: 14px;
-                right: 14px;
-            }
-
             .site-header {
                 padding: 16px 24px;
             }
@@ -1825,8 +1638,19 @@
     <canvas id="cursor-trail-canvas"></canvas>
 
     <!-- Custom Cursor elements -->
-    <div id="custom-cursor-dot"></div>
-    <div id="custom-cursor-ring"></div>
+    <!-- Custom Cursor with Corner Ticks and Orbitals -->
+    <div id="custom-cursor">
+        <div class="cursor-core-dot"></div>
+        <div class="cursor-reticle">
+            <span class="reticle-tick tick-tl"></span>
+            <span class="reticle-tick tick-tr"></span>
+            <span class="reticle-tick tick-br"></span>
+            <span class="reticle-tick tick-bl"></span>
+        </div>
+        <div class="cursor-orbital orbital-1"></div>
+        <div class="cursor-orbital orbital-2"></div>
+        <div class="cursor-orbital orbital-3"></div>
+    </div>
 
     <!-- Toast Notification -->
     <div id="site-toast">Message Dispatched!</div>
@@ -1912,8 +1736,37 @@
             </a>
         </section>
 
-        <!-- ABOUT ME SECTION (3 LEFT TABS: PROJECTS, EXPERIENCE, HOBBIES) -->
-        <div class="site-container" id="about">
+        <!-- ========================================================================== -->
+        <!-- AMBIENT SECTION: ABOUT ME & CONTACT WITH MULTI-COLOR AURORAS & MATRIX GRID -->
+        <!-- ========================================================================== -->
+        <div class="portfolio-ambient-section">
+            <!-- Dynamic Constellation Dust Canvas -->
+            <canvas id="ambient-cyber-canvas"></canvas>
+
+            <!-- Blueprint Matrix Grid Overlay -->
+            <div class="ambient-grid-overlay" aria-hidden="true"></div>
+
+            <!-- Floating Multicolored Aurora Nebulas -->
+            <div class="ambient-aurora-orbs" aria-hidden="true">
+                <div class="ambient-orb ambient-orb-1"></div>
+                <div class="ambient-orb ambient-orb-2"></div>
+                <div class="ambient-orb ambient-orb-3"></div>
+                <div class="ambient-orb ambient-orb-4"></div>
+            </div>
+
+            <!-- Luminous Divider Beam 1: Hero to About -->
+            <div class="section-divider-beam">
+                <div class="beam-line"></div>
+                <div class="beam-badge">
+                    <span class="beam-dot"></span>
+                    <span>ENGINEERING PROFILE & ARCHITECTURE</span>
+                    <span class="beam-dot"></span>
+                </div>
+                <div class="beam-line beam-line-rev"></div>
+            </div>
+
+            <!-- ABOUT ME SECTION (3 LEFT TABS: PROJECTS, EXPERIENCE, HOBBIES) -->
+            <div class="site-container" id="about">
             <div class="section-header-wrap">
                 <span class="section-eyebrow">
                     <span class="brand-dot"></span>
@@ -2317,8 +2170,19 @@
             </div>
         </div>
 
-        <!-- CONTACT SECTION -->
-        <div class="site-container" id="contact" style="padding-top:60px;">
+        <!-- Luminous Divider Beam 2: About to Contact -->
+            <div class="section-divider-beam">
+                <div class="beam-line"></div>
+                <div class="beam-badge">
+                    <span class="beam-dot"></span>
+                    <span>GET IN TOUCH • COLLABORATE</span>
+                    <span class="beam-dot"></span>
+                </div>
+                <div class="beam-line beam-line-rev"></div>
+            </div>
+
+            <!-- CONTACT SECTION -->
+            <div class="site-container" id="contact" style="padding-top:40px;">
             <div class="section-header-wrap">
                 <span class="section-eyebrow">
                     <span class="brand-dot"></span>
@@ -2458,6 +2322,8 @@
             </div>
         </div>
 
+        </div> <!-- End .portfolio-ambient-section -->
+
         <footer class="site-footer">
             <div>© <span id="year-num">2026</span> Rafiz Imtiaz. All rights reserved.</div>
         </footer>
@@ -2481,18 +2347,40 @@
         }
 
         // -------------------------------------------------------------------------- //
-        // FAST CUSTOM MOUSE CURSOR & SPARKLES                                        //
+        // UPGRADED COSMIC INTERACTIVE MOUSE CURSOR & STARDUST TRAIL
         // -------------------------------------------------------------------------- //
-        (function initCustomCursor() {
-            const dot = document.getElementById('custom-cursor-dot');
-            const ring = document.getElementById('custom-cursor-ring');
+        (function initUpgradedCosmicCursor() {
+            const cursorWrap = document.getElementById('custom-cursor');
+            const coreDot = cursorWrap ? cursorWrap.querySelector('.cursor-core-dot') : null;
+            const reticle = cursorWrap ? cursorWrap.querySelector('.cursor-reticle') : null;
             const canvas = document.getElementById('cursor-trail-canvas');
-            if (!dot || !ring || !canvas) return;
+            if (!cursorWrap || !canvas) return;
 
             const ctx = canvas.getContext('2d');
-            let mouseX = -100, mouseY = -100;
-            let ringX = -100, ringY = -100;
-            let particles = [];
+            let mouseX = -200, mouseY = -200;
+            let reticleX = -200, reticleY = -200;
+            let lastMouseX = -200, lastMouseY = -200;
+            let mouseSpeed = 0;
+            let isStationary = true;
+            let idleTimer = null;
+
+            // Cosmic ribbon coordinates history
+            const trailHistory = [];
+            const MAX_TRAIL_POINTS = 16;
+
+            // Multi-colored sparkling stardust particles
+            const sparks = [];
+            // Click shockwaves
+            const shockwaves = [];
+
+            const NEON_PALETTE = [
+                '#38bdf8', // Neon Sky Cyan
+                '#818cf8', // Electric Indigo
+                '#c084fc', // Cyber Violet
+                '#34d399', // Emerald Mint
+                '#fbbf24', // Solar Amber
+                '#ffffff'  // Pure Starlight White
+            ];
 
             function resize() {
                 canvas.width = window.innerWidth;
@@ -2501,63 +2389,322 @@
             resize();
             window.addEventListener('resize', resize);
 
-            class SparkParticle {
-                constructor(x, y) {
-                    this.x = x; this.y = y;
-                    const a = Math.random() * Math.PI * 2;
-                    const s = Math.random() * 2.2 + 0.5;
-                    this.vx = Math.cos(a) * s; this.vy = Math.sin(a) * s;
-                    this.alpha = 1; this.decay = Math.random() * 0.04 + 0.02;
-                    this.size = Math.random() * 2.5 + 1;
-                    this.color = Math.random() > 0.4 ? '#38bdf8' : '#ffffff';
+            class StardustSpark {
+                constructor(x, y, vx, vy, isBurst = false) {
+                    this.x = x;
+                    this.y = y;
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = isBurst ? (Math.random() * 4.8 + 1.2) : (Math.random() * 2.2 + 0.4);
+                    this.vx = vx !== undefined ? vx : Math.cos(angle) * speed;
+                    this.vy = vy !== undefined ? vy : Math.sin(angle) * speed;
+                    this.alpha = 1;
+                    this.decay = isBurst ? (Math.random() * 0.025 + 0.015) : (Math.random() * 0.04 + 0.02);
+                    this.size = isBurst ? (Math.random() * 3.5 + 1.5) : (Math.random() * 2.6 + 1.2);
+                    this.color = NEON_PALETTE[Math.floor(Math.random() * NEON_PALETTE.length)];
+                    this.rotation = Math.random() * Math.PI;
+                    this.rotSpeed = (Math.random() - 0.5) * 0.2;
                 }
-                update() { this.x += this.vx; this.y += this.vy; this.alpha -= this.decay; }
-                draw(ctx) {
-                    ctx.save();
-                    ctx.globalAlpha = Math.max(0, this.alpha);
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.vx *= 0.96;
+                    this.vy *= 0.96;
+                    this.alpha -= this.decay;
+                    this.rotation += this.rotSpeed;
+                }
+                draw(c) {
+                    c.save();
+                    c.globalAlpha = Math.max(0, this.alpha);
+                    c.fillStyle = this.color;
+                    c.shadowColor = this.color;
+                    c.shadowBlur = 8;
+                    c.translate(this.x, this.y);
+                    c.rotate(this.rotation);
+                    // Draw sparkling diamond star
+                    c.beginPath();
+                    c.moveTo(0, -this.size * 1.5);
+                    c.lineTo(this.size * 0.5, 0);
+                    c.lineTo(0, this.size * 1.5);
+                    c.lineTo(-this.size * 0.5, 0);
+                    c.closePath();
+                    c.fill();
+                    c.restore();
+                }
+            }
+
+            class ShockwaveRing {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.radius = 4;
+                    this.maxRadius = 60;
+                    this.alpha = 0.9;
+                }
+                update() {
+                    this.radius += (this.maxRadius - this.radius) * 0.16;
+                    this.alpha -= 0.035;
+                }
+                draw(c) {
+                    c.save();
+                    c.globalAlpha = Math.max(0, this.alpha);
+                    c.strokeStyle = '#38bdf8';
+                    c.lineWidth = 2.5;
+                    c.shadowColor = '#38bdf8';
+                    c.shadowBlur = 14;
+                    c.beginPath();
+                    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    c.stroke();
+                    c.restore();
                 }
             }
 
             window.addEventListener('pointermove', (e) => {
-                mouseX = e.clientX; mouseY = e.clientY;
-                dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-                if (Math.random() < 0.6) particles.push(new SparkParticle(mouseX, mouseY));
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                // Move core dot instantaneously
+                if (coreDot) {
+                    coreDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+                }
+
+                // Calculate speed
+                const dx = mouseX - lastMouseX;
+                const dy = mouseY - lastMouseY;
+                mouseSpeed = Math.sqrt(dx * dx + dy * dy);
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
+
+                // Store point for ribbon trail
+                trailHistory.unshift({ x: mouseX, y: mouseY, time: Date.now() });
+                if (trailHistory.length > MAX_TRAIL_POINTS) {
+                    trailHistory.pop();
+                }
+
+                // Emit stardust particles
+                if (Math.random() < 0.75) {
+                    const sparkVx = (Math.random() - 0.5) * 1.8 - dx * 0.12;
+                    const sparkVy = (Math.random() - 0.5) * 1.8 - dy * 0.12;
+                    sparks.push(new StardustSpark(mouseX, mouseY, sparkVx, sparkVy));
+                }
+
+                isStationary = false;
+                clearTimeout(idleTimer);
+                idleTimer = setTimeout(() => { isStationary = true; }, 300);
             });
 
             window.addEventListener('pointerdown', (e) => {
-                ring.classList.add('cursor-down');
-                for (let i = 0; i < 8; i++) particles.push(new SparkParticle(e.clientX, e.clientY));
-            });
+                cursorWrap.classList.add('cursor-down');
+                shockwaves.push(new ShockwaveRing(e.clientX, e.clientY));
 
-            window.addEventListener('pointerup', () => ring.classList.remove('cursor-down'));
-
-            document.querySelectorAll('a, button, input, textarea, .about-tab-btn').forEach(target => {
-                target.addEventListener('pointerenter', () => ring.classList.add('cursor-hover'));
-                target.addEventListener('pointerleave', () => ring.classList.remove('cursor-hover'));
-            });
-
-            function render() {
-                ringX += (mouseX - ringX) * 0.28;
-                ringY += (mouseY - ringY) * 0.28;
-                ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = particles.length - 1; i >= 0; i--) {
-                    const p = particles[i];
-                    p.update();
-                    p.draw(ctx);
-                    if (p.alpha <= 0) particles.splice(i, 1);
+                // Explode 18 firework sparks in all directions
+                for (let i = 0; i < 18; i++) {
+                    sparks.push(new StardustSpark(e.clientX, e.clientY, undefined, undefined, true));
                 }
+            });
+
+            window.addEventListener('pointerup', () => {
+                cursorWrap.classList.remove('cursor-down');
+            });
+
+            // Target lock hover bindings
+            const hoverTargets = 'a, button, input, textarea, .about-tab-btn, .project-item-card, .hobby-card, .copy-email-chip, .tech-pill';
+            function bindHoverListeners() {
+                document.querySelectorAll(hoverTargets).forEach(el => {
+                    el.addEventListener('pointerenter', () => cursorWrap.classList.add('cursor-hover'));
+                    el.addEventListener('pointerleave', () => cursorWrap.classList.remove('cursor-hover'));
+                });
+            }
+            bindHoverListeners();
+
+            // Render loop for smooth cursor reticle, ribbon, and particle physics
+            function render() {
+                // Smooth interpolation for the outer reticle
+                reticleX += (mouseX - reticleX) * 0.24;
+                reticleY += (mouseY - reticleY) * 0.24;
+
+                if (reticle) {
+                    reticle.style.transform = `translate3d(${reticleX}px, ${reticleY}px, 0) translate(-50%, -50%)`;
+                }
+
+                // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // 1. Draw glowing cosmic ribbon trail
+                if (trailHistory.length > 2) {
+                    ctx.save();
+                    for (let i = 0; i < trailHistory.length - 1; i++) {
+                        const p1 = trailHistory[i];
+                        const p2 = trailHistory[i + 1];
+                        const factor = 1 - (i / trailHistory.length);
+
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.lineWidth = factor * 4.5;
+                        ctx.lineCap = 'round';
+
+                        const grad = ctx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
+                        grad.addColorStop(0, `rgba(56, 189, 248, ${factor * 0.6})`);
+                        grad.addColorStop(0.5, `rgba(192, 132, 252, ${factor * 0.5})`);
+                        grad.addColorStop(1, `rgba(52, 211, 153, 0)`);
+                        ctx.strokeStyle = grad;
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                }
+
+                // 2. Draw shockwaves
+                for (let i = shockwaves.length - 1; i >= 0; i--) {
+                    const sw = shockwaves[i];
+                    sw.update();
+                    sw.draw(ctx);
+                    if (sw.alpha <= 0) shockwaves.splice(i, 1);
+                }
+
+                // 3. Draw stardust sparks
+                for (let i = sparks.length - 1; i >= 0; i--) {
+                    const sp = sparks[i];
+                    sp.update();
+                    sp.draw(ctx);
+                    if (sp.alpha <= 0) sparks.splice(i, 1);
+                }
+
                 requestAnimationFrame(render);
             }
             requestAnimationFrame(render);
         })();
 
+        // -------------------------------------------------------------------------- //
+        // AMBIENT CYBER CONSTELLATION CANVAS (ABOUT ME & CONTACT BACKGROUND)         //
+        // -------------------------------------------------------------------------- //
+        (function initAmbientCyberCanvas() {
+            const canvas = document.getElementById('ambient-cyber-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let w = 0, h = 0;
+            let particles = [];
+            let cursorSecX = -999, cursorSecY = -999;
+
+            function resize() {
+                const parent = canvas.parentElement;
+                w = parent.offsetWidth;
+                h = parent.offsetHeight;
+                canvas.width = w;
+                canvas.height = h;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            class CyberParticle {
+                constructor() {
+                    this.reset(true);
+                }
+                reset(init = false) {
+                    this.x = Math.random() * w;
+                    this.y = init ? Math.random() * h : (Math.random() < 0.5 ? -10 : h + 10);
+                    this.baseVx = (Math.random() - 0.5) * 0.45;
+                    this.baseVy = (Math.random() - 0.5) * 0.45;
+                    this.vx = this.baseVx;
+                    this.vy = this.baseVy;
+                    this.radius = Math.random() * 2.2 + 1;
+                    this.alpha = Math.random() * 0.45 + 0.2;
+                    this.pulseSpeed = Math.random() * 0.02 + 0.01;
+                    this.color = Math.random() > 0.45 ? '#38bdf8' : (Math.random() > 0.5 ? '#818cf8' : '#34d399');
+                }
+                update() {
+                    // Interaction with cursor
+                    const dx = this.x - cursorSecX;
+                    const dy = this.y - cursorSecY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const pushDist = 120;
+
+                    if (dist < pushDist && dist > 0) {
+                        const force = (1 - dist / pushDist) * 3.5;
+                        this.vx += (dx / dist) * force;
+                        this.vy += (dy / dist) * force;
+                    }
+
+                    // Damping back to normal drift
+                    this.vx += (this.baseVx - this.vx) * 0.05;
+                    this.vy += (this.baseVy - this.vy) * 0.05;
+
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // Bounds wrap
+                    if (this.x < -20) this.x = w + 20;
+                    else if (this.x > w + 20) this.x = -20;
+                    if (this.y < -20) this.y = h + 20;
+                    else if (this.y > h + 20) this.y = -20;
+
+                    this.alpha += Math.sin(Date.now() * this.pulseSpeed * 0.05) * 0.01;
+                }
+                draw(c) {
+                    c.save();
+                    c.globalAlpha = Math.max(0.1, Math.min(0.8, this.alpha));
+                    c.fillStyle = this.color;
+                    c.shadowColor = this.color;
+                    c.shadowBlur = 8;
+                    c.beginPath();
+                    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    c.fill();
+                    c.restore();
+                }
+            }
+
+            // Create 50 subtle cyber motes
+            for (let i = 0; i < 50; i++) {
+                particles.push(new CyberParticle());
+            }
+
+            // Track cursor relative to ambient canvas
+            window.addEventListener('pointermove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                cursorSecX = e.clientX - rect.left;
+                cursorSecY = e.clientY - rect.top;
+            });
+
+            function loop() {
+                ctx.clearRect(0, 0, w, h);
+
+                // Draw faint constellation lines between nearby particles
+                const maxLineDist = 100;
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const pi = particles[i];
+                        const pj = particles[j];
+                        const dx = pi.x - pj.x;
+                        const dy = pi.y - pj.y;
+                        const d = Math.sqrt(dx * dx + dy * dy);
+
+                        if (d < maxLineDist) {
+                            const lineAlpha = (1 - d / maxLineDist) * 0.18;
+                            ctx.save();
+                            ctx.globalAlpha = lineAlpha;
+                            ctx.strokeStyle = '#38bdf8';
+                            ctx.lineWidth = 0.8;
+                            ctx.beginPath();
+                            ctx.moveTo(pi.x, pi.y);
+                            ctx.lineTo(pj.x, pj.y);
+                            ctx.stroke();
+                            ctx.restore();
+                        }
+                    }
+                }
+
+                // Draw particles
+                particles.forEach(p => {
+                    p.update();
+                    p.draw(ctx);
+                });
+
+                requestAnimationFrame(loop);
+            }
+            requestAnimationFrame(loop);
+        })();
+
+        // -------------------------------------------------------------------------- //
+        // DYNAMIC HERO DRIFTING MIST / PARTICLES
         // -------------------------------------------------------------------------- //
         // DYNAMIC HERO DRIFTING MIST / PARTICLES                                     //
         // -------------------------------------------------------------------------- //
