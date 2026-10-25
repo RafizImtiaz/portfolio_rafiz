@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fury's Paradise | Authentication & Interactive Showcase</title>
+    <title>Rafiz's Portfolio | Authentication & Interactive Showcase</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -1112,8 +1112,8 @@
                         </svg>
                     </div>
                     <div class="brand-info">
-                        <h2>Fury's Paradise</h2>
-                        <p>Exclusive Workspace & Access</p>
+                        <h2>Rafiz's Portfolio</h2>
+                        <p>Interactive Gateway & Showcase</p>
                     </div>
                 </div>
 
@@ -1140,24 +1140,42 @@
             <!-- ================================================================== -->
             <div class="auth-view-panel" data-auth-view="login">
                 <div class="view-header">
-                    <h3>Welcome back</h3>
-                    <p>Enter your credentials to access your workspace and fleet telemetry.</p>
+                    <h3>Welcome Explorer</h3>
+                    <p>Enter to unlock Rafiz Imtiaz's portfolio and architecture projects.</p>
+                </div>
+
+                <!-- QUICK ACCESS HINT BANNER -->
+                <div class="auth-hint-banner" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%); border: 1.5px solid rgba(56, 189, 248, 0.4); border-radius: 14px; padding: 13px 15px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 6px; box-shadow: 0 8px 24px -6px rgba(56, 189, 248, 0.2);">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-cyan); display: flex; align-items: center; gap: 6px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px;"><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+                            Quick Access Hint
+                        </span>
+                        <span class="sp-ping-dot" style="width:6px;height:6px;"></span>
+                    </div>
+                    <p style="font-size: 12.5px; color: var(--text-main); line-height: 1.45;">
+                        Simply tap <strong style="color: #38bdf8;">Sign In</strong> below (no credentials needed) to enter Rafiz's Portfolio directly!
+                    </p>
+                    <button type="button" id="btn-quick-instant-enter" style="width: 100%; background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(56, 189, 248, 0.3) 100%); border: 1px solid rgba(56, 189, 248, 0.45); border-radius: 10px; padding: 9px 12px; font-family: inherit; font-size: 12.5px; font-weight: 800; color: #ffffff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:15px;height:15px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
+                        <span>Instant Enter ⚡</span>
+                    </button>
                 </div>
 
                 <form id="auth-login-form" class="auth-form">
                     <div class="form-group">
-                        <label class="form-label" for="login-username">Username or Email</label>
+                        <label class="form-label" for="login-username">Username or Email (Optional)</label>
                         <div class="input-wrapper">
                             <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                            <input class="form-input" type="text" id="login-username" name="username" placeholder="alex@example.com" required autocomplete="username">
+                            <input class="form-input" type="text" id="login-username" name="username" placeholder="e.g. guest or leave blank" autocomplete="username">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="login-password">Password</label>
+                        <label class="form-label" for="login-password">Password (Optional)</label>
                         <div class="input-wrapper">
                             <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                            <input class="form-input" type="password" id="login-password" name="password" placeholder="••••••••" required autocomplete="current-password">
+                            <input class="form-input" type="password" id="login-password" name="password" placeholder="•••••••• (optional)" autocomplete="current-password">
                             <button type="button" class="password-toggle-btn" data-target-input="login-password" title="Show or hide password">
                                 <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                 <svg class="icon-eye-off" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
@@ -1173,8 +1191,8 @@
                         <button type="button" class="link-btn" data-auth-target="reset">Forgot password?</button>
                     </div>
 
-                    <button type="submit" class="btn-submit-primary">
-                        <span>Sign In</span>
+                    <button type="submit" class="btn-submit-primary" id="btn-login-submit">
+                        <span>Sign In to Portfolio</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                     </button>
 
@@ -1331,9 +1349,9 @@
                     <span class="sp-ping-dot"></span>
                     <span>Interactive Constellation Mesh</span>
                 </div>
-                <h1 class="sp-title">Fury's <span>Paradise</span></h1>
+                <h1 class="sp-title">Rafiz Imtiaz <span>Portfolio Gateway</span></h1>
                 <p class="sp-description">
-                    Drag, throw and collide interactive aesthetic nodes. Click anywhere on space to propagate kinetic shockwaves.
+                    Drag, throw and collide interactive aesthetic nodes. Click anywhere on space to propagate kinetic shockwaves. Tap Sign In to enter.
                 </p>
             </div>
         </main>
@@ -1831,10 +1849,10 @@
                         radius: size * 0.55,
                         x,
                         y,
-                        vx: rand(-0.6, 0.6),
-                        vy: rand(-0.6, 0.6),
-                        rot: rand(-8, 8),
-                        vrot: rand(-0.2, 0.2),
+                        vx: rand(-1.6, 1.6),
+                        vy: rand(-1.6, 1.6),
+                        rot: rand(-12, 12),
+                        vrot: rand(-0.4, 0.4),
                         isDragging: false,
                         dragOffset: { x: 0, y: 0 },
                         recentMoves: [],
@@ -1900,10 +1918,10 @@
                         const dy = last.y - first.y;
 
                         const speed = Math.hypot(dx, dy);
-                        if (speed > 8) {
-                            node.vx = clamp((dx / dt) * 11, -16, 16);
-                            node.vy = clamp((dy / dt) * 11, -16, 16);
-                            node.vrot = clamp((dx / dt) * 6, -8, 8);
+                        if (speed > 5) {
+                            node.vx = clamp((dx / dt) * 14, -18, 18);
+                            node.vy = clamp((dy / dt) * 14, -18, 18);
+                            node.vrot = clamp((dx / dt) * 8, -10, 10);
                             this.sfx.playPop(640, 0.15);
                         } else {
                             el.classList.add('popping');
@@ -1942,7 +1960,7 @@
                 const padX = isMobile ? 24 : 36;
                 const padTop = isMobile ? 24 : 36;
                 const padBottom = isMobile ? 24 : 48;
-                const friction = this.zeroGMode ? 0.994 : this.friction;
+                const friction = this.zeroGMode ? 0.998 : 0.99;
 
                 const targetGatherX = this.pointer.isOver ? this.pointer.x : this.width / 2;
                 const targetGatherY = this.pointer.isOver ? this.pointer.y : this.height / 2;
@@ -1963,48 +1981,63 @@
                     }
 
                     if (this.pointer.isOver && !this.isGathering) {
-                        const dx = node.x - this.pointer.x;
-                        const dy = node.y - this.pointer.y;
+                        const dx = (node.x + node.radius) - this.pointer.x;
+                        const dy = (node.y + node.radius) - this.pointer.y;
                         const dist = Math.hypot(dx, dy);
-                        const repulseDist = isMobile ? 70 : 110;
+                        const repulseDist = isMobile ? 90 : 150;
                         if (dist < repulseDist && dist > 1) {
-                            const force = (1 - dist / repulseDist) * 1.1;
+                            const force = (1 - dist / repulseDist) * 2.6;
                             node.vx += (dx / dist) * force;
                             node.vy += (dy / dist) * force;
                         }
                     }
 
-                    // Calm, slow ambient drift
-                    const driftFreq = 0.5;
-                    node.vx += Math.cos(timeSec * driftFreq + node.seed) * 0.022;
-                    node.vy += Math.sin(timeSec * driftFreq + node.seed * 1.25) * 0.022;
+                    // Continuous lively organic harmonic wander force
+                    const driftFreq = 0.75;
+                    const driftX = Math.cos(timeSec * driftFreq + node.seed) * 0.16 + Math.sin(timeSec * 0.35 + node.seed * 2) * 0.10;
+                    const driftY = Math.sin(timeSec * driftFreq + node.seed * 1.35) * 0.16 + Math.cos(timeSec * 0.4 + node.seed) * 0.10;
+
+                    node.vx += driftX;
+                    node.vy += driftY;
+                    node.rot += Math.sin(timeSec * 0.5 + node.seed) * 0.35;
+
+                    // Speed regulation: maintain a lively floating speed
+                    const currentSpeed = Math.hypot(node.vx, node.vy);
+                    if (currentSpeed > 6.0) {
+                        node.vx *= 0.95;
+                        node.vy *= 0.95;
+                    } else if (currentSpeed > 2.6) {
+                        node.vx *= friction;
+                        node.vy *= friction;
+                    } else if (currentSpeed < 0.9) {
+                        const wanderAngle = (timeSec * 0.6 + node.seed * 1.7) % (Math.PI * 2);
+                        node.vx += Math.cos(wanderAngle) * 0.35;
+                        node.vy += Math.sin(wanderAngle) * 0.35;
+                    }
 
                     node.x += node.vx * this.speedMultiplier;
                     node.y += node.vy * this.speedMultiplier;
                     node.rot += node.vrot * this.speedMultiplier;
+                    node.vrot *= 0.98;
 
-                    node.vx *= friction;
-                    node.vy *= friction;
-                    node.vrot *= friction;
-
-                    // Wall Bounds
+                    // Wall Bounds with elastic restitution
                     const minX = padX;
-                    const maxX = this.width - padX;
+                    const maxX = this.width - padX - (node.size * 0.85);
                     const minY = padTop;
-                    const maxY = this.height - padBottom;
-                    const restitution = 0.72;
+                    const maxY = this.height - padBottom - (node.size * 0.85);
+                    const restitution = 0.88;
 
                     if (node.x < minX) {
                         node.x = minX;
                         const hit = Math.abs(node.vx);
                         node.vx = Math.abs(node.vx) * restitution;
-                        node.vrot += rand(-2, 2);
+                        node.vrot += rand(-1.5, 1.5);
                         this.sfx.playBounce(hit);
                     } else if (node.x > maxX) {
                         node.x = maxX;
                         const hit = Math.abs(node.vx);
                         node.vx = -Math.abs(node.vx) * restitution;
-                        node.vrot += rand(-2, 2);
+                        node.vrot += rand(-1.5, 1.5);
                         this.sfx.playBounce(hit);
                     }
 
@@ -2012,26 +2045,26 @@
                         node.y = minY;
                         const hit = Math.abs(node.vy);
                         node.vy = Math.abs(node.vy) * restitution;
-                        node.vrot += rand(-2, 2);
+                        node.vrot += rand(-1.5, 1.5);
                         this.sfx.playBounce(hit);
                     } else if (node.y > maxY) {
                         node.y = maxY;
                         const hit = Math.abs(node.vy);
                         node.vy = -Math.abs(node.vy) * restitution;
-                        node.vrot += rand(-2, 2);
+                        node.vrot += rand(-1.5, 1.5);
                         this.sfx.playBounce(hit);
                     }
 
-                    // Inter-node repulsion
+                    // Inter-node repulsion / elastic bounce
                     for (let j = 0; j < this.nodes.length; j++) {
                         const other = this.nodes[j];
                         if (other === node) continue;
                         const ndx = other.x - node.x;
                         const ndy = other.y - node.y;
                         const ndist = Math.hypot(ndx, ndy) || 1;
-                        const minDist = (node.radius + other.radius) * 0.82;
+                        const minDist = (node.radius + other.radius) * 0.95;
                         if (ndist < minDist) {
-                            const overlap = (minDist - ndist) * 0.05;
+                            const overlap = (minDist - ndist) * 0.08;
                             node.vx -= (ndx / ndist) * overlap;
                             node.vy -= (ndy / ndist) * overlap;
                         }
@@ -2361,10 +2394,13 @@
 
             defaultSubmitHandler({ type, data }) {
                 return new Promise((resolve) => {
+                    sessionStorage.setItem('rafiz_session_auth', 'true');
                     setTimeout(() => {
-                        console.log(`[Fury's Paradise] Form submitted (${type}):`, data);
-                        resolve({ success: true, message: `${type === 'login' ? 'Signed in' : 'Account created'} successfully!` });
-                    }, 800);
+                        resolve({ success: true, message: `Welcome! Unlocking Rafiz Imtiaz Portfolio...` });
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 400);
+                    }, 350);
                 });
             }
 
@@ -2390,17 +2426,51 @@
         document.addEventListener('DOMContentLoaded', () => {
             const auth = new AuthManager({
                 container: '#auth-container',
-                initialMode: 'login'
+                initialMode: 'login',
+                onSubmit: ({ type, data }) => {
+                    return new Promise((resolve) => {
+                        sessionStorage.setItem('rafiz_session_auth', 'true');
+                        resolve({ success: true, message: 'Signed in! Unlocking Rafiz Imtiaz Portfolio...' });
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 350);
+                    });
+                }
             });
 
             const playground = new ShowcasePlayground({
                 containerId: 'showcase-playground',
-                speedMultiplier: 0.65,
-                friction: 0.985,
+                speedMultiplier: 1.0,
+                friction: 0.99,
                 itemCount: 14
             });
 
             const themeManager = new ThemeManager(playground);
+
+            // Hook Instant Enter button
+            const instantBtn = document.getElementById('btn-quick-instant-enter');
+            if (instantBtn) {
+                instantBtn.addEventListener('click', () => {
+                    sessionStorage.setItem('rafiz_session_auth', 'true');
+                    if (playground && playground.sfx) playground.sfx.playChime();
+                    auth.showToast('Unlocking Rafiz Imtiaz Portfolio...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 350);
+                });
+            }
+
+            // Hook Social buttons
+            document.querySelectorAll('.social-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    sessionStorage.setItem('rafiz_session_auth', 'true');
+                    if (playground && playground.sfx) playground.sfx.playChime();
+                    auth.showToast('Authenticating with provider... Entering portfolio!', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 350);
+                });
+            });
         });
     </script>
 </body>

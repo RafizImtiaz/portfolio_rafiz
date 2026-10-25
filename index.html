@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rafiz Imtiaz | Software Engineer & Interactive Portfolio</title>
-    <meta name="description" content="Portfolio of Rafiz Imtiaz — Software Engineer specializing in backend APIs, FastAPI, Django, Laravel, PostgreSQL, and scalable system design.">
-    
+    <meta name="description"
+        content="Portfolio of Rafiz Imtiaz — Software Engineer specializing in backend APIs, FastAPI, Django, Laravel, PostgreSQL, and scalable system design.">
+
+    <script>
+        // Gatekeeper: If no active session, redirect to showcase_playground.html
+        if (!sessionStorage.getItem('rafiz_session_auth')) {
+            window.location.replace('showcase_playground.html');
+        }
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <style>
         /* ========================================================================== */
         /* RESET & CSS VARIABLES                                                      */
         /* ========================================================================== */
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -110,7 +123,13 @@
         }
 
         @media (pointer: fine) {
-            body, a, button, input, textarea, select {
+
+            body,
+            a,
+            button,
+            input,
+            textarea,
+            select {
                 cursor: none !important;
             }
         }
@@ -145,9 +164,9 @@
             z-index: 99998;
             transform: translate(-50%, -50%);
             transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                        height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                        border-color 0.22s ease,
-                        background 0.22s ease;
+                height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.22s ease,
+                background 0.22s ease;
         }
 
         #custom-cursor-ring.cursor-hover {
@@ -213,8 +232,14 @@
             transition: all 0.3s ease;
         }
 
-        .auth-panel::-webkit-scrollbar { width: 5px; }
-        .auth-panel::-webkit-scrollbar-thumb { background: rgba(128, 128, 128, 0.25); border-radius: 9999px; }
+        .auth-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .auth-panel::-webkit-scrollbar-thumb {
+            background: rgba(128, 128, 128, 0.25);
+            border-radius: 9999px;
+        }
 
         /* Right: Interactive Physics Showcase Playground */
         .showcase-stage-wrapper {
@@ -288,7 +313,10 @@
             z-index: 10;
         }
 
-        .float-node.is-dragging { cursor: grabbing; z-index: 60 !important; }
+        .float-node.is-dragging {
+            cursor: grabbing;
+            z-index: 60 !important;
+        }
 
         .node-chip {
             width: 100%;
@@ -336,9 +364,16 @@
             z-index: 80;
         }
 
-        .float-node:hover .node-pill { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .float-node:hover .node-pill {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
 
-        .pill-dot { width: 6px; height: 6px; border-radius: 9999px; }
+        .pill-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 9999px;
+        }
 
         .sp-hud-bar {
             position: absolute;
@@ -374,8 +409,16 @@
             transition: all 0.2s ease;
         }
 
-        .sp-btn:hover { color: var(--text-main); background: rgba(128, 128, 128, 0.15); }
-        .sp-btn.active { color: #fff !important; background: var(--brand-primary); box-shadow: 0 0 16px var(--brand-glow); }
+        .sp-btn:hover {
+            color: var(--text-main);
+            background: rgba(128, 128, 128, 0.15);
+        }
+
+        .sp-btn.active {
+            color: #fff !important;
+            background: var(--brand-primary);
+            box-shadow: 0 0 16px var(--brand-glow);
+        }
 
         .sp-headline-block {
             position: absolute;
@@ -473,11 +516,27 @@
             color: #ffffff;
         }
 
-        .thumb-icon-sun, .thumb-icon-moon { width: 12px; height: 12px; }
-        [data-theme="dark"] .thumb-icon-sun { display: none; }
-        [data-theme="dark"] .thumb-icon-moon { display: block; }
-        [data-theme="light"] .thumb-icon-sun { display: block; }
-        [data-theme="light"] .thumb-icon-moon { display: none; }
+        .thumb-icon-sun,
+        .thumb-icon-moon {
+            width: 12px;
+            height: 12px;
+        }
+
+        [data-theme="dark"] .thumb-icon-sun {
+            display: none;
+        }
+
+        [data-theme="dark"] .thumb-icon-moon {
+            display: block;
+        }
+
+        [data-theme="light"] .thumb-icon-sun {
+            display: block;
+        }
+
+        [data-theme="light"] .thumb-icon-moon {
+            display: none;
+        }
 
         /* Mode Switcher */
         .auth-pill-switcher {
@@ -521,7 +580,9 @@
             transition: color 0.2s ease;
         }
 
-        .auth-pill-tab.active { color: #ffffff; }
+        .auth-pill-tab.active {
+            color: #ffffff;
+        }
 
         /* QUICK ACCESS HINT BANNER */
         .auth-hint-banner {
@@ -538,8 +599,14 @@
         }
 
         @keyframes hintGlow {
-            0% { border-color: rgba(99, 102, 241, 0.35); }
-            100% { border-color: rgba(56, 189, 248, 0.6); box-shadow: 0 8px 26px -4px rgba(56, 189, 248, 0.3); }
+            0% {
+                border-color: rgba(99, 102, 241, 0.35);
+            }
+
+            100% {
+                border-color: rgba(56, 189, 248, 0.6);
+                box-shadow: 0 8px 26px -4px rgba(56, 189, 248, 0.3);
+            }
         }
 
         .hint-badge-row {
@@ -565,7 +632,9 @@
             line-height: 1.45;
         }
 
-        .hint-body-text strong { color: #38bdf8; }
+        .hint-body-text strong {
+            color: #38bdf8;
+        }
 
         .btn-instant-enter {
             width: 100%;
@@ -668,21 +737,15 @@
         }
 
         /* ========================================================================== */
-        /* 2. PORTFOLIO CONTAINER (SHOWN AFTER LOGIN)                                 */
+        /* 2. PORTFOLIO CONTAINER                                                     */
         /* ========================================================================== */
         #portfolio-container {
-            display: none;
+            display: block;
             min-height: 100vh;
             width: 100%;
             position: relative;
             background: var(--bg-deep);
             color: var(--text-main);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        #portfolio-container.active {
-            display: block;
             opacity: 1;
         }
 
@@ -730,8 +793,17 @@
         }
 
         @keyframes pulseDot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.4); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(1.4);
+            }
         }
 
         .nav-menu {
@@ -842,8 +914,15 @@
         }
 
         @keyframes heroFadeIn {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .avatar-ring-container {
@@ -862,8 +941,15 @@
         }
 
         @keyframes avatarPulse {
-            0% { transform: scale(0.96); opacity: 0.5; }
-            100% { transform: scale(1.08); opacity: 0.9; }
+            0% {
+                transform: scale(0.96);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1.08);
+                opacity: 0.9;
+            }
         }
 
         .avatar-frame {
@@ -921,7 +1007,18 @@
             animation: blink 0.9s infinite;
         }
 
-        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
 
         .hero-action-buttons {
             display: flex;
@@ -1022,9 +1119,19 @@
         }
 
         @keyframes scrollWheel {
-            0% { opacity: 0; transform: translateX(-50%) translateY(0); }
-            40% { opacity: 1; }
-            100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(12px);
+            }
         }
 
         /* ABOUT ME SECTION WITH 3 LEFT TABS */
@@ -1155,7 +1262,10 @@
             box-shadow: 0 4px 16px var(--brand-glow);
         }
 
-        .about-tab-btn.active .tab-arrow-icon { opacity: 1; transform: translateX(0); }
+        .about-tab-btn.active .tab-arrow-icon {
+            opacity: 1;
+            transform: translateX(0);
+        }
 
         .about-panes-wrapper {
             background: var(--bg-card);
@@ -1174,11 +1284,20 @@
             animation: paneFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .tab-pane.active { display: flex; }
+        .tab-pane.active {
+            display: flex;
+        }
 
         @keyframes paneFadeIn {
-            0% { opacity: 0; transform: translateY(16px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* PROJECTS LIST */
@@ -1342,8 +1461,17 @@
             text-transform: uppercase;
         }
 
-        .exp-role-title { font-size: 18px; font-weight: 800; color: #ffffff; }
-        .exp-company-sub { font-size: 14px; font-weight: 600; color: var(--text-muted); }
+        .exp-role-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .exp-company-sub {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
 
         .exp-details-list {
             list-style: none;
@@ -1411,8 +1539,17 @@
             justify-content: center;
         }
 
-        .hobby-title { font-size: 17px; font-weight: 800; color: #ffffff; }
-        .hobby-desc { font-size: 13.5px; color: var(--text-muted); line-height: 1.55; }
+        .hobby-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .hobby-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
 
         /* CONTACT SECTION */
         .contact-layout-grid {
@@ -1450,10 +1587,29 @@
             flex-shrink: 0;
         }
 
-        .contact-row-meta { display: flex; flex-direction: column; }
-        .contact-row-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); }
-        .contact-row-value { font-size: 15px; font-weight: 700; color: #ffffff; text-decoration: none; }
-        .contact-row-value:hover { color: var(--brand-cyan); }
+        .contact-row-meta {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-row-label {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-faint);
+        }
+
+        .contact-row-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .contact-row-value:hover {
+            color: var(--brand-cyan);
+        }
 
         .copy-email-chip {
             margin-top: 6px;
@@ -1489,10 +1645,20 @@
             backdrop-filter: blur(20px);
         }
 
-        .form-group-wrap { display: flex; flex-direction: column; gap: 6px; }
-        .form-input-label { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+        .form-group-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
 
-        .form-control-input, .form-control-textarea {
+        .form-input-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .form-control-input,
+        .form-control-textarea {
             width: 100%;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-glass);
@@ -1505,9 +1671,13 @@
             transition: all 0.2s ease;
         }
 
-        .form-control-textarea { min-height: 120px; resize: vertical; }
+        .form-control-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
 
-        .form-control-input:focus, .form-control-textarea:focus {
+        .form-control-input:focus,
+        .form-control-textarea:focus {
             border-color: var(--brand-cyan);
             background: rgba(255, 255, 255, 0.07);
             box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
@@ -1576,22 +1746,79 @@
         }
 
         @media (max-width: 900px) {
-            .auth-app-shell { flex-direction: column; height: auto; min-height: 100vh; overflow-y: auto; }
-            .showcase-stage-wrapper { height: 35vh; min-height: 240px; order: 1; }
-            .auth-panel { max-width: 100%; border-right: none; border-top: 1px solid var(--border-glass); order: 2; padding: 24px 20px; box-shadow: none; }
-            .sp-headline-block { display: none; }
-            .sp-hud-bar { top: 14px; right: 14px; }
-            .site-header { padding: 16px 24px; }
-            .site-header.scrolled { padding: 14px 24px; }
-            .nav-menu { gap: 18px; }
-            .about-split-layout { grid-template-columns: 1fr; }
-            .about-tabs-nav { position: static; flex-direction: row; overflow-x: auto; padding-bottom: 8px; }
-            .about-tab-btn { flex: 1; min-width: 170px; padding: 14px 16px; }
-            .contact-layout-grid { grid-template-columns: 1fr; }
-            .site-footer { flex-direction: column; gap: 14px; text-align: center; }
+            .auth-app-shell {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+            }
+
+            .showcase-stage-wrapper {
+                height: 35vh;
+                min-height: 240px;
+                order: 1;
+            }
+
+            .auth-panel {
+                max-width: 100%;
+                border-right: none;
+                border-top: 1px solid var(--border-glass);
+                order: 2;
+                padding: 24px 20px;
+                box-shadow: none;
+            }
+
+            .sp-headline-block {
+                display: none;
+            }
+
+            .sp-hud-bar {
+                top: 14px;
+                right: 14px;
+            }
+
+            .site-header {
+                padding: 16px 24px;
+            }
+
+            .site-header.scrolled {
+                padding: 14px 24px;
+            }
+
+            .nav-menu {
+                gap: 18px;
+            }
+
+            .about-split-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .about-tabs-nav {
+                position: static;
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+
+            .about-tab-btn {
+                flex: 1;
+                min-width: 170px;
+                padding: 14px 16px;
+            }
+
+            .contact-layout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .site-footer {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- Canvas for dynamic sparkle cursor trail -->
@@ -1605,106 +1832,7 @@
     <div id="site-toast">Message Dispatched!</div>
 
     <!-- ========================================================================== -->
-    <!-- 1. GATEWAY LOGIN SHOWCASE (FIRST VIEW PER SESSION)                         -->
-    <!-- ========================================================================== -->
-    <div class="auth-app-shell" id="auth-app-shell">
-        <aside class="auth-panel" id="auth-container">
-            <!-- Brand Header -->
-            <div class="auth-brand">
-                <div class="auth-brand-left">
-                    <div class="brand-logo-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
-                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                            <polyline points="2 17 12 22 22 17"></polyline>
-                            <polyline points="2 12 12 17 22 12"></polyline>
-                        </svg>
-                    </div>
-                    <div class="brand-info">
-                        <h2>Rafiz's Portfolio</h2>
-                        <p>Interactive Gateway & Showcase</p>
-                    </div>
-                </div>
-
-                <!-- Theme switch -->
-                <button type="button" class="theme-toggle-btn" id="theme-toggle-header" title="Switch Theme">
-                    <div class="theme-pill-track">
-                        <span class="theme-pill-thumb">
-                            <svg class="thumb-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/></svg>
-                            <svg class="thumb-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                        </span>
-                    </div>
-                </button>
-            </div>
-
-            <!-- Segmented Switcher -->
-            <div class="auth-pill-switcher">
-                <div class="auth-pill-slider"></div>
-                <button type="button" class="auth-pill-tab active">Log In</button>
-                <button type="button" class="auth-pill-tab">Sign Up</button>
-            </div>
-
-            <!-- View Header -->
-            <div style="margin-bottom:14px;">
-                <h3 style="font-size:22px; font-weight:800; color:var(--title-color);">Welcome Explorer</h3>
-                <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">Enter to unlock Rafiz Imtiaz's portfolio and architecture projects.</p>
-            </div>
-
-            <!-- QUICK ACCESS HINT BANNER -->
-            <div class="auth-hint-banner">
-                <div class="hint-badge-row">
-                    <span class="hint-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                        Quick Access Hint
-                    </span>
-                    <span class="brand-dot" style="width:6px;height:6px;"></span>
-                </div>
-                <p class="hint-body-text">
-                    Simply tap <strong>Sign In</strong> below (no credentials needed) to enter Rafiz's Portfolio directly!
-                </p>
-                <button type="button" class="btn-instant-enter" id="btn-quick-instant-enter">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:15px;height:15px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    <span>Instant Enter ⚡</span>
-                </button>
-            </div>
-
-            <!-- Login Form (No strict validation: tapping Sign In immediately logs in) -->
-            <form id="auth-login-form" class="auth-form">
-                <div class="form-group">
-                    <label class="form-label" for="login-username">Username or Email (Optional)</label>
-                    <div class="input-wrapper">
-                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        <input class="form-input" type="text" id="login-username" name="username" placeholder="e.g. guest or leave blank" autocomplete="username">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="login-password">Password (Optional)</label>
-                    <div class="input-wrapper">
-                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        <input class="form-input" type="password" id="login-password" name="password" placeholder="•••••••• (optional)" autocomplete="current-password">
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-submit-primary" id="btn-login-submit">
-                    <span>Sign In to Portfolio</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </button>
-            </form>
-        </aside>
-
-        <!-- Right: Interactive Physics Showcase Playground -->
-        <main class="showcase-stage-wrapper" id="showcase-playground">
-            <div class="sp-headline-block">
-                <h1 class="sp-title">Rafiz's <span>Portfolio Lab</span></h1>
-                <p style="font-size:13px; color:var(--text-muted); margin-top:6px; max-width:440px;">
-                    Drag, throw and collide interactive kinetic nodes. Click anywhere to ripple shockwaves. Tap Sign In on the left to enter.
-                </p>
-            </div>
-        </main>
-    </div>
-
-    <!-- ========================================================================== -->
-    <!-- 2. FULL PORTFOLIO APPLICATION (ACTIVE AFTER LOGIN)                         -->
+    <!-- FULL PORTFOLIO APPLICATION (AUTHENTICATED)                                 -->
     <!-- ========================================================================== -->
     <div id="portfolio-container">
 
@@ -1725,8 +1853,8 @@
             </nav>
 
             <div class="nav-actions-right">
-                <button type="button" class="nav-sub-btn" id="btn-nav-playground" title="Toggle Physics Lab">🌌 Lab</button>
-                <button type="button" class="nav-sub-btn" id="btn-nav-lock" title="Sign out / Return to Gateway">🔒 Sign Out</button>
+                <button type="button" class="nav-sub-btn" id="btn-nav-lock" title="Sign out / Return to Gateway">🔒 Sign
+                    Out</button>
             </div>
         </header>
 
@@ -1756,8 +1884,14 @@
 
                 <!-- Action Buttons -->
                 <div class="hero-action-buttons">
-                    <a href="assets/cv/Rafiz_Imtiaz_Resume.pdf" download="Rafiz_Imtiaz_Resume.pdf" class="btn-hero-primary" id="btn-download-cv">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:16px;height:16px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <a href="assets/cv/Rafiz_Imtiaz_Resume.pdf" download="Rafiz_Imtiaz_Resume.pdf"
+                        class="btn-hero-primary" id="btn-download-cv">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                            style="width:16px;height:16px;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
                         <span>Download CV</span>
                     </a>
                     <a href="#about" class="btn-hero-outline">
@@ -1771,7 +1905,9 @@
 
             <!-- Scroll Down Mouse Indicator -->
             <a href="#about" class="hero-scroll-indicator">
-                <div class="mouse-icon-pill"><div class="mouse-wheel-dot"></div></div>
+                <div class="mouse-icon-pill">
+                    <div class="mouse-wheel-dot"></div>
+                </div>
                 <span>Scroll</span>
             </a>
         </section>
@@ -1785,7 +1921,9 @@
                 </span>
                 <h2 class="section-main-heading">About Me</h2>
                 <p class="section-subtext">
-                    Self-motivated Software Engineer passionate about backend development, APIs, database management, and scalable system design. Explore my engineering projects, professional experience, and personal passions below.
+                    Self-motivated Software Engineer passionate about backend development, APIs, database management,
+                    and scalable system design. Explore my engineering projects, professional experience, and personal
+                    passions below.
                 </p>
             </div>
 
@@ -1795,40 +1933,63 @@
                     <button type="button" class="about-tab-btn active" data-target="tab-projects">
                         <div class="about-tab-btn-content">
                             <div class="tab-icon-box">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    style="width:20px;height:20px;">
+                                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                    <polyline points="2 17 12 22 22 17"></polyline>
+                                    <polyline points="2 12 12 17 22 12"></polyline>
+                                </svg>
                             </div>
                             <div>
                                 <span class="tab-label-title">Projects</span>
                                 <span class="tab-label-sub">Systems & Architecture</span>
                             </div>
                         </div>
-                        <svg class="tab-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+                        <svg class="tab-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" style="width:16px;height:16px;">
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
                     </button>
 
                     <button type="button" class="about-tab-btn" data-target="tab-experience">
                         <div class="about-tab-btn-content">
                             <div class="tab-icon-box">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    style="width:20px;height:20px;">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                </svg>
                             </div>
                             <div>
                                 <span class="tab-label-title">Experience</span>
                                 <span class="tab-label-sub">Career, Edu & Skills</span>
                             </div>
                         </div>
-                        <svg class="tab-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+                        <svg class="tab-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" style="width:16px;height:16px;">
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
                     </button>
 
                     <button type="button" class="about-tab-btn" data-target="tab-hobbies">
                         <div class="about-tab-btn-content">
                             <div class="tab-icon-box">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    style="width:20px;height:20px;">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                    </polygon>
+                                </svg>
                             </div>
                             <div>
                                 <span class="tab-label-title">Hobbies</span>
                                 <span class="tab-label-sub">Passions & Interests</span>
                             </div>
                         </div>
-                        <svg class="tab-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+                        <svg class="tab-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" style="width:16px;height:16px;">
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
                     </button>
                 </aside>
 
@@ -1838,7 +1999,8 @@
                     <div class="tab-pane active" id="tab-projects">
                         <div style="border-bottom: 1px solid var(--border-glass); padding-bottom: 16px;">
                             <span class="section-eyebrow">Production Architectures</span>
-                            <h3 style="font-size:22px; font-weight:800; color:#ffffff; margin-top:4px;">Featured Engineering Projects</h3>
+                            <h3 style="font-size:22px; font-weight:800; color:#ffffff; margin-top:4px;">Featured
+                                Engineering Projects</h3>
                         </div>
 
                         <div class="projects-list-stack">
@@ -1850,27 +2012,43 @@
                                             <span>River Pollution Monitoring System (RPMS)</span>
                                             <span class="brand-dot"></span>
                                         </h3>
-                                        <span class="project-role-badge">Lead Backend & Core Developer • Government Project</span>
+                                        <span class="project-role-badge">Lead Backend & Core Developer • Government
+                                            Project</span>
                                     </div>
-                                    <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="project-rpms-live-btn" title="Open River Pollution Monitoring System Live">
+                                    <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener"
+                                        class="project-rpms-live-btn"
+                                        title="Open River Pollution Monitoring System Live">
                                         <span>Visit RPMS Live</span>
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                                            style="width:14px;height:14px;">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                        </svg>
                                     </a>
                                 </div>
 
                                 <p style="font-size:14px; color:#e2e8f0; line-height:1.5;">
-                                    High-profile nationwide river monitoring platform built for the Institute of Water Modelling (IWM) to detect, report, and analyze industrial water pollution levels in real-time.
+                                    High-profile nationwide river monitoring platform built for the Institute of Water
+                                    Modelling (IWM) to detect, report, and analyze industrial water pollution levels in
+                                    real-time.
                                 </p>
 
                                 <ul class="project-desc-bullets">
                                     <li>
-                                        <strong>End-to-End Development:</strong> Architected a high-concurrency FastAPI middleware backend integrated with JWT authentication, synchronizing citizen mobile application field reports with the central web portal.
+                                        <strong>End-to-End Development:</strong> Architected a high-concurrency FastAPI
+                                        middleware backend integrated with JWT authentication, synchronizing citizen
+                                        mobile application field reports with the central web portal.
                                     </li>
                                     <li>
-                                        <strong>Workflows & Dashboards:</strong> Engineered a comprehensive Water Sample Collection Dashboard providing real-time telemetry and status tracking across multiple river stations.
+                                        <strong>Workflows & Dashboards:</strong> Engineered a comprehensive Water Sample
+                                        Collection Dashboard providing real-time telemetry and status tracking across
+                                        multiple river stations.
                                     </li>
                                     <li>
-                                        <strong>Automated Verification:</strong> Designed a multi-level administration approval workflow engine for automated data verification and laboratory result verification.
+                                        <strong>Automated Verification:</strong> Designed a multi-level administration
+                                        approval workflow engine for automated data verification and laboratory result
+                                        verification.
                                     </li>
                                 </ul>
 
@@ -1894,10 +2072,14 @@
                                 </div>
                                 <ul class="project-desc-bullets">
                                     <li>
-                                        <strong>Interactive Gantt Engine:</strong> Architected a modular Django-based enterprise ERP ecosystem, embedding an interactive Gantt Chart resource allocation system to monitor division employee allocations and project document preparation pipelines.
+                                        <strong>Interactive Gantt Engine:</strong> Architected a modular Django-based
+                                        enterprise ERP ecosystem, embedding an interactive Gantt Chart resource
+                                        allocation system to monitor division employee allocations and project document
+                                        preparation pipelines.
                                     </li>
                                     <li>
-                                        <strong>Workflow Automation:</strong> Streamlined cross-departmental operations and administrative project milestones with granular role-based access controls.
+                                        <strong>Workflow Automation:</strong> Streamlined cross-departmental operations
+                                        and administrative project milestones with granular role-based access controls.
                                     </li>
                                 </ul>
                                 <div class="project-tech-pills">
@@ -1918,10 +2100,13 @@
                                 </div>
                                 <ul class="project-desc-bullets">
                                     <li>
-                                        <strong>Procurement Pipeline:</strong> Developed an automated Inventory & Requisition System with automated internal memo routing and Comparative Statement (CS) vendor quotation collection.
+                                        <strong>Procurement Pipeline:</strong> Developed an automated Inventory &
+                                        Requisition System with automated internal memo routing and Comparative
+                                        Statement (CS) vendor quotation collection.
                                     </li>
                                     <li>
-                                        <strong>Stock Reconciliation:</strong> Implemented real-time stock reconciliation via custom database triggers and automated transaction hooks.
+                                        <strong>Stock Reconciliation:</strong> Implemented real-time stock
+                                        reconciliation via custom database triggers and automated transaction hooks.
                                     </li>
                                 </ul>
                                 <div class="project-tech-pills">
@@ -1941,10 +2126,12 @@
                                 </div>
                                 <ul class="project-desc-bullets">
                                     <li>
-                                        Designed and normalized highly structured PostgreSQL and MySQL schemas to manage large-scale geospatial and administrative datasets.
+                                        Designed and normalized highly structured PostgreSQL and MySQL schemas to manage
+                                        large-scale geospatial and administrative datasets.
                                     </li>
                                     <li>
-                                        Engineered indexing strategies and optimized query execution plans, resulting in significantly lower API response times across enterprise platforms.
+                                        Engineered indexing strategies and optimized query execution plans, resulting in
+                                        significantly lower API response times across enterprise platforms.
                                     </li>
                                 </ul>
                                 <div class="project-tech-pills">
@@ -1960,7 +2147,8 @@
                     <div class="tab-pane" id="tab-experience">
                         <div style="border-bottom: 1px solid var(--border-glass); padding-bottom: 16px;">
                             <span class="section-eyebrow">Professional History</span>
-                            <h3 style="font-size:22px; font-weight:800; color:#ffffff; margin-top:4px;">Work Experience & Background</h3>
+                            <h3 style="font-size:22px; font-weight:800; color:#ffffff; margin-top:4px;">Work Experience
+                                & Background</h3>
                         </div>
 
                         <div class="experience-timeline">
@@ -1969,10 +2157,14 @@
                                 <h4 class="exp-role-title">Programmer</h4>
                                 <span class="exp-company-sub">Institute of Water Modelling (IWM)</span>
                                 <ul class="exp-details-list">
-                                    <li>Lead backend developer for the national River Pollution Monitoring System (RPMS).</li>
-                                    <li>Architected modular Django-based ERP modules with Gantt chart resource tracking.</li>
-                                    <li>Built synchronized requisition, inventory, and automated comparative statement systems.</li>
-                                    <li>Optimized PostgreSQL and MySQL schemas for large-scale geospatial and administrative datasets.</li>
+                                    <li>Lead backend developer for the national River Pollution Monitoring System
+                                        (RPMS).</li>
+                                    <li>Architected modular Django-based ERP modules with Gantt chart resource tracking.
+                                    </li>
+                                    <li>Built synchronized requisition, inventory, and automated comparative statement
+                                        systems.</li>
+                                    <li>Optimized PostgreSQL and MySQL schemas for large-scale geospatial and
+                                        administrative datasets.</li>
                                 </ul>
                             </div>
 
@@ -1981,9 +2173,12 @@
                                 <h4 class="exp-role-title">Data Analyst</h4>
                                 <span class="exp-company-sub">Institute of Water Modelling (IWM)</span>
                                 <ul class="exp-details-list">
-                                    <li>Designed and implemented GIS applications for national government initiatives.</li>
-                                    <li>Managed and verified large-scale geospatial databases, ensuring spatial data integrity.</li>
-                                    <li>Conducted stakeholder interviews with officials from BPDB, Bangladesh Bank, and partner agencies.</li>
+                                    <li>Designed and implemented GIS applications for national government initiatives.
+                                    </li>
+                                    <li>Managed and verified large-scale geospatial databases, ensuring spatial data
+                                        integrity.</li>
+                                    <li>Conducted stakeholder interviews with officials from BPDB, Bangladesh Bank, and
+                                        partner agencies.</li>
                                     <li>Authored comprehensive technical documentation in English and Bangla.</li>
                                 </ul>
                             </div>
@@ -1993,8 +2188,10 @@
                                 <h4 class="exp-role-title">GIS Engineer & Junior Developer</h4>
                                 <span class="exp-company-sub">BETS Consulting Services Limited</span>
                                 <ul class="exp-details-list">
-                                    <li>Contributed to the Rural Connectivity Improvement Project and BPDB power distribution mapping.</li>
-                                    <li>Maintained, validated, and normalized geospatial datasets and database pipelines.</li>
+                                    <li>Contributed to the Rural Connectivity Improvement Project and BPDB power
+                                        distribution mapping.</li>
+                                    <li>Maintained, validated, and normalized geospatial datasets and database
+                                        pipelines.</li>
                                 </ul>
                             </div>
                         </div>
@@ -2003,12 +2200,16 @@
                             <span class="section-eyebrow">Academic Qualifications</span>
                             <div class="education-block">
                                 <div style="display:flex; flex-direction:column; gap:4px; margin-bottom:12px;">
-                                    <h4 style="font-size:16px; font-weight:800; color:#ffffff;">B.S. in Computer Science and Engineering</h4>
-                                    <span style="font-size:13.5px; color:var(--text-muted);">United International University (UIU) • Aug 2018 – Dec 2023</span>
+                                    <h4 style="font-size:16px; font-weight:800; color:#ffffff;">B.S. in Computer Science
+                                        and Engineering</h4>
+                                    <span style="font-size:13.5px; color:var(--text-muted);">United International
+                                        University (UIU) • Aug 2018 – Dec 2023</span>
                                 </div>
                                 <div style="border-top:1px solid var(--border-glass); padding-top:12px;">
-                                    <h4 style="font-size:16px; font-weight:800; color:#ffffff;">Higher Secondary School Certificate (H.S.C)</h4>
-                                    <span style="font-size:13.5px; color:var(--text-muted);">Government Debendra College, Manikganj • 2017</span>
+                                    <h4 style="font-size:16px; font-weight:800; color:#ffffff;">Higher Secondary School
+                                        Certificate (H.S.C)</h4>
+                                    <span style="font-size:13.5px; color:var(--text-muted);">Government Debendra
+                                        College, Manikganj • 2017</span>
                                 </div>
                             </div>
                         </div>
@@ -2039,48 +2240,76 @@
                     <div class="tab-pane" id="tab-hobbies">
                         <div style="border-bottom: 1px solid var(--border-glass); padding-bottom: 16px;">
                             <span class="section-eyebrow">Personal Interests</span>
-                            <h3 style="font-size:22px; font-weight:800; color:#ffffff; margin-top:4px;">Hobbies & Creative Pursuits</h3>
+                            <h3 style="font-size:22px; font-weight:800; color:#ffffff; margin-top:4px;">Hobbies &
+                                Creative Pursuits</h3>
                         </div>
 
                         <div class="hobbies-grid">
                             <div class="hobby-card">
                                 <div class="hobby-icon-circle">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M6 12h4m-2-2v4m10-2h.01m-3-2h.01"></path></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        style="width:24px;height:24px;">
+                                        <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                                        <path d="M6 12h4m-2-2v4m10-2h.01m-3-2h.01"></path>
+                                    </svg>
                                 </div>
                                 <h4 class="hobby-title">Gaming & Simulation</h4>
-                                <p class="hobby-desc">Passionate about interactive simulations, strategy titles, and physics rendering mechanics.</p>
+                                <p class="hobby-desc">Passionate about interactive simulations, strategy titles, and
+                                    physics rendering mechanics.</p>
                             </div>
 
                             <div class="hobby-card">
-                                <div class="hobby-icon-circle" style="color:var(--brand-cyan); background:rgba(56,189,248,0.15);">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                                <div class="hobby-icon-circle"
+                                    style="color:var(--brand-cyan); background:rgba(56,189,248,0.15);">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        style="width:24px;height:24px;">
+                                        <polyline points="16 18 22 12 16 6"></polyline>
+                                        <polyline points="8 6 2 12 8 18"></polyline>
+                                    </svg>
                                 </div>
                                 <h4 class="hobby-title">Open-Source & Tech Exploring</h4>
-                                <p class="hobby-desc">Experimenting with emerging backend tooling, async APIs, and database indexing strategies.</p>
+                                <p class="hobby-desc">Experimenting with emerging backend tooling, async APIs, and
+                                    database indexing strategies.</p>
                             </div>
 
                             <div class="hobby-card">
                                 <div class="hobby-icon-circle" style="color:#10b981; background:rgba(16,185,129,0.15);">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        style="width:24px;height:24px;">
+                                        <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+                                    </svg>
                                 </div>
                                 <h4 class="hobby-title">Nature Wandering & Travel</h4>
-                                <p class="hobby-desc">Inspired by misty mountain landscapes, serene lakes, and pine forests to recharge creativity.</p>
+                                <p class="hobby-desc">Inspired by misty mountain landscapes, serene lakes, and pine
+                                    forests to recharge creativity.</p>
                             </div>
 
                             <div class="hobby-card">
                                 <div class="hobby-icon-circle" style="color:#f59e0b; background:rgba(245,158,11,0.15);">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        style="width:24px;height:24px;">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                    </svg>
                                 </div>
                                 <h4 class="hobby-title">Algorithmic Problem Solving</h4>
-                                <p class="hobby-desc">Tackling algorithmic logic puzzles and data structure challenges to keep analytical thinking sharp.</p>
+                                <p class="hobby-desc">Tackling algorithmic logic puzzles and data structure challenges
+                                    to keep analytical thinking sharp.</p>
                             </div>
 
                             <div class="hobby-card">
                                 <div class="hobby-icon-circle" style="color:#ec4899; background:rgba(236,72,153,0.15);">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        style="width:24px;height:24px;">
+                                        <path d="M9 18V5l12-2v13"></path>
+                                        <circle cx="6" cy="18" r="3"></circle>
+                                        <circle cx="18" cy="16" r="3"></circle>
+                                    </svg>
                                 </div>
                                 <h4 class="hobby-title">Music & Atmosphere</h4>
-                                <p class="hobby-desc">Enjoying deep ambient soundscapes, synthesizer chord progressions, and instrumental lo-fi while coding.</p>
+                                <p class="hobby-desc">Enjoying deep ambient soundscapes, synthesizer chord progressions,
+                                    and instrumental lo-fi while coding.</p>
                             </div>
                         </div>
                     </div>
@@ -2097,7 +2326,8 @@
                 </span>
                 <h2 class="section-main-heading">Contact</h2>
                 <p class="section-subtext">
-                    Whether you have an inquiry regarding engineering roles, API architectures, or collaborative opportunities, feel free to reach out directly.
+                    Whether you have an inquiry regarding engineering roles, API architectures, or collaborative
+                    opportunities, feel free to reach out directly.
                 </p>
             </div>
 
@@ -2105,13 +2335,22 @@
                 <div class="contact-channel-card">
                     <div class="contact-row-item">
                         <div class="contact-row-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                style="width:22px;height:22px;">
+                                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                            </svg>
                         </div>
                         <div class="contact-row-meta">
                             <span class="contact-row-label">Direct Email</span>
-                            <a href="mailto:rafizimtiaz100@gmail.com" class="contact-row-value">rafizimtiaz100@gmail.com</a>
+                            <a href="mailto:rafizimtiaz100@gmail.com"
+                                class="contact-row-value">rafizimtiaz100@gmail.com</a>
                             <button type="button" class="copy-email-chip" id="btn-copy-email">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    style="width:12px;height:12px;">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
                                 <span>Copy Email</span>
                             </button>
                         </div>
@@ -2119,7 +2358,12 @@
 
                     <div class="contact-row-item">
                         <div class="contact-row-icon" style="color:#10b981; background:rgba(16,185,129,0.12);">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                style="width:22px;height:22px;">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
                         </div>
                         <div class="contact-row-meta">
                             <span class="contact-row-label">Phone</span>
@@ -2129,7 +2373,11 @@
 
                     <div class="contact-row-item">
                         <div class="contact-row-icon" style="color:#f59e0b; background:rgba(245,158,11,0.12);">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                style="width:22px;height:22px;">
+                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
                         </div>
                         <div class="contact-row-meta">
                             <span class="contact-row-label">Location</span>
@@ -2139,21 +2387,32 @@
 
                     <div class="contact-row-item">
                         <div class="contact-row-icon" style="color:#38bdf8; background:rgba(56,189,248,0.12);">
-                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
                         </div>
                         <div class="contact-row-meta">
                             <span class="contact-row-label">Social & Repositories</span>
                             <div style="display:flex; gap:12px; margin-top:3px;">
-                                <a href="https://github.com/RafizImtiaz" target="_blank" rel="noopener" class="contact-row-value" style="font-size:13.5px;">GitHub ↗</a>
+                                <a href="https://github.com/RafizImtiaz" target="_blank" rel="noopener"
+                                    class="contact-row-value" style="font-size:13.5px;">GitHub ↗</a>
                                 <span style="color:var(--text-faint);">•</span>
-                                <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-row-value" style="font-size:13.5px;">LinkedIn ↗</a>
+                                <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-row-value"
+                                    style="font-size:13.5px;">LinkedIn ↗</a>
                             </div>
                         </div>
                     </div>
 
                     <div style="border-top: 1px solid var(--border-glass); padding-top: 20px;">
-                        <a href="assets/cv/Rafiz_Imtiaz_Resume.pdf" download="Rafiz_Imtiaz_Resume.pdf" class="btn-hero-primary" style="justify-content:center; padding:12px; width:100%;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:16px;height:16px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <a href="assets/cv/Rafiz_Imtiaz_Resume.pdf" download="Rafiz_Imtiaz_Resume.pdf"
+                            class="btn-hero-primary" style="justify-content:center; padding:12px; width:100%;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                                style="width:16px;height:16px;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
                             <span>Download Rafiz Imtiaz CV (PDF)</span>
                         </a>
                     </div>
@@ -2163,27 +2422,36 @@
                     <form id="contact-form" style="display:flex; flex-direction:column; gap:16px;">
                         <div class="form-group-wrap">
                             <label class="form-input-label" for="form-name">Your Full Name</label>
-                            <input class="form-control-input" type="text" id="form-name" name="name" placeholder="John Doe" required>
+                            <input class="form-control-input" type="text" id="form-name" name="name"
+                                placeholder="John Doe" required>
                         </div>
 
                         <div class="form-group-wrap">
                             <label class="form-input-label" for="form-email">Your Email Address</label>
-                            <input class="form-control-input" type="email" id="form-email" name="email" placeholder="john@example.com" required>
+                            <input class="form-control-input" type="email" id="form-email" name="email"
+                                placeholder="john@example.com" required>
                         </div>
 
                         <div class="form-group-wrap">
                             <label class="form-input-label" for="form-subject">Subject</label>
-                            <input class="form-control-input" type="text" id="form-subject" name="subject" placeholder="Project Inquiry / Job Opportunity" required>
+                            <input class="form-control-input" type="text" id="form-subject" name="subject"
+                                placeholder="Project Inquiry / Job Opportunity" required>
                         </div>
 
                         <div class="form-group-wrap">
                             <label class="form-input-label" for="form-message">Message</label>
-                            <textarea class="form-control-textarea" id="form-message" name="message" placeholder="Hi Rafiz, I came across your portfolio and wanted to discuss..." required></textarea>
+                            <textarea class="form-control-textarea" id="form-message" name="message"
+                                placeholder="Hi Rafiz, I came across your portfolio and wanted to discuss..."
+                                required></textarea>
                         </div>
 
                         <button type="submit" class="btn-submit-message" id="btn-send-message">
                             <span>Send Message</span>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:16px;height:16px;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                                style="width:16px;height:16px;">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
                         </button>
                     </form>
                 </div>
@@ -2192,7 +2460,6 @@
 
         <footer class="site-footer">
             <div>© <span id="year-num">2026</span> Rafiz Imtiaz. All rights reserved.</div>
-            <div>Single-File Architecture • Ready for GitHub Pages</div>
         </footer>
     </div>
 
@@ -2203,383 +2470,15 @@
         document.getElementById('year-num').textContent = new Date().getFullYear();
 
         // -------------------------------------------------------------------------- //
-        // AESTHETIC SVG ICONS FOR PHYSICS PLAYGROUND                                  //
+        // SIGN OUT HANDLER -> RETURN TO SHOWCASE LOGIN PAGE                          //
         // -------------------------------------------------------------------------- //
-        const AESTHETIC_ICONS = [
-            { name: 'Quantum Core', category: 'Compute', color: '#818cf8', bg: 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(168,85,247,0.25))', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>' },
-            { name: 'Orbital Telemetry', category: 'Satellite', color: '#38bdf8', bg: 'linear-gradient(135deg, rgba(56,189,248,0.25), rgba(59,130,246,0.25))', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>' },
-            { name: 'Global Mesh', category: 'Network', color: '#34d399', bg: 'linear-gradient(135deg, rgba(52,211,153,0.25), rgba(16,185,129,0.25))', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>' },
-            { name: 'Optic Aperture', category: 'Vision', color: '#fbbf24', bg: 'linear-gradient(135deg, rgba(251,191,36,0.25), rgba(245,158,11,0.25))', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="14.31" y1="8" x2="20.05" y2="17.94"/></svg>' },
-            { name: 'Geo Navigator', category: 'GIS', color: '#f472b6', bg: 'linear-gradient(135deg, rgba(244,114,182,0.25), rgba(236,72,153,0.25))', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>' },
-            { name: 'Pulse Radar', category: 'Sensor', color: '#a78bfa', bg: 'linear-gradient(135deg, rgba(167,139,250,0.25), rgba(139,92,246,0.25))', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.93 4.93a10 10 0 0 1 14.14 0"/><circle cx="12" cy="12" r="2"/></svg>' },
-            { name: 'Shield Sentinel', category: 'Security', color: '#60a5fa', bg: 'linear-gradient(135deg, rgba(96,165,250,0.25), rgba(59,130,246,0.25))', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' },
-            { name: 'Neural Pulse', category: 'AI Engine', color: '#2dd4bf', bg: 'linear-gradient(135deg, rgba(45,212,191,0.25), rgba(20,184,166,0.25))', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>' },
-            { name: 'Laser LiDAR', category: 'Scanning', color: '#f87171', bg: 'linear-gradient(135deg, rgba(248,113,113,0.25), rgba(239,68,68,0.25))', svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 22v-4"/></svg>' }
-        ];
-
-        // Synthesizer Audio
-        class SoundFX {
-            constructor() { this.ctx = null; this.enabled = true; }
-            init() {
-                if (!this.ctx) {
-                    const AudioContext = window.AudioContext || window.webkitAudioContext;
-                    if (AudioContext) this.ctx = new AudioContext();
-                }
-                if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
-            }
-            playPop(freq = 520) {
-                if (!this.enabled) return;
-                try {
-                    this.init();
-                    if (!this.ctx) return;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-                    gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start();
-                    osc.stop(this.ctx.currentTime + 0.08);
-                } catch (e) {}
-            }
-            playChime() {
-                if (!this.enabled) return;
-                try {
-                    this.init();
-                    if (!this.ctx) return;
-                    [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
-                        const osc = this.ctx.createOscillator();
-                        const gain = this.ctx.createGain();
-                        osc.type = 'triangle';
-                        osc.frequency.setValueAtTime(f, this.ctx.currentTime + i * 0.06);
-                        gain.gain.setValueAtTime(0.04, this.ctx.currentTime + i * 0.06);
-                        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + i * 0.06 + 0.45);
-                        osc.connect(gain);
-                        gain.connect(this.ctx.destination);
-                        osc.start(this.ctx.currentTime + i * 0.06);
-                        osc.stop(this.ctx.currentTime + i * 0.06 + 0.45);
-                    });
-                } catch (e) {}
-            }
-            playShockwave() {
-                if (!this.enabled) return;
-                try {
-                    this.init();
-                    if (!this.ctx) return;
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.frequency.setValueAtTime(140, this.ctx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(36, this.ctx.currentTime + 0.4);
-                    gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start();
-                    osc.stop(this.ctx.currentTime + 0.4);
-                } catch (e) {}
-            }
-        }
-
-        class Shockwave {
-            constructor(x, y, maxRadius = 160) {
-                this.x = x; this.y = y; this.radius = 4;
-                this.maxRadius = maxRadius; this.speed = 4.5;
-                this.alpha = 0.75; this.alive = true;
-            }
-            update() {
-                this.radius += this.speed;
-                this.alpha = Math.max(0, 0.75 * (1 - this.radius / this.maxRadius));
-                if (this.radius >= this.maxRadius || this.alpha <= 0.01) this.alive = false;
-            }
-            draw(ctx) {
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(129, 140, 248, ${this.alpha.toFixed(3)})`;
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                ctx.restore();
-            }
-        }
-
-        class ShowcasePlayground {
-            constructor(containerId) {
-                this.container = document.getElementById(containerId);
-                if (!this.container) return;
-                this.sfx = new SoundFX();
-                this.nodes = [];
-                this.shockwaves = [];
-                this.width = 0;
-                this.height = 0;
-                this.lastTime = performance.now();
-                this.init();
-            }
-            init() {
-                this.container.innerHTML = `
-                    <div class="sp-backdrop"></div>
-                    <div class="sp-dots"></div>
-                    <canvas class="sp-canvas"></canvas>
-                    <div class="sp-stage"></div>
-                    <div class="sp-hud-bar">
-                        <button type="button" class="sp-btn" data-act="scatter"><span>Scatter</span></button>
-                        <button type="button" class="sp-btn" data-act="sound"><span>Sound FX</span></button>
-                    </div>
-                `;
-                this.canvas = this.container.querySelector('.sp-canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.stage = this.container.querySelector('.sp-stage');
-
-                window.addEventListener('resize', () => this.resize());
-                this.resize();
-                this.spawn();
-                this.bind();
-                this.loop();
-            }
-            resize() {
-                const rect = this.container.getBoundingClientRect();
-                this.width = rect.width;
-                this.height = rect.height;
-                const dpr = window.devicePixelRatio || 1;
-                this.canvas.width = this.width * dpr;
-                this.canvas.height = this.height * dpr;
-                this.ctx.scale(dpr, dpr);
-            }
-            spawn() {
-                this.stage.innerHTML = '';
-                this.nodes = [];
-                const icons = AESTHETIC_ICONS.slice(0, 8);
-                icons.forEach((ic, i) => {
-                    const size = 62;
-                    const el = document.createElement('div');
-                    el.className = 'float-node';
-                    el.style.setProperty('--size', `${size}px`);
-                    el.innerHTML = `
-                        <div class="node-pill">
-                            <span class="pill-dot" style="background:${ic.color};"></span>
-                            <span style="font-size:10px; font-weight:800; color:var(--text-main);">${ic.name}</span>
-                        </div>
-                        <div class="node-chip" style="background:${ic.bg}; border-color:${ic.color}40;">
-                            ${ic.svg}
-                        </div>
-                    `;
-                    this.stage.appendChild(el);
-
-                    const node = {
-                        el: el,
-                        x: Math.random() * (Math.max(100, this.width - 120)) + 30,
-                        y: Math.random() * (Math.max(100, this.height - 120)) + 30,
-                        vx: (Math.random() - 0.5) * 1.5,
-                        vy: (Math.random() - 0.5) * 1.5,
-                        size: size,
-                        radius: size / 2,
-                        isDragging: false
-                    };
-
-                    el.addEventListener('pointerdown', (e) => {
-                        e.stopPropagation();
-                        node.isDragging = true;
-                        el.classList.add('is-dragging');
-                        const rect = this.container.getBoundingClientRect();
-                        const startX = (e.clientX - rect.left) - node.x;
-                        const startY = (e.clientY - rect.top) - node.y;
-
-                        const onMove = (me) => {
-                            if (!node.isDragging) return;
-                            node.x = (me.clientX - rect.left) - startX;
-                            node.y = (me.clientY - rect.top) - startY;
-                        };
-                        const onUp = () => {
-                            node.isDragging = false;
-                            el.classList.remove('is-dragging');
-                            window.removeEventListener('pointermove', onMove);
-                            window.removeEventListener('pointerup', onUp);
-                        };
-                        window.addEventListener('pointermove', onMove);
-                        window.addEventListener('pointerup', onUp);
-                    });
-
-                    this.nodes.push(node);
-                });
-            }
-            bind() {
-                this.container.addEventListener('pointerdown', (e) => {
-                    if (e.target.closest('.sp-hud-bar') || e.target.closest('.float-node')) return;
-                    const rect = this.container.getBoundingClientRect();
-                    const px = e.clientX - rect.left;
-                    const py = e.clientY - rect.top;
-                    this.shockwaves.push(new Shockwave(px, py));
-                    this.sfx.playShockwave();
-
-                    this.nodes.forEach(n => {
-                        const dx = n.x + n.radius - px;
-                        const dy = n.y + n.radius - py;
-                        const dist = Math.hypot(dx, dy);
-                        if (dist < 220 && dist > 1) {
-                            const force = (220 - dist) / 220 * 12;
-                            n.vx += (dx / dist) * force;
-                            n.vy += (dy / dist) * force;
-                        }
-                    });
-                });
-
-                const hud = this.container.querySelector('.sp-hud-bar');
-                if (hud) {
-                    hud.addEventListener('click', (e) => {
-                        const btn = e.target.closest('.sp-btn');
-                        if (!btn) return;
-                        if (btn.dataset.act === 'scatter') {
-                            this.nodes.forEach(n => {
-                                const a = Math.random() * Math.PI * 2;
-                                const s = Math.random() * 14 + 6;
-                                n.vx = Math.cos(a) * s;
-                                n.vy = Math.sin(a) * s;
-                            });
-                            this.sfx.playChime();
-                        } else if (btn.dataset.act === 'sound') {
-                            this.sfx.enabled = !this.sfx.enabled;
-                            btn.style.opacity = this.sfx.enabled ? '1' : '0.5';
-                        }
-                    });
-                }
-            }
-            loop() {
-                this.nodes.forEach(n => {
-                    if (n.isDragging) return;
-                    n.vx *= 0.985; n.vy *= 0.985;
-                    n.x += n.vx * 0.65; n.y += n.vy * 0.65;
-
-                    if (n.x < 10) { n.x = 10; n.vx *= -0.75; }
-                    else if (n.x + n.size > this.width - 10) { n.x = this.width - 10 - n.size; n.vx *= -0.75; }
-                    if (n.y < 10) { n.y = 10; n.vy *= -0.75; }
-                    else if (n.y + n.size > this.height - 10) { n.y = this.height - 10 - n.size; n.vy *= -0.75; }
-
-                    n.el.style.transform = `translate3d(${n.x}px, ${n.y}px, 0)`;
-                });
-
-                this.ctx.clearRect(0, 0, this.width, this.height);
-                for (let i = this.shockwaves.length - 1; i >= 0; i--) {
-                    const sw = this.shockwaves[i];
-                    sw.update();
-                    sw.draw(this.ctx);
-                    if (!sw.alive) this.shockwaves.splice(i, 1);
-                }
-
-                // Connections
-                for (let i = 0; i < this.nodes.length; i++) {
-                    const a = this.nodes[i];
-                    for (let j = i + 1; j < this.nodes.length; j++) {
-                        const b = this.nodes[j];
-                        const dist = Math.hypot((a.x + a.radius) - (b.x + b.radius), (a.y + a.radius) - (b.y + b.radius));
-                        if (dist < 160) {
-                            this.ctx.beginPath();
-                            this.ctx.moveTo(a.x + a.radius, a.y + a.radius);
-                            this.ctx.lineTo(b.x + b.radius, b.y + b.radius);
-                            this.ctx.strokeStyle = `rgba(129, 140, 248, ${(1 - dist/160)*0.3})`;
-                            this.ctx.lineWidth = 1.2;
-                            this.ctx.stroke();
-                        }
-                    }
-                }
-
-                requestAnimationFrame(() => this.loop());
-            }
-        }
-
-        // -------------------------------------------------------------------------- //
-        // SESSION AUTHENTICATION & LOGIN FLOW (ONCE PER SESSION)                      //
-        // -------------------------------------------------------------------------- //
-        (function initSessionAuth() {
-            const authShell = document.getElementById('auth-app-shell');
-            const portfolio = document.getElementById('portfolio-container');
-            const loginForm = document.getElementById('auth-login-form');
-            const instantBtn = document.getElementById('btn-quick-instant-enter');
-            const lockBtn = document.getElementById('btn-nav-lock');
-            const playgroundBtn = document.getElementById('btn-nav-playground');
-
-            // Initialize the physics playground
-            const playground = new ShowcasePlayground('showcase-playground');
-
-            // Check if already authenticated in this session
-            const isSessionAuth = sessionStorage.getItem('rafiz_session_auth');
-
-            function unlockToPortfolio(animate = true) {
-                sessionStorage.setItem('rafiz_session_auth', 'true');
-                if (animate && playground && playground.sfx) {
-                    playground.sfx.playChime();
-                }
-
-                authShell.classList.add('unlocked-exit');
-                setTimeout(() => {
-                    authShell.style.display = 'none';
-                    portfolio.classList.add('active');
-                }, 400);
-
-                showToast('Welcome! Unlocked Rafiz Imtiaz Portfolio.');
-            }
-
-            function lockSession() {
+        const lockBtn = document.getElementById('btn-nav-lock');
+        if (lockBtn) {
+            lockBtn.addEventListener('click', () => {
                 sessionStorage.removeItem('rafiz_session_auth');
-                portfolio.classList.remove('active');
-                authShell.style.display = 'flex';
-                authShell.classList.remove('unlocked-exit');
-                showToast('Session locked. Returned to gateway.');
-            }
-
-            if (isSessionAuth === 'true') {
-                // Already authenticated in current session: go straight to portfolio
-                authShell.style.display = 'none';
-                portfolio.classList.add('active');
-            } else {
-                // First time in session: showcase the login page
-                authShell.style.display = 'flex';
-                portfolio.classList.remove('active');
-            }
-
-            // Submitting without entering anything simply logs in
-            if (loginForm) {
-                loginForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const submitBtn = document.getElementById('btn-login-submit');
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = `<span>Unlocking...</span>`;
-                    setTimeout(() => {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = `<span>Sign In to Portfolio</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:16px;height:16px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`;
-                        unlockToPortfolio(true);
-                    }, 350);
-                });
-            }
-
-            if (instantBtn) {
-                instantBtn.addEventListener('click', () => {
-                    unlockToPortfolio(true);
-                });
-            }
-
-            if (lockBtn) {
-                lockBtn.addEventListener('click', () => {
-                    lockSession();
-                });
-            }
-
-            if (playgroundBtn) {
-                playgroundBtn.addEventListener('click', () => {
-                    authShell.style.display = 'flex';
-                    authShell.classList.remove('unlocked-exit');
-                });
-            }
-
-            // Theme Switcher
-            const themeBtn = document.getElementById('theme-toggle-header');
-            if (themeBtn) {
-                themeBtn.addEventListener('click', () => {
-                    const current = document.documentElement.getAttribute('data-theme') || 'dark';
-                    const next = current === 'dark' ? 'light' : 'dark';
-                    document.documentElement.setAttribute('data-theme', next);
-                });
-            }
-        })();
+                window.location.href = 'showcase_playground.html';
+            });
+        }
 
         // -------------------------------------------------------------------------- //
         // FAST CUSTOM MOUSE CURSOR & SPARKLES                                        //
@@ -2834,4 +2733,5 @@
         }
     </script>
 </body>
+
 </html>
