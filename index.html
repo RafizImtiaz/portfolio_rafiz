@@ -140,10 +140,17 @@
         #cursor-trail-canvas {
             position: fixed;
             inset: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 99990;
+        }
+
+        /* Hide static reticle on mobile touch screens */
+        @media (hover: none) or (pointer: coarse) {
+            #custom-cursor {
+                display: none !important;
+            }
         }
 
         #custom-cursor {
@@ -714,7 +721,8 @@
         /* HERO LANDING SECTION (HOME) */
         .hero-section {
             position: relative;
-            width: 100vw;
+            width: 100%;
+            max-width: 100%;
             height: 100vh;
             min-height: 640px;
             display: flex;
@@ -1590,43 +1598,421 @@
         }
 
         @media (max-width: 900px) {
+            html, body {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            #portfolio-container {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
             .site-header {
-                padding: 16px 24px;
+                padding: 14px 20px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
             }
 
             .site-header.scrolled {
-                padding: 14px 24px;
+                padding: 12px 20px;
+            }
+
+            .brand-logo {
+                font-size: 17px;
+                gap: 8px;
             }
 
             .nav-menu {
-                gap: 18px;
+                gap: 20px;
+            }
+
+            .nav-item a {
+                font-size: 12px;
+                letter-spacing: 0.08em;
             }
 
             .about-split-layout {
                 grid-template-columns: 1fr;
+                gap: 24px;
             }
 
             .about-tabs-nav {
                 position: static;
                 flex-direction: row;
                 overflow-x: auto;
+                width: 100%;
                 padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .about-tabs-nav::-webkit-scrollbar {
+                display: none;
             }
 
             .about-tab-btn {
-                flex: 1;
-                min-width: 170px;
-                padding: 14px 16px;
+                flex: 1 1 0;
+                min-width: 120px;
+                padding: 12px 14px;
             }
 
             .contact-layout-grid {
                 grid-template-columns: 1fr;
+                gap: 28px;
             }
 
             .site-footer {
                 flex-direction: column;
                 gap: 14px;
                 text-align: center;
+                padding: 28px 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .site-header {
+                padding: 12px 16px;
+            }
+
+            .site-header.scrolled {
+                padding: 10px 16px;
+            }
+
+            .brand-logo {
+                font-size: 15px;
+                font-weight: 800;
+            }
+
+            .nav-menu {
+                gap: 12px;
+            }
+
+            .nav-item a {
+                font-size: 11px;
+                letter-spacing: 0.06em;
+                padding: 4px 0;
+            }
+
+            .nav-sub-btn {
+                padding: 6px 9px;
+                font-size: 10.5px;
+            }
+
+            .hero-section {
+                padding: 80px 16px 40px 16px;
+                min-height: 560px;
+                height: auto;
+            }
+
+            .avatar-ring-container {
+                width: 124px;
+                height: 124px;
+                margin-bottom: 4px;
+            }
+
+            .hero-name {
+                font-size: clamp(28px, 7vw, 42px);
+                line-height: 1.2;
+            }
+
+            .hero-title-typewriter {
+                font-size: 12.5px;
+                letter-spacing: 0.12em;
+                min-height: 24px;
+            }
+
+            .hero-action-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 290px;
+                gap: 10px;
+                margin-top: 12px;
+            }
+
+            .btn-hero-primary,
+            .btn-hero-outline {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 20px;
+                font-size: 12.5px;
+                box-sizing: border-box;
+            }
+
+            .hero-scroll-indicator {
+                display: none;
+            }
+
+            .portfolio-ambient-section {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            .section-divider-beam {
+                padding: 24px 16px 6px 16px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .beam-badge {
+                font-size: 9px;
+                padding: 6px 12px;
+                margin: 0 6px;
+                letter-spacing: 0.08em;
+                white-space: normal;
+                text-align: center;
+            }
+
+            .beam-line {
+                min-width: 10px;
+            }
+
+            .site-container {
+                padding: 45px 16px 25px 16px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .section-header-wrap {
+                margin-bottom: 24px;
+                gap: 6px;
+            }
+
+            .section-main-heading {
+                font-size: clamp(25px, 6.5vw, 34px);
+            }
+
+            .section-subtext {
+                font-size: 13.5px;
+                line-height: 1.5;
+            }
+
+            .about-tabs-nav {
+                display: flex;
+                flex-direction: row;
+                gap: 6px;
+                overflow-x: auto;
+                width: 100%;
+                padding-bottom: 4px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .about-tab-btn {
+                flex: 1 1 0;
+                min-width: 90px;
+                padding: 10px 6px;
+                border-radius: 14px;
+                justify-content: center;
+            }
+
+            .about-tab-btn-content {
+                gap: 6px;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .tab-icon-box {
+                width: 32px;
+                height: 32px;
+                border-radius: 9px;
+            }
+
+            .tab-icon-box svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .tab-label-title {
+                font-size: 12px;
+            }
+
+            .tab-label-sub {
+                display: none;
+            }
+
+            .tab-arrow-icon {
+                display: none;
+            }
+
+            .about-panes-wrapper {
+                padding: 18px 14px;
+                border-radius: 18px;
+                min-height: auto;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .project-item-card {
+                padding: 16px 12px;
+                border-radius: 14px;
+                gap: 10px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .project-header-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .project-title-group h3 {
+                font-size: 16.5px;
+                flex-wrap: wrap;
+            }
+
+            .project-rpms-live-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 14px;
+                font-size: 12.5px;
+                box-sizing: border-box;
+            }
+
+            .project-desc-bullets {
+                font-size: 12.5px;
+                line-height: 1.48;
+            }
+
+            .project-desc-bullets li {
+                padding-left: 16px;
+            }
+
+            .tech-pill {
+                font-size: 10px;
+                padding: 3px 7px;
+            }
+
+            .experience-timeline {
+                padding-left: 16px;
+                gap: 20px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .exp-item::before {
+                left: -22px;
+                width: 10px;
+                height: 10px;
+                top: 5px;
+            }
+
+            .exp-date-tag {
+                font-size: 11px;
+            }
+
+            .exp-role-title {
+                font-size: 15.5px;
+            }
+
+            .exp-company-sub {
+                font-size: 12.5px;
+            }
+
+            .exp-details-list {
+                font-size: 12px;
+                line-height: 1.45;
+            }
+
+            .education-block {
+                padding: 14px 10px;
+            }
+
+            .hobbies-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                width: 100%;
+            }
+
+            .hobby-card {
+                padding: 16px 12px;
+                border-radius: 14px;
+                gap: 8px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .hobby-icon-circle {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+            }
+
+            .hobby-title {
+                font-size: 15.5px;
+            }
+
+            .hobby-desc {
+                font-size: 12.5px;
+            }
+
+            .contact-channel-card,
+            .contact-form-panel {
+                padding: 18px 14px;
+                border-radius: 18px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .contact-row-item {
+                gap: 10px;
+            }
+
+            .contact-row-icon {
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+                flex-shrink: 0;
+            }
+
+            .contact-row-icon svg {
+                width: 17px;
+                height: 17px;
+            }
+
+            .contact-row-label {
+                font-size: 10px;
+            }
+
+            .contact-row-value {
+                font-size: 13.5px;
+                word-break: break-all;
+                overflow-wrap: anywhere;
+            }
+
+            .copy-email-chip {
+                font-size: 10.5px;
+                padding: 4px 8px;
+            }
+
+            .form-control-input,
+            .form-control-textarea {
+                font-size: 16px !important; /* Critical to prevent iOS zoom */
+                padding: 11px 12px;
+                border-radius: 10px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .btn-submit-message {
+                width: 100%;
+                padding: 12px 18px;
+                font-size: 13.5px;
+                box-sizing: border-box;
+            }
+
+            .site-footer {
+                padding: 20px 16px 32px 16px;
+                font-size: 11.5px;
+                gap: 8px;
             }
         }
     </style>
@@ -2458,29 +2844,25 @@
                 }
             }
 
-            window.addEventListener('pointermove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
+            function handleMove(cx, cy) {
+                mouseX = cx;
+                mouseY = cy;
 
-                // Move core dot instantaneously
                 if (coreDot) {
                     coreDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
                 }
 
-                // Calculate speed
                 const dx = mouseX - lastMouseX;
                 const dy = mouseY - lastMouseY;
                 mouseSpeed = Math.sqrt(dx * dx + dy * dy);
                 lastMouseX = mouseX;
                 lastMouseY = mouseY;
 
-                // Store point for ribbon trail
                 trailHistory.unshift({ x: mouseX, y: mouseY, time: Date.now() });
                 if (trailHistory.length > MAX_TRAIL_POINTS) {
                     trailHistory.pop();
                 }
 
-                // Emit stardust particles
                 if (Math.random() < 0.75) {
                     const sparkVx = (Math.random() - 0.5) * 1.8 - dx * 0.12;
                     const sparkVy = (Math.random() - 0.5) * 1.8 - dy * 0.12;
@@ -2490,17 +2872,25 @@
                 isStationary = false;
                 clearTimeout(idleTimer);
                 idleTimer = setTimeout(() => { isStationary = true; }, 300);
-            });
+            }
 
-            window.addEventListener('pointerdown', (e) => {
+            function handleDown(cx, cy) {
                 cursorWrap.classList.add('cursor-down');
-                shockwaves.push(new ShockwaveRing(e.clientX, e.clientY));
-
-                // Explode 18 firework sparks in all directions
+                shockwaves.push(new ShockwaveRing(cx, cy));
                 for (let i = 0; i < 18; i++) {
-                    sparks.push(new StardustSpark(e.clientX, e.clientY, undefined, undefined, true));
+                    sparks.push(new StardustSpark(cx, cy, undefined, undefined, true));
                 }
-            });
+            }
+
+            window.addEventListener('pointermove', (e) => handleMove(e.clientX, e.clientY));
+            window.addEventListener('touchmove', (e) => {
+                if (e.touches && e.touches[0]) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+            }, { passive: true });
+
+            window.addEventListener('pointerdown', (e) => handleDown(e.clientX, e.clientY));
+            window.addEventListener('touchstart', (e) => {
+                if (e.touches && e.touches[0]) handleDown(e.touches[0].clientX, e.touches[0].clientY);
+            }, { passive: true });
 
             window.addEventListener('pointerup', () => {
                 cursorWrap.classList.remove('cursor-down');
@@ -2657,12 +3047,16 @@
                 particles.push(new CyberParticle());
             }
 
-            // Track cursor relative to ambient canvas
-            window.addEventListener('pointermove', (e) => {
+            // Track cursor/touch relative to ambient canvas
+            function updateAmbientSecCoords(cx, cy) {
                 const rect = canvas.getBoundingClientRect();
-                cursorSecX = e.clientX - rect.left;
-                cursorSecY = e.clientY - rect.top;
-            });
+                cursorSecX = cx - rect.left;
+                cursorSecY = cy - rect.top;
+            }
+            window.addEventListener('pointermove', (e) => updateAmbientSecCoords(e.clientX, e.clientY));
+            window.addEventListener('touchmove', (e) => {
+                if (e.touches && e.touches[0]) updateAmbientSecCoords(e.touches[0].clientX, e.touches[0].clientY);
+            }, { passive: true });
 
             function loop() {
                 ctx.clearRect(0, 0, w, h);

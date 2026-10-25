@@ -1054,26 +1054,42 @@
         }
 
         @media (max-width: 900px) {
+            html, body {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
             .auth-app-shell {
                 flex-direction: column;
                 height: auto;
                 min-height: 100vh;
+                min-height: 100dvh;
                 overflow-y: auto;
+                overflow-x: hidden;
+                width: 100%;
+                max-width: 100%;
             }
 
             .showcase-stage-wrapper {
-                height: 36vh;
-                min-height: 240px;
+                height: 28vh;
+                min-height: 190px;
                 order: 1;
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
             }
 
             .auth-panel {
                 max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
                 border-right: none;
                 border-top: 1px solid var(--border-glass);
                 order: 2;
-                padding: 28px 20px;
+                padding: 22px 18px 36px 18px;
                 box-shadow: none;
+                overflow-x: hidden;
             }
 
             .sp-headline-block,
@@ -1086,8 +1102,33 @@
             }
 
             .sp-hud-bar {
-                top: 14px;
-                right: 14px;
+                top: 10px;
+                right: 10px;
+                gap: 6px;
+            }
+
+            .form-input {
+                font-size: 16px; /* Prevents auto-zoom on iOS mobile */
+                padding: 12px 14px 12px 42px;
+            }
+
+            .social-grid {
+                gap: 8px;
+            }
+
+            .social-btn {
+                padding: 10px 8px;
+                font-size: 11.5px;
+            }
+
+            .auth-pill-tab {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+
+            .btn-primary, .btn-secondary {
+                padding: 13px 20px;
+                font-size: 14px;
             }
         }
     </style>
@@ -1849,10 +1890,10 @@
                         radius: size * 0.55,
                         x,
                         y,
-                        vx: rand(-1.6, 1.6),
-                        vy: rand(-1.6, 1.6),
-                        rot: rand(-12, 12),
-                        vrot: rand(-0.4, 0.4),
+                        vx: rand(-0.7, 0.7),
+                        vy: rand(-0.7, 0.7),
+                        rot: rand(-8, 8),
+                        vrot: rand(-0.2, 0.2),
                         isDragging: false,
                         dragOffset: { x: 0, y: 0 },
                         recentMoves: [],
@@ -1992,27 +2033,27 @@
                         }
                     }
 
-                    // Continuous lively organic harmonic wander force
-                    const driftFreq = 0.75;
-                    const driftX = Math.cos(timeSec * driftFreq + node.seed) * 0.16 + Math.sin(timeSec * 0.35 + node.seed * 2) * 0.10;
-                    const driftY = Math.sin(timeSec * driftFreq + node.seed * 1.35) * 0.16 + Math.cos(timeSec * 0.4 + node.seed) * 0.10;
+                    // Continuous gentle organic harmonic wander force (50% slower pace)
+                    const driftFreq = 0.38;
+                    const driftX = Math.cos(timeSec * driftFreq + node.seed) * 0.08 + Math.sin(timeSec * 0.18 + node.seed * 2) * 0.05;
+                    const driftY = Math.sin(timeSec * driftFreq + node.seed * 1.35) * 0.08 + Math.cos(timeSec * 0.2 + node.seed) * 0.05;
 
                     node.vx += driftX;
                     node.vy += driftY;
-                    node.rot += Math.sin(timeSec * 0.5 + node.seed) * 0.35;
+                    node.rot += Math.sin(timeSec * 0.25 + node.seed) * 0.16;
 
-                    // Speed regulation: maintain a lively floating speed
+                    // Speed regulation: maintain a relaxed, 50% slower floating speed
                     const currentSpeed = Math.hypot(node.vx, node.vy);
-                    if (currentSpeed > 6.0) {
-                        node.vx *= 0.95;
-                        node.vy *= 0.95;
-                    } else if (currentSpeed > 2.6) {
+                    if (currentSpeed > 3.0) {
+                        node.vx *= 0.94;
+                        node.vy *= 0.94;
+                    } else if (currentSpeed > 1.3) {
                         node.vx *= friction;
                         node.vy *= friction;
-                    } else if (currentSpeed < 0.9) {
-                        const wanderAngle = (timeSec * 0.6 + node.seed * 1.7) % (Math.PI * 2);
-                        node.vx += Math.cos(wanderAngle) * 0.35;
-                        node.vy += Math.sin(wanderAngle) * 0.35;
+                    } else if (currentSpeed < 0.45) {
+                        const wanderAngle = (timeSec * 0.3 + node.seed * 1.7) % (Math.PI * 2);
+                        node.vx += Math.cos(wanderAngle) * 0.16;
+                        node.vy += Math.sin(wanderAngle) * 0.16;
                     }
 
                     node.x += node.vx * this.speedMultiplier;
@@ -2440,7 +2481,7 @@
 
             const playground = new ShowcasePlayground({
                 containerId: 'showcase-playground',
-                speedMultiplier: 1.0,
+                speedMultiplier: 0.50,
                 friction: 0.99,
                 itemCount: 14
             });
