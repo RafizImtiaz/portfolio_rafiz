@@ -7,6 +7,10 @@
     <title>Rafiz Imtiaz | Software Engineer & Interactive Portfolio</title>
     <meta name="description"
         content="Portfolio of Rafiz Imtiaz — Software Engineer specializing in backend APIs, FastAPI, Django, Laravel, PostgreSQL, and scalable system design.">
+    <link rel="icon" type="image/png" href="assets/profile_photo.png">
+    <meta property="og:title" content="Rafiz Imtiaz | Software Engineer">
+    <meta property="og:description" content="Portfolio of Rafiz Imtiaz — Software Engineer specializing in backend APIs, FastAPI, Django, PostgreSQL, and scalable systems.">
+    <meta property="og:image" content="assets/profile_photo.png">
 
     <script>
         // Gatekeeper: If no active session, redirect to showcase_playground.html
@@ -630,8 +634,15 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center top;
+            object-position: 63% 56%;
+            transform: scale(1.35);
+            transform-origin: 63% 56%;
             display: block;
+            transition: transform 0.35s ease;
+        }
+
+        .avatar-frame:hover .avatar-img {
+            transform: scale(1.42);
         }
 
         .hero-name {
