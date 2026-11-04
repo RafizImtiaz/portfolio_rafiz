@@ -47,6 +47,13 @@ Built with **pure Vanilla HTML, CSS, and JavaScript** with zero external depende
    - One-click copy email button with visual feedback.
    - Downloadable CV linked to `assets/cv/Rafiz_Imtiaz_Resume.pdf`.
 
+6. **2026 Cyber Architecture Scrollytelling Showcase (`showcase`)**
+   - High-end Awwwards-style scroll-scrubbed interactive 3D architecture page.
+   - **Exploded View**: Monolithic backend deconstructs vertically into Edge Gateway, Microservices, GIS Telemetry, and Spatial Database tiers with glowing HUD pins.
+   - **Deep-Dive Telemetry**: Spotlight on River Pollution Monitoring System (RPMS) with rotating 3D telemetry and live platform links.
+   - **Slogan Slam**: 3D typography impact reveal (*"PRODUCTION GRADE • FAULT TOLERANT"*) before docking into the completed system catalog.
+   - Pure Vanilla HTML5/CSS3 3D + lerped 60fps JavaScript engine with full bidirectional scrub support.
+
 ---
 
 ## 🚀 How to Publish Live to GitHub Pages (3 Simple Steps)

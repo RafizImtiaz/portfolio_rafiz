@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Rafiz Imtiaz | 2026 Cyber Architecture Showcase</title>
+    <meta name="description"
+        content="Interactive 2026 Scrollytelling 3D Architecture Showcase by Rafiz Imtiaz — Exploded backend systems, FastAPI microservices, GIS telemetry, and enterprise architecture.">
+    <link rel="icon" type="image/png" href="assets/profile_photo.png">
+
+    <script>
+        // Clean URL: Hide .html from the address bar
+        if (window.location.protocol !== 'file:' && window.history && window.history.replaceState) {
+            const cleanPath = window.location.pathname.replace(/\.html$/i, '');
+            window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ========================================================================== */
+        /* RESET & CSS VARIABLES                                                      */
+        /* ========================================================================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-void: #050811;
+            --bg-card: rgba(13, 19, 33, 0.82);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --border-glow: rgba(56, 189, 248, 0.35);
+
+            --brand-cyan: #38bdf8;
+            --brand-indigo: #6366f1;
+            --brand-purple: #a855f7;
+            --brand-emerald: #10b981;
+            --brand-amber: #f59e0b;
+
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-faint: #64748b;
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html,
+        body {
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: auto;
+            /* smooth scroll handled via lerped rAF loop */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Ambient scanline backdrop overlay */
+        .cyber-grid-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            background-image:
+                linear-gradient(rgba(56, 189, 248, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.035) 1px, transparent 1px);
+            background-size: 48px 48px;
+            background-position: center center;
+            opacity: 0.7;
+        }
+
+        .cyber-vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 2;
+            background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(5, 8, 17, 0.85) 100%);
+        }
+
+        #ambient-dust-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ========================================================================== */
+        /* TOP NAVIGATION HEADER                                                      */
+        /* ========================================================================== */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 68px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 clamp(20px, 4vw, 48px);
+            background: rgba(5, 8, 17, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--brand-cyan);
+            object-fit: cover;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+        }
+
+        .brand-meta {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .brand-status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--brand-emerald);
+            box-shadow: 0 0 8px var(--brand-emerald);
+            animation: pulseDot 2s infinite alternate;
+        }
+
+        @keyframes pulseDot {
+            0% {
+                opacity: 0.4;
+                transform: scale(0.85);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.15);
+            }
+        }
+
+        .brand-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--brand-cyan);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-btn:hover {
+            color: #ffffff;
+            border-color: var(--border-glass);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(99, 102, 241, 0.25));
+            color: #ffffff;
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+
+        .nav-btn.primary:hover {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(99, 102, 241, 0.4));
+            box-shadow: 0 0 28px rgba(56, 189, 248, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Top Progress Bar */
+        .scroll-progress-line {
+            position: fixed;
+            top: 68px;
+            left: 0;
+            height: 2.5px;
+            width: 0%;
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+            z-index: 101;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
+            transition: width 0.05s linear;
+        }
+
+        /* ========================================================================== */
+        /* STICKY 2026 SCROLLYTELLING CONTAINER                                       */
+        /* ========================================================================== */
+        .scrolly-container {
+            position: relative;
+            /* 450vh allows 4 distinct scrubbed phases matching the video */
+            height: 480vh;
+            width: 100%;
+        }
+
+        .sticky-viewport {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1400px;
+            perspective-origin: 50% 50%;
+            z-index: 10;
+        }
+
+        /* Ambient Lighting Cones */
+        .stage-glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            opacity: 0.45;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .orb-top {
+            width: 500px;
+            height: 500px;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, rgba(99, 102, 241, 0.2) 60%, transparent 80%);
+        }
+
+        .orb-bottom {
+            width: 600px;
+            height: 400px;
+            bottom: -5%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.28) 0%, rgba(56, 189, 248, 0.15) 50%, transparent 80%);
+        }
+
+        /* Ground 3D reflective grid plane */
+        .ground-grid-plane {
+            position: absolute;
+            bottom: -120px;
+            left: -50%;
+            width: 200%;
+            height: 600px;
+            background-image:
+                linear-gradient(rgba(56, 189, 248, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.12) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(72deg);
+            transform-origin: center bottom;
+            mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 80%);
+            -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 80%);
+            pointer-events: none;
+        }
+
+        /* ========================================================================== */
+        /* 3D SCENE STAGE & SERVER ARCHITECTURE STACK                                 */
+        /* ========================================================================== */
+        .scene-stage {
+            position: relative;
+            width: 560px;
+            height: 420px;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s linear;
+        }
+
+        /* Master Server Rack / Holographic Monolith Container */
+        .server-monolith-cube {
+            position: absolute;
+            width: 440px;
+            height: 340px;
+            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s linear;
+        }
+
+        /* The 4 Architectural Layers (Like the burger ingredients deconstructing!) */
+        .arch-layer {
+            position: absolute;
+            width: 420px;
+            height: 72px;
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.92) 0%, rgba(10, 15, 29, 0.96) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), 0 0 24px -6px rgba(56, 189, 248, 0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transform-style: preserve-3d;
+            transform-origin: center center;
+            transition: transform 0.1s linear, opacity 0.2s ease, border-color 0.3s ease;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .arch-layer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .layer-top {
+            border-top: 1.5px solid rgba(56, 189, 248, 0.6);
+        }
+
+        .layer-icon-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            flex-shrink: 0;
+        }
+
+        .layer-body {
+            display: flex;
+            flex-direction: column;
+            margin-left: 14px;
+            flex-grow: 1;
+        }
+
+        .layer-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--brand-cyan);
+            margin-bottom: 2px;
+        }
+
+        .layer-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+        }
+
+        .layer-status-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--brand-emerald);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-pulse-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--brand-emerald);
+            box-shadow: 0 0 6px var(--brand-emerald);
+        }
+
+        /* Floating HUD Annotation Lines & Cards (Exploded View Indicators) */
+        .hud-callout {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateZ(40px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .hud-callout.right {
+            left: 450px;
+        }
+
+        .hud-callout.left {
+            right: 450px;
+            flex-direction: row-reverse;
+        }
+
+        .hud-line {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.8), rgba(99, 102, 241, 0.3));
+            position: relative;
+        }
+
+        .hud-callout.left .hud-line {
+            background: linear-gradient(270deg, rgba(56, 189, 248, 0.8), rgba(99, 102, 241, 0.3));
+        }
+
+        .hud-line::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--brand-cyan);
+            box-shadow: 0 0 8px var(--brand-cyan);
+            top: -2px;
+            right: 0;
+        }
+
+        .hud-callout.left .hud-line::after {
+            left: 0;
+            right: auto;
+        }
+
+        .hud-card {
+            background: rgba(10, 15, 29, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 10px;
+            padding: 8px 14px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            margin: 0 10px;
+        }
+
+        .hud-metric-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--brand-cyan);
+        }
+
+        .hud-metric-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        /* ========================================================================== */
+        /* STAGE OVERLAYS (TEXT SLIDES, STEP PILLS, SLOGAN SLAM)                      */
+        /* ========================================================================== */
+
+        /* 1. Initial Hero Eyebrow & Prompt */
+        .stage-hero-intro {
+            position: absolute;
+            top: 14%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 20;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .intro-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--brand-cyan);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .intro-heading {
+            font-size: clamp(28px, 4.5vw, 48px);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            color: #ffffff;
+            line-height: 1.15;
+        }
+
+        .intro-heading span {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 2. Interactive Left-side Feature Inspection Slides (Like the beverage video) */
+        .stage-feature-slider {
+            position: absolute;
+            left: clamp(24px, 7vw, 100px);
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 380px;
+            z-index: 25;
+            pointer-events: none;
+        }
+
+        .feature-slide {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .feature-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            position: relative;
+        }
+
+        .feature-slide-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--brand-cyan);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feature-slide-title {
+            font-size: clamp(24px, 3vw, 36px);
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .feature-slide-desc {
+            font-size: 14.5px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .feature-slide-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .feature-chip {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: #cbd5e1;
+        }
+
+        .feature-link-btn {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-size: 13.5px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4);
+            transition: all 0.25s ease;
+        }
+
+        .feature-link-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            box-shadow: 0 12px 32px rgba(2, 132, 199, 0.6);
+        }
+
+        /* 3. Right-side Circular Step Progress Tracker (Matching video 0:07-0:09) */
+        .stage-steps-tracker {
+            position: absolute;
+            right: clamp(24px, 5vw, 64px);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 25;
+            pointer-events: none;
+        }
+
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0.35;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .step-indicator.active {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--text-faint);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .step-indicator.active .step-dot {
+            border-color: var(--brand-cyan);
+            background: var(--brand-cyan);
+            box-shadow: 0 0 14px var(--brand-cyan);
+        }
+
+        .step-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .step-indicator.active .step-name {
+            color: #ffffff;
+        }
+
+        /* 4. Massive Background 3D Slogan Slam (Matching "ZERO BULLSHIT" at 0:10) */
+        .stage-slogan-slam {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(-400px) scale(0.6);
+            text-align: center;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 5;
+            transition: opacity 0.35s ease, transform 0.35s var(--ease-out-expo);
+            white-space: nowrap;
+        }
+
+        .slogan-title {
+            font-size: clamp(54px, 9.5vw, 130px);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            color: rgba(255, 255, 255, 0.07);
+            text-transform: uppercase;
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.25);
+        }
+
+        .slogan-sub {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(14px, 2vw, 22px);
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            color: var(--brand-cyan);
+            margin-top: 14px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        /* 5. Bottom Floating Scroll Hint Pill */
+        .stage-scroll-hint {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(13, 19, 33, 0.75);
+            border: 1px solid var(--border-glass);
+            padding: 8px 18px;
+            border-radius: 9999px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            color: var(--text-muted);
+            backdrop-filter: blur(12px);
+            z-index: 30;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            animation: bounceHint 2.4s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes bounceHint {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-6px);
+            }
+        }
+
+        .mouse-icon {
+            width: 13px;
+            height: 20px;
+            border: 1.5px solid var(--brand-cyan);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .mouse-wheel {
+            width: 2.5px;
+            height: 4.5px;
+            background: var(--brand-cyan);
+            border-radius: 2px;
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: mouseScroll 1.6s infinite;
+        }
+
+        @keyframes mouseScroll {
+            0% {
+                top: 4px;
+                opacity: 1;
+            }
+
+            100% {
+                top: 11px;
+                opacity: 0;
+            }
+        }
+
+        /* ========================================================================== */
+        /* DOCKED ENGINEERING CATALOG (SECTION AFTER 100% SCROLL)                     */
+        /* ========================================================================== */
+        .docked-catalog-section {
+            position: relative;
+            z-index: 20;
+            background: #080c16;
+            border-top: 1px solid var(--border-glass);
+            padding: 100px clamp(20px, 6vw, 80px) 80px clamp(20px, 6vw, 80px);
+            box-shadow: 0 -40px 80px rgba(0, 0, 0, 0.8);
+        }
+
+        .catalog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .catalog-header {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 56px auto;
+        }
+
+        .catalog-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--brand-cyan);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .catalog-title {
+            font-size: clamp(32px, 4.5vw, 48px);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .catalog-desc {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* 2-Column Catalog Cards Grid */
+        .catalog-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .catalog-card {
+            background: rgba(13, 19, 33, 0.85);
+            border: 1px solid var(--border-glass);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .catalog-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.45);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 30px -10px rgba(56, 189, 248, 0.18);
+        }
+
+        .catalog-card-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            color: var(--brand-cyan);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .catalog-card-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .catalog-card-meta {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .catalog-card-desc {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.65;
+            margin-bottom: 18px;
+            flex-grow: 1;
+        }
+
+        .catalog-tech-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .catalog-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: #cbd5e1;
+        }
+
+        /* Action CTA Dock */
+        .cta-dock {
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(10, 15, 29, 0.95));
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 30px -10px rgba(56, 189, 248, 0.2);
+            flex-wrap: wrap;
+        }
+
+        .cta-text h3 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .cta-text p {
+            font-size: 14.5px;
+            color: var(--text-muted);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Site Footer */
+        .showcase-footer {
+            border-top: 1px solid var(--border-glass);
+            padding: 32px 20px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-faint);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .footer-social-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+        }
+
+        /* ========================================================================== */
+        /* RESPONSIVE DESIGN FOR MOBILE & TABLETS                                     */
+        /* ========================================================================== */
+        @media (max-width: 900px) {
+            .scene-stage {
+                width: 340px;
+                height: 300px;
+            }
+
+            .server-monolith-cube {
+                width: 320px;
+            }
+
+            .arch-layer {
+                width: 310px;
+                height: 64px;
+                padding: 0 14px;
+            }
+
+            .layer-title {
+                font-size: 12.5px;
+            }
+
+            .layer-tag {
+                font-size: 8.5px;
+            }
+
+            .layer-status-pill {
+                display: none;
+            }
+
+            .hud-callout {
+                display: none !important;
+            }
+
+            .stage-feature-slider {
+                left: 20px;
+                right: 20px;
+                max-width: calc(100vw - 40px);
+                top: auto;
+                bottom: 80px;
+                transform: none;
+            }
+
+            .stage-steps-tracker {
+                right: 16px;
+                top: 25%;
+            }
+
+            .catalog-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-dock {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cta-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Cyber Grid Background & Canvas -->
+    <div class="cyber-grid-backdrop"></div>
+    <div class="cyber-vignette"></div>
+    <canvas id="ambient-dust-canvas"></canvas>
+
+    <!-- Top Fixed Header -->
+    <header class="site-header">
+        <a href="./" class="header-brand">
+            <img src="assets/profile_photo.png" alt="Rafiz Imtiaz" class="brand-avatar">
+            <div class="brand-meta">
+                <span class="brand-name">
+                    Rafiz Imtiaz
+                    <span class="brand-status-dot"></span>
+                </span>
+                <span class="brand-subtitle">Cyber Architecture 2026</span>
+            </div>
+        </a>
+
+        <nav class="header-actions">
+            <a href="./" class="nav-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    style="width:14px;height:14px;">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+                <span>Full Portfolio</span>
+            </a>
+            <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="nav-btn primary">
+                <span>RPMS Live ↗</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Top Scroll Progress Line Indicator -->
+    <div class="scroll-progress-line" id="scroll-progress-line"></div>
+
+    <!-- ========================================================================== -->
+    <!-- STICKY SCROLLYTELLING CONTAINER (480vh HEIGHT DRIVING TIMELINE)            -->
+    <!-- ========================================================================== -->
+    <div class="scrolly-container" id="scrolly-container">
+        <div class="sticky-viewport" id="sticky-viewport">
+
+            <!-- Ambient Stage Lighting Orbs -->
+            <div class="stage-glow-orb orb-top" id="orb-top"></div>
+            <div class="stage-glow-orb orb-bottom" id="orb-bottom"></div>
+            <div class="ground-grid-plane"></div>
+
+            <!-- Initial Hero Header (Fades out as scroll begins) -->
+            <div class="stage-hero-intro" id="hero-intro">
+                <div class="intro-eyebrow">
+                    <span>⚡ 2026 Interactive Scrollytelling</span>
+                </div>
+                <h1 class="intro-heading">
+                    Deconstruct <span>Backend Architecture</span>
+                </h1>
+                <p style="font-size:14.5px; color:var(--text-muted); max-width:480px;">
+                    Scroll down to explode the monolithic stack into its live microservice layers, inspect telemetry,
+                    and review production telemetry.
+                </p>
+            </div>
+
+            <!-- Massive 3D Background Slogan Reveal (Zoomed from behind, matching 0:10) -->
+            <div class="stage-slogan-slam" id="slogan-slam">
+                <div class="slogan-title">PRODUCTION GRADE</div>
+                <div class="slogan-sub">FAULT TOLERANT • HIGH CONCURRENCY • SCALABLE</div>
+            </div>
+
+            <!-- 3D SCENE STAGE: Server Architecture Exploded Stack -->
+            <div class="scene-stage" id="scene-stage">
+                <div class="server-monolith-cube" id="server-monolith">
+
+                    <!-- Layer 1: Client & Edge Gateway (Top Bun equivalent) -->
+                    <div class="arch-layer layer-top" id="layer-1">
+                        <div class="layer-icon-badge" style="color:#38bdf8; background:rgba(56,189,248,0.1);">
+                            ⚡
+                        </div>
+                        <div class="layer-body">
+                            <span class="layer-tag">Edge Gateway</span>
+                            <span class="layer-title">FastAPI Middleware & Auth Gateway</span>
+                        </div>
+                        <div class="layer-status-pill">
+                            <span class="status-pulse-dot"></span>
+                            <span>JWT / CORS</span>
+                        </div>
+                    </div>
+
+                    <!-- Callout HUD for Layer 1 -->
+                    <div class="hud-callout right" id="hud-1">
+                        <div class="hud-line"></div>
+                        <div class="hud-card">
+                            <div class="hud-metric-num">&lt; 14ms Latency</div>
+                            <div class="hud-metric-label">High-Throughput ASGI</div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 2: Microservices & Event Stream -->
+                    <div class="arch-layer" id="layer-2">
+                        <div class="layer-icon-badge" style="color:#818cf8; background:rgba(99,102,241,0.1);">
+                            ⚙️
+                        </div>
+                        <div class="layer-body">
+                            <span class="layer-tag">Service Core</span>
+                            <span class="layer-title">Django ERP & Event Pipeline</span>
+                        </div>
+                        <div class="layer-status-pill">
+                            <span class="status-pulse-dot"></span>
+                            <span>Async Workers</span>
+                        </div>
+                    </div>
+
+                    <!-- Callout HUD for Layer 2 -->
+                    <div class="hud-callout left" id="hud-2">
+                        <div class="hud-line"></div>
+                        <div class="hud-card">
+                            <div class="hud-metric-num">Gantt Dispatcher</div>
+                            <div class="hud-metric-label">Resource Allocation</div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 3: Geospatial & Telemetry Mesh (RPMS Core) -->
+                    <div class="arch-layer" id="layer-3">
+                        <div class="layer-icon-badge" style="color:#10b981; background:rgba(16,185,129,0.1);">
+                            🛰️
+                        </div>
+                        <div class="layer-body">
+                            <span class="layer-tag">Geospatial Engine</span>
+                            <span class="layer-title">RPMS River Sensor Telemetry</span>
+                        </div>
+                        <div class="layer-status-pill">
+                            <span class="status-pulse-dot"></span>
+                            <span>GIS / Telemetry</span>
+                        </div>
+                    </div>
+
+                    <!-- Callout HUD for Layer 3 -->
+                    <div class="hud-callout right" id="hud-3">
+                        <div class="hud-line"></div>
+                        <div class="hud-card">
+                            <div class="hud-metric-num">Nationwide GIS</div>
+                            <div class="hud-metric-label">IWM River Stations</div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 4: High-Scale Clustered Database Foundation (Bottom Bun equivalent) -->
+                    <div class="arch-layer" id="layer-4">
+                        <div class="layer-icon-badge" style="color:#f59e0b; background:rgba(245,158,11,0.1);">
+                            🗄️
+                        </div>
+                        <div class="layer-body">
+                            <span class="layer-tag">Data Foundation</span>
+                            <span class="layer-title">PostgreSQL Spatial & MySQL Shards</span>
+                        </div>
+                        <div class="layer-status-pill">
+                            <span class="status-pulse-dot"></span>
+                            <span>PostGIS / ACID</span>
+                        </div>
+                    </div>
+
+                    <!-- Callout HUD for Layer 4 -->
+                    <div class="hud-callout left" id="hud-4">
+                        <div class="hud-line"></div>
+                        <div class="hud-card">
+                            <div class="hud-metric-num">Spatial Indexing</div>
+                            <div class="hud-metric-label">99.99% Data Integrity</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Left-side Interactive Feature Slides (Like beverage video feature slides) -->
+            <div class="stage-feature-slider" id="feature-slider">
+                <!-- Slide 1 -->
+                <div class="feature-slide" id="f-slide-1">
+                    <div class="feature-slide-tag">Architecture Phase 01</div>
+                    <h3 class="feature-slide-title">Exploded Microservices</h3>
+                    <p class="feature-slide-desc">
+                        Deconstructed monolithic server stack into isolated, high-concurrency microservices with
+                        automated health monitoring, JWT access controls, and sub-15ms endpoint latency.
+                    </p>
+                    <div class="feature-slide-badges">
+                        <span class="feature-chip">FastAPI</span>
+                        <span class="feature-chip">Python 3.12</span>
+                        <span class="feature-chip">ASGI</span>
+                        <span class="feature-chip">Docker</span>
+                    </div>
+                </div>
+
+                <!-- Slide 2 (RPMS Focus) -->
+                <div class="feature-slide" id="f-slide-2">
+                    <div class="feature-slide-tag">Project Deep Dive 02</div>
+                    <h3 class="feature-slide-title">River Pollution Monitoring (RPMS)</h3>
+                    <p class="feature-slide-desc">
+                        Government telemetry platform for the Institute of Water Modelling (IWM). Real-time sample
+                        collection, multi-tiered laboratory approvals, and geospatial mapping of river stations.
+                    </p>
+                    <div class="feature-slide-badges">
+                        <span class="feature-chip">GIS Integration</span>
+                        <span class="feature-chip">FastAPI Middleware</span>
+                        <span class="feature-chip">PostgreSQL</span>
+                        <span class="feature-chip">Telemetry</span>
+                    </div>
+                    <div>
+                        <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="feature-link-btn">
+                            <span>Open RPMS Platform ↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Slide 3 (Data & ERP) -->
+                <div class="feature-slide" id="f-slide-3">
+                    <div class="feature-slide-tag">Enterprise Ecosystem 03</div>
+                    <h3 class="feature-slide-title">High-Scale Data Pipelines</h3>
+                    <p class="feature-slide-desc">
+                        Engineered normalized database schemas with spatial indices, automated comparative statement
+                        procurement memos, and interactive Gantt scheduling for enterprise operations.
+                    </p>
+                    <div class="feature-slide-badges">
+                        <span class="feature-chip">Django ERP</span>
+                        <span class="feature-chip">Interactive Gantt</span>
+                        <span class="feature-chip">Spatial SQL</span>
+                        <span class="feature-chip">ACID Compliance</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right-side Progress Step Indicator (Matching video 0:07-0:09) -->
+            <div class="stage-steps-tracker" id="steps-tracker">
+                <div class="step-indicator" id="step-ind-1">
+                    <span class="step-dot"></span>
+                    <span class="step-name">01 • Explode</span>
+                </div>
+                <div class="step-indicator" id="step-ind-2">
+                    <span class="step-dot"></span>
+                    <span class="step-name">02 • Inspect RPMS</span>
+                </div>
+                <div class="step-indicator" id="step-ind-3">
+                    <span class="step-dot"></span>
+                    <span class="step-name">03 • Scaled Data</span>
+                </div>
+                <div class="step-indicator" id="step-ind-4">
+                    <span class="step-dot"></span>
+                    <span class="step-name">04 • Production</span>
+                </div>
+            </div>
+
+            <!-- Bottom Scroll Prompt Indicator -->
+            <div class="stage-scroll-hint" id="scroll-hint">
+                <div class="mouse-icon">
+                    <div class="mouse-wheel"></div>
+                </div>
+                <span>Scroll down & up to scrub timeline</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================================================== -->
+    <!-- DOCKED ENGINEERING CATALOG (DOCKS SMOOTHLY AT 100% SCROLL)                 -->
+    <!-- ========================================================================== -->
+    <section class="docked-catalog-section" id="docked-catalog">
+        <div class="catalog-container">
+
+            <div class="catalog-header">
+                <div class="catalog-eyebrow">
+                    <span>⚡ Engineered Production Systems</span>
+                </div>
+                <h2 class="catalog-title">Completed Architectures & Platforms</h2>
+                <p class="catalog-desc">
+                    Each system designed from the ground up for high concurrency, zero data loss, and seamless
+                    integration with modern cloud microservices.
+                </p>
+            </div>
+
+            <div class="catalog-cards-grid">
+                <!-- Card 1: RPMS -->
+                <div class="catalog-card" style="border-color: rgba(56, 189, 248, 0.4);">
+                    <div class="catalog-card-tag">IWM • Government Platform</div>
+                    <h3 class="catalog-card-title">River Pollution Monitoring System (RPMS)</h3>
+                    <div class="catalog-card-meta">Aug 2023 – Present • Lead Backend Developer</div>
+                    <p class="catalog-card-desc">
+                        Nationwide real-time river pollution monitoring platform built for the Institute of Water
+                        Modelling (IWM) to detect, report, and analyze industrial water pollution levels across river
+                        basins.
+                    </p>
+                    <div class="catalog-tech-pills">
+                        <span class="catalog-pill">FastAPI</span>
+                        <span class="catalog-pill">Python</span>
+                        <span class="catalog-pill">PostgreSQL</span>
+                        <span class="catalog-pill">GIS Integration</span>
+                    </div>
+                    <div>
+                        <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="feature-link-btn"
+                            style="padding:8px 16px; font-size:12.5px;">
+                            <span>Visit RPMS Live ↗</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Django ERP -->
+                <div class="catalog-card">
+                    <div class="catalog-card-tag">Enterprise Operational Suite</div>
+                    <h3 class="catalog-card-title">Modular Django ERP Ecosystem</h3>
+                    <div class="catalog-card-meta">2023 – 2024 • ERP Systems Architect</div>
+                    <p class="catalog-card-desc">
+                        Central operational ERP suite with high-throughput Gantt chart resource scheduling, automated
+                        document generation, and role-based permissions across technical divisions.
+                    </p>
+                    <div class="catalog-tech-pills">
+                        <span class="catalog-pill">Django</span>
+                        <span class="catalog-pill">Interactive Gantt</span>
+                        <span class="catalog-pill">MySQL</span>
+                        <span class="catalog-pill">REST APIs</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Inventory System -->
+                <div class="catalog-card">
+                    <div class="catalog-card-tag">Supply Chain Automation</div>
+                    <h3 class="catalog-card-title">Synchronized Inventory & Procurement</h3>
+                    <div class="catalog-card-meta">2023 – 2024 • Backend Engineer</div>
+                    <p class="catalog-card-desc">
+                        Automated requisition tracking with real-time stock balance reconciliation, Comparative
+                        Statement (CS) vendor quotation analysis, and approval routing.
+                    </p>
+                    <div class="catalog-tech-pills">
+                        <span class="catalog-pill">Django</span>
+                        <span class="catalog-pill">Transactions</span>
+                        <span class="catalog-pill">PostgreSQL</span>
+                        <span class="catalog-pill">Audit Engine</span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Database Optimization -->
+                <div class="catalog-card">
+                    <div class="catalog-card-tag">High Scale Performance</div>
+                    <h3 class="catalog-card-title">Geospatial Database Optimization</h3>
+                    <div class="catalog-card-meta">2022 – 2023 • Database & Systems Engineer</div>
+                    <p class="catalog-card-desc">
+                        Normalized relational schema structures, created spatial B-tree and R-tree indices for GIS
+                        telemetry, and fine-tuned execution plans for sub-second query performance.
+                    </p>
+                    <div class="catalog-tech-pills">
+                        <span class="catalog-pill">PostgreSQL</span>
+                        <span class="catalog-pill">PostGIS</span>
+                        <span class="catalog-pill">Query Tuning</span>
+                        <span class="catalog-pill">Clustering</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action CTA Dock -->
+            <div class="cta-dock">
+                <div class="cta-text">
+                    <h3>Explore Rafiz's Complete Engineering Profile</h3>
+                    <p>Review professional experience, educational background, hobbies, or send a direct collaboration
+                        inquiry.</p>
+                </div>
+                <div class="cta-buttons">
+                    <a href="./" class="nav-btn primary" style="padding:12px 24px; font-size:14px;">
+                        <span>Enter Full Portfolio →</span>
+                    </a>
+                    <a href="./#contact" class="nav-btn"
+                        style="padding:12px 24px; font-size:14px; border-color:var(--border-glass);">
+                        <span>Contact Rafiz</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Showcase Footer -->
+    <footer class="showcase-footer">
+        <div class="footer-social-links">
+            <a href="https://github.com/RafizImtiaz" target="_blank" rel="noopener" class="footer-link">GitHub ↗</a>
+            <span>•</span>
+            <a href="https://substack.com/@rafizimtiaz" target="_blank" rel="noopener" class="footer-link"
+                style="color:#ff6719; font-weight:700;">Substack ↗</a>
+            <span>•</span>
+            <a href="https://linkedin.com" target="_blank" rel="noopener" class="footer-link">LinkedIn ↗</a>
+            <span>•</span>
+            <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="footer-link">RPMS Live ↗</a>
+        </div>
+        <div>© <span id="footer-year">2026</span> Rafiz Imtiaz. All rights reserved. 2026 Cyber Architecture
+            Scrollytelling Engine.</div>
+    </footer>
+
+    <!-- ========================================================================== -->
+    <!-- JAVASCRIPT: 60FPS LERPED SCROLLYTELLING & 3D ENGINE                        -->
+    <!-- ========================================================================== -->
+    <script>
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+        // -------------------------------------------------------------------------- //
+        // 1. Ambient Background Dust Canvas (Constellation Sparkles)
+        // -------------------------------------------------------------------------- //
+        (function initAmbientDust() {
+            const canvas = document.getElementById('ambient-dust-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const particles = [];
+            const count = Math.min(width > 768 ? 65 : 30, 80);
+
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    r: Math.random() * 1.5 + 0.5,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.3,
+                    alpha: Math.random() * 0.5 + 0.2,
+                    pulse: Math.random() * Math.PI * 2
+                });
+            }
+
+            function drawDust() {
+                ctx.clearRect(0, 0, width, height);
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.pulse += 0.02;
+
+                    if (p.x < 0) p.x = width;
+                    if (p.x > width) p.x = 0;
+                    if (p.y < 0) p.y = height;
+                    if (p.y > height) p.y = 0;
+
+                    const currentAlpha = p.alpha + Math.sin(p.pulse) * 0.15;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(56, 189, 248, ${Math.max(0, currentAlpha)})`;
+                    ctx.fill();
+                }
+                requestAnimationFrame(drawDust);
+            }
+            drawDust();
+        })();
+
+        // -------------------------------------------------------------------------- //
+        // 2. 2026 Scrollytelling Interactive Scrub Engine
+        // -------------------------------------------------------------------------- //
+        (function initScrollytellingEngine() {
+            const scrollyContainer = document.getElementById('scrolly-container');
+            const progressLine = document.getElementById('scroll-progress-line');
+
+            // DOM Elements to animate
+            const heroIntro = document.getElementById('hero-intro');
+            const sceneStage = document.getElementById('scene-stage');
+            const serverMonolith = document.getElementById('server-monolith');
+            const sloganSlam = document.getElementById('slogan-slam');
+            const scrollHint = document.getElementById('scroll-hint');
+
+            // 4 Architecture Layers
+            const layer1 = document.getElementById('layer-1');
+            const layer2 = document.getElementById('layer-2');
+            const layer3 = document.getElementById('layer-3');
+            const layer4 = document.getElementById('layer-4');
+
+            // HUD Callout Elements
+            const hud1 = document.getElementById('hud-1');
+            const hud2 = document.getElementById('hud-2');
+            const hud3 = document.getElementById('hud-3');
+            const hud4 = document.getElementById('hud-4');
+
+            // Feature Slides
+            const fSlide1 = document.getElementById('f-slide-1');
+            const fSlide2 = document.getElementById('f-slide-2');
+            const fSlide3 = document.getElementById('f-slide-3');
+
+            // Step Indicators
+            const step1 = document.getElementById('step-ind-1');
+            const step2 = document.getElementById('step-ind-2');
+            const step3 = document.getElementById('step-ind-3');
+            const step4 = document.getElementById('step-ind-4');
+
+            // Lerp state for silky smooth 60fps cinematic movement
+            let targetProgress = 0;
+            let currentProgress = 0;
+            const LERP_FACTOR = 0.085;
+
+            function clamp(val, min, max) {
+                return Math.max(min, Math.min(max, val));
+            }
+
+            // Calculate scroll progress [0.0 to 1.0] of .scrolly-container
+            function updateTargetProgress() {
+                if (!scrollyContainer) return;
+                const rect = scrollyContainer.getBoundingClientRect();
+                const totalDist = scrollyContainer.offsetHeight - window.innerHeight;
+                if (totalDist <= 0) return;
+
+                const scrolled = -rect.top;
+                targetProgress = clamp(scrolled / totalDist, 0, 1);
+            }
+
+            window.addEventListener('scroll', updateTargetProgress, { passive: true });
+            window.addEventListener('resize', updateTargetProgress, { passive: true });
+            updateTargetProgress();
+
+            // Main Animation Frame Render Loop
+            function render() {
+                // Smooth interpolation (lerp)
+                currentProgress += (targetProgress - currentProgress) * LERP_FACTOR;
+                const p = currentProgress;
+
+                // Update top progress line
+                if (progressLine) {
+                    progressLine.style.width = (p * 100).toFixed(2) + '%';
+                }
+
+                // ================================================================== //
+                // PHASE 0: INTRO HERO HEADER (0.00 -> 0.14)
+                // ================================================================== //
+                if (heroIntro) {
+                    const heroAlpha = clamp(1 - (p / 0.12), 0, 1);
+                    const heroY = -(p / 0.12) * 50;
+                    heroIntro.style.opacity = heroAlpha.toFixed(3);
+                    heroIntro.style.transform = `translateY(${heroY.toFixed(1)}px)`;
+                    heroIntro.style.pointerEvents = heroAlpha > 0.3 ? 'auto' : 'none';
+                }
+
+                // Hide scroll hint past 0.7
+                if (scrollHint) {
+                    scrollHint.style.opacity = p > 0.85 ? '0' : '1';
+                }
+
+                // ================================================================== //
+                // PHASE 1: EXPLODED VIEW (0.10 -> 0.45) - Burger Component Analogy!
+                // Layers explode outward vertically with HUD telemetry lines popping out
+                // ================================================================== //
+                const explodeP = clamp((p - 0.08) / 0.30, 0, 1); // 0.08 to 0.38
+                const explodeEased = Math.sin((explodeP * Math.PI) / 2); // easeOutSine
+
+                // Layer Vertical Separation Offsets (px)
+                const yOffset1 = -120 * explodeEased;
+                const yOffset2 = -40 * explodeEased;
+                const yOffset3 = 40 * explodeEased;
+                const yOffset4 = 120 * explodeEased;
+
+                // Base tilt in 3D space
+                const pitchX = 20 - (explodeEased * 8); // tilts nicely to showcase depth
+                const yawY = -12 + (p * 28);           // rotates slowly across scroll
+
+                if (serverMonolith) {
+                    serverMonolith.style.transform = `rotateX(${pitchX.toFixed(2)}deg) rotateY(${yawY.toFixed(2)}deg)`;
+                }
+
+                if (layer1) layer1.style.transform = `translateY(${yOffset1.toFixed(1)}px) translateZ(${(-10 + explodeEased * 40).toFixed(1)}px)`;
+                if (layer2) layer2.style.transform = `translateY(${yOffset2.toFixed(1)}px) translateZ(${explodeEased * 20}px)`;
+                if (layer3) layer3.style.transform = `translateY(${yOffset3.toFixed(1)}px) translateZ(${explodeEased * 10}px)`;
+                if (layer4) layer4.style.transform = `translateY(${yOffset4.toFixed(1)}px) translateZ(${(-10 - explodeEased * 10).toFixed(1)}px)`;
+
+                // HUD Annotation Callout Pins (Visible in 0.18 -> 0.44)
+                const hudAlpha = (p >= 0.16 && p <= 0.44)
+                    ? clamp((p - 0.16) / 0.06, 0, 1) * clamp((0.44 - p) / 0.06, 0, 1)
+                    : 0;
+
+                [hud1, hud2, hud3, hud4].forEach((hud, idx) => {
+                    if (hud) {
+                        hud.style.opacity = hudAlpha.toFixed(3);
+                        const layerY = [yOffset1, yOffset2, yOffset3, yOffset4][idx];
+                        hud.style.transform = `translateY(${layerY.toFixed(1)}px) translateZ(50px)`;
+                    }
+                });
+
+                // ================================================================== //
+                // PHASE 2: FEATURE INSPECTION & CAMERA ORBIT (0.40 -> 0.75)
+                // Left feature slides cycle 1, 2, 3 as user scrubs down
+                // ================================================================== //
+                // Slide 1 active: 0.15 - 0.38
+                // Slide 2 active (RPMS): 0.38 - 0.60
+                // Slide 3 active (Data): 0.60 - 0.78
+                if (fSlide1) fSlide1.classList.toggle('active', p >= 0.14 && p < 0.38);
+                if (fSlide2) fSlide2.classList.toggle('active', p >= 0.38 && p < 0.62);
+                if (fSlide3) fSlide3.classList.toggle('active', p >= 0.62 && p < 0.78);
+
+                // Right step indicator dots
+                if (step1) step1.classList.toggle('active', p < 0.36);
+                if (step2) step2.classList.toggle('active', p >= 0.36 && p < 0.58);
+                if (step3) step3.classList.toggle('active', p >= 0.58 && p < 0.78);
+                if (step4) step4.classList.toggle('active', p >= 0.78);
+
+                // Highlight RPMS Layer (Layer 3) during Phase 2
+                if (layer3) {
+                    if (p >= 0.38 && p < 0.62) {
+                        layer3.style.borderColor = 'rgba(56, 189, 248, 0.9)';
+                        layer3.style.boxShadow = '0 0 35px rgba(56, 189, 248, 0.5)';
+                    } else {
+                        layer3.style.borderColor = 'rgba(255, 255, 255, 0.14)';
+                        layer3.style.boxShadow = '0 16px 36px -10px rgba(0, 0, 0, 0.7)';
+                    }
+                }
+
+                // ================================================================== //
+                // PHASE 3: SLOGAN SLAM & PERSPECTIVE PULL-BACK (0.75 -> 0.95)
+                // Slogan zooms from behind the 3D stack (matching "ZERO BULLSHIT" at 0:10)
+                // ================================================================== //
+                if (sloganSlam) {
+                    if (p >= 0.74 && p <= 0.97) {
+                        const slamProgress = clamp((p - 0.74) / 0.12, 0, 1);
+                        const slamOpacity = clamp((p - 0.74) / 0.08, 0, 1) * clamp((0.98 - p) / 0.05, 0, 1);
+                        const slamScale = 0.6 + (slamProgress * 0.45);
+                        const slamZ = -400 + (slamProgress * 300);
+
+                        sloganSlam.style.opacity = slamOpacity.toFixed(3);
+                        sloganSlam.style.transform = `translate(-50%, -50%) translateZ(${slamZ.toFixed(0)}px) scale(${slamScale.toFixed(2)})`;
+
+                        // Reassemble & shrink monolith slightly to give spotlight to slogan
+                        if (sceneStage) {
+                            sceneStage.style.transform = `scale(${(1 - slamProgress * 0.25).toFixed(2)})`;
+                        }
+                    } else {
+                        sloganSlam.style.opacity = '0';
+                        if (sceneStage && p < 0.74) sceneStage.style.transform = 'scale(1)';
+                    }
+                }
+
+                requestAnimationFrame(render);
+            }
+
+            requestAnimationFrame(render);
+        })();
+    </script>
+</body>
+
+</html>

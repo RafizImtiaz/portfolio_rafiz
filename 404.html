@@ -7,6 +7,8 @@
         const pathname = window.location.pathname;
         if (pathname.includes('/showcase_playground')) {
             window.location.replace(pathname.replace(/\/showcase_playground\/?$/, '/showcase_playground.html') + window.location.search + window.location.hash);
+        } else if (pathname.includes('/showcase')) {
+            window.location.replace(pathname.replace(/\/showcase\/?$/, '/showcase.html') + window.location.search + window.location.hash);
         } else {
             window.location.replace('./');
         }
