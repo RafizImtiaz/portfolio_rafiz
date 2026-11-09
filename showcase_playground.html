@@ -2441,7 +2441,7 @@
                     setTimeout(() => {
                         resolve({ success: true, message: `Welcome! Unlocking Rafiz Imtiaz Portfolio...` });
                         setTimeout(() => {
-                            window.location.href = './';
+                            window.location.href = 'index.html';
                         }, 400);
                     }, 350);
                 });
@@ -2475,7 +2475,7 @@
                         sessionStorage.setItem('rafiz_session_auth', 'true');
                         resolve({ success: true, message: 'Signed in! Unlocking Rafiz Imtiaz Portfolio...' });
                         setTimeout(() => {
-                            window.location.href = './';
+                            window.location.href = 'index.html';
                         }, 350);
                     });
                 }
@@ -2498,7 +2498,7 @@
                     if (playground && playground.sfx) playground.sfx.playChime();
                     auth.showToast('Unlocking Rafiz Imtiaz Portfolio...', 'success');
                     setTimeout(() => {
-                        window.location.href = './';
+                        window.location.href = 'index.html';
                     }, 350);
                 });
             }
@@ -2510,7 +2510,7 @@
                     if (playground && playground.sfx) playground.sfx.playChime();
                     auth.showToast('Authenticating with provider... Entering portfolio!', 'success');
                     setTimeout(() => {
-                        window.location.href = './';
+                        window.location.href = 'index.html';
                     }, 350);
                 });
             });

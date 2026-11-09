@@ -19,9 +19,9 @@
             window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
         }
 
-        // Gatekeeper: If no active session, redirect to showcase_playground (clean URL)
+        // Gatekeeper: If no active session, redirect to showcase_playground
         if (!sessionStorage.getItem('rafiz_session_auth')) {
-            window.location.replace('showcase_playground');
+            window.location.replace(window.location.protocol === 'file:' ? 'showcase_playground.html' : 'showcase_playground');
         }
     </script>
 
@@ -1953,7 +1953,7 @@
             </nav>
 
             <div class="nav-actions-right" style="display:flex; align-items:center; gap:8px;">
-                <a href="showcase" class="nav-sub-btn" style="background:linear-gradient(135deg, rgba(56,189,248,0.2), rgba(99,102,241,0.2)); border-color:rgba(56,189,248,0.4); color:#fff; text-decoration:none; display:inline-flex; align-items:center; gap:5px;" title="2026 Interactive 3D Architecture Showcase">⚡ 3D Showcase</a>
+                <a href="showcase.html" class="nav-sub-btn" style="background:linear-gradient(135deg, rgba(56,189,248,0.2), rgba(99,102,241,0.2)); border-color:rgba(56,189,248,0.4); color:#fff; text-decoration:none; display:inline-flex; align-items:center; gap:5px;" title="Interactive Gaming Legends Showcase">🎮 Gaming Showcase</a>
                 <button type="button" class="nav-sub-btn" id="btn-nav-lock" title="Sign out / Return to Gateway">🔒 Sign
                     Out</button>
             </div>
@@ -1995,8 +1995,8 @@
                         </svg>
                         <span>Download CV</span>
                     </a>
-                    <a href="showcase" class="btn-hero-outline" style="border-color:rgba(56,189,248,0.5); color:#38bdf8;">
-                        <span>⚡ 2026 3D Showcase</span>
+                    <a href="showcase.html" class="btn-hero-outline" style="border-color:rgba(56,189,248,0.5); color:#38bdf8;">
+                        <span>🎮 Gaming Legends</span>
                     </a>
                     <a href="#about" class="btn-hero-outline">
                         <span>Explore About Me</span>
@@ -2689,7 +2689,7 @@
         if (lockBtn) {
             lockBtn.addEventListener('click', () => {
                 sessionStorage.removeItem('rafiz_session_auth');
-                window.location.href = 'showcase_playground';
+                window.location.href = window.location.protocol === 'file:' ? 'showcase_playground.html' : 'showcase_playground';
             });
         }
 

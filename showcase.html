@@ -4,29 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Rafiz Imtiaz | 2026 Cyber Architecture Showcase</title>
+    <title>Rafiz Imtiaz | Animated Gaming Legends &amp; Weapon Arsenal Showcase</title>
     <meta name="description"
-        content="Interactive 2026 Scrollytelling 3D Architecture Showcase by Rafiz Imtiaz — Exploded backend systems, FastAPI microservices, GIS telemetry, and enterprise architecture.">
+        content="Interactive Animated Gaming Legends Showcase by Rafiz Imtiaz — Experience active weapons firing, deflecting bullets, spinning blades, and live telemetry as you scroll.">
     <link rel="icon" type="image/png" href="assets/profile_photo.png">
 
-    <script>
-        // Clean URL: Hide .html from the address bar
-        if (window.location.protocol !== 'file:' && window.history && window.history.replaceState) {
-            const cleanPath = window.location.pathname.replace(/\.html$/i, '');
-            window.history.replaceState(null, '', cleanPath + window.location.search + window.location.hash);
-        }
-    </script>
-
-    <!-- Google Fonts -->
+    <!-- Preconnect Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
     <style>
         /* ========================================================================== */
-        /* RESET & CSS VARIABLES                                                      */
+        /* RESET & THEME VARIABLES                                                    */
         /* ========================================================================== */
         *,
         *::before,
@@ -37,91 +29,70 @@
         }
 
         :root {
-            --bg-void: #050811;
-            --bg-card: rgba(13, 19, 33, 0.82);
-            --border-glass: rgba(255, 255, 255, 0.1);
-            --border-glow: rgba(56, 189, 248, 0.35);
-
-            --brand-cyan: #38bdf8;
-            --brand-indigo: #6366f1;
-            --brand-purple: #a855f7;
-            --brand-emerald: #10b981;
-            --brand-amber: #f59e0b;
-
+            --bg-deep: #030712;
+            --bg-surface: rgba(10, 16, 31, 0.92);
+            --border-glass: rgba(255, 255, 255, 0.12);
+            --border-glow: rgba(56, 189, 248, 0.4);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --text-faint: #64748b;
-
+            --brand-cyan: #38bdf8;
+            --brand-amber: #f59e0b;
+            --brand-gold: #facc15;
+            --brand-pink: #ec4899;
+            --brand-purple: #a855f7;
+            --brand-emerald: #10b981;
+            --brand-rose: #f43f5e;
             --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         html,
         body {
-            background-color: var(--bg-void);
+            background-color: var(--bg-deep);
             color: var(--text-main);
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-            overflow-x: hidden;
-            scroll-behavior: auto;
-            /* smooth scroll handled via lerped rAF loop */
+            overflow-x: clip;
+            min-height: 100%;
             -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
 
-        /* Ambient scanline backdrop overlay */
-        .cyber-grid-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1;
-            background-image:
-                linear-gradient(rgba(56, 189, 248, 0.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(56, 189, 248, 0.035) 1px, transparent 1px);
-            background-size: 48px 48px;
-            background-position: center center;
-            opacity: 0.7;
+        ::-webkit-scrollbar {
+            width: 6px;
         }
 
-        .cyber-vignette {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 2;
-            background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(5, 8, 17, 0.85) 100%);
+        ::-webkit-scrollbar-track {
+            background: #030712;
         }
 
-        #ambient-dust-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 2;
+        ::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.3);
+            border-radius: 9999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(56, 189, 248, 0.6);
         }
 
         /* ========================================================================== */
-        /* TOP NAVIGATION HEADER                                                      */
+        /* FIXED HEADER                                                               */
         /* ========================================================================== */
         .site-header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 68px;
-            z-index: 100;
+            height: 72px;
+            padding: 0 clamp(16px, 4vw, 40px);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 clamp(20px, 4vw, 48px);
-            background: rgba(5, 8, 17, 0.75);
+            background: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-glass);
+            z-index: 100;
         }
 
         .header-brand {
@@ -129,16 +100,15 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            color: inherit;
         }
 
         .brand-avatar {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            border: 2px solid var(--brand-cyan);
             object-fit: cover;
-            box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+            border: 2px solid var(--brand-cyan);
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
         }
 
         .brand-meta {
@@ -149,8 +119,8 @@
         .brand-name {
             font-size: 15px;
             font-weight: 800;
-            letter-spacing: -0.01em;
             color: #ffffff;
+            letter-spacing: -0.01em;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -162,901 +132,1165 @@
             border-radius: 50%;
             background: var(--brand-emerald);
             box-shadow: 0 0 8px var(--brand-emerald);
-            animation: pulseDot 2s infinite alternate;
+            animation: pulseDot 2s infinite ease-in-out;
         }
 
         @keyframes pulseDot {
-            0% {
-                opacity: 0.4;
-                transform: scale(0.85);
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
             }
 
-            100% {
-                opacity: 1;
-                transform: scale(1.15);
+            50% {
+                transform: scale(1.3);
+                opacity: 0.6;
             }
         }
 
         .brand-subtitle {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+            font-size: 10.5px;
+            font-weight: 700;
             color: var(--brand-cyan);
-            letter-spacing: 0.08em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
+        .sfx-pill-btn,
         .nav-btn {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 9999px;
-            border: 1px solid transparent;
-            transition: all 0.25s ease;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-glass);
+            color: var(--text-main);
+            padding: 7px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            user-select: none;
         }
 
+        .sfx-pill-btn:hover,
         .nav-btn:hover {
-            color: #ffffff;
-            border-color: var(--border-glass);
-            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--brand-cyan);
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+            background: rgba(56, 189, 248, 0.12);
+        }
+
+        .sfx-pill-btn.active {
+            border-color: rgba(16, 185, 129, 0.5);
+            color: #34d399;
         }
 
         .nav-btn.primary {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(99, 102, 241, 0.25));
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            border-color: rgba(56, 189, 248, 0.6);
             color: #ffffff;
-            border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-        }
-
-        .nav-btn.primary:hover {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(99, 102, 241, 0.4));
-            box-shadow: 0 0 28px rgba(56, 189, 248, 0.4);
-            transform: translateY(-1px);
-        }
-
-        /* Top Progress Bar */
-        .scroll-progress-line {
-            position: fixed;
-            top: 68px;
-            left: 0;
-            height: 2.5px;
-            width: 0%;
-            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
-            z-index: 101;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
-            transition: width 0.05s linear;
+            box-shadow: 0 4px 18px rgba(2, 132, 199, 0.4);
         }
 
         /* ========================================================================== */
-        /* STICKY 2026 SCROLLYTELLING CONTAINER                                       */
+        /* SCROLLTRACK & STICKY STAGE                                                 */
         /* ========================================================================== */
         .scrolly-container {
             position: relative;
-            /* 450vh allows 4 distinct scrubbed phases matching the video */
-            height: 480vh;
+            height: 900vh;
             width: 100%;
         }
 
-        .sticky-viewport {
+        .sticky-stage {
             position: sticky;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            overflow: hidden;
+            overflow: clip;
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 1400px;
-            perspective-origin: 50% 50%;
-            z-index: 10;
+            perspective: 1200px;
         }
 
-        /* Ambient Lighting Cones */
-        .stage-glow-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(90px);
-            pointer-events: none;
-            opacity: 0.45;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-        }
-
-        .orb-top {
-            width: 500px;
-            height: 500px;
-            top: 15%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, rgba(99, 102, 241, 0.2) 60%, transparent 80%);
-        }
-
-        .orb-bottom {
-            width: 600px;
-            height: 400px;
-            bottom: -5%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.28) 0%, rgba(56, 189, 248, 0.15) 50%, transparent 80%);
-        }
-
-        /* Ground 3D reflective grid plane */
-        .ground-grid-plane {
-            position: absolute;
-            bottom: -120px;
-            left: -50%;
-            width: 200%;
-            height: 600px;
-            background-image:
-                linear-gradient(rgba(56, 189, 248, 0.12) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(56, 189, 248, 0.12) 1px, transparent 1px);
-            background-size: 60px 60px;
-            transform: rotateX(72deg);
-            transform-origin: center bottom;
-            mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 80%);
-            -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 80%);
-            pointer-events: none;
-        }
-
-        /* ========================================================================== */
-        /* 3D SCENE STAGE & SERVER ARCHITECTURE STACK                                 */
-        /* ========================================================================== */
-        .scene-stage {
-            position: relative;
-            width: 560px;
-            height: 420px;
-            transform-style: preserve-3d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.1s linear;
-        }
-
-        /* Master Server Rack / Holographic Monolith Container */
-        .server-monolith-cube {
-            position: absolute;
-            width: 440px;
-            height: 340px;
-            transform-style: preserve-3d;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.1s linear;
-        }
-
-        /* The 4 Architectural Layers (Like the burger ingredients deconstructing!) */
-        .arch-layer {
-            position: absolute;
-            width: 420px;
-            height: 72px;
-            background: linear-gradient(135deg, rgba(17, 24, 39, 0.92) 0%, rgba(10, 15, 29, 0.96) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 22px;
-            box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), 0 0 24px -6px rgba(56, 189, 248, 0.15);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            transform-style: preserve-3d;
-            transform-origin: center center;
-            transition: transform 0.1s linear, opacity 0.2s ease, border-color 0.3s ease;
-            user-select: none;
-            cursor: pointer;
-        }
-
-        .arch-layer::before {
-            content: '';
+        .stage-aura-glow {
             position: absolute;
             inset: 0;
-            border-radius: 16px;
-            padding: 1px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent 60%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 1;
+            transition: background 0.8s ease;
+            background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.18) 0%, rgba(3, 7, 18, 0) 70%);
+        }
+
+        .stage-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
             pointer-events: none;
         }
 
-        .layer-top {
-            border-top: 1.5px solid rgba(56, 189, 248, 0.6);
-        }
-
-        .layer-icon-badge {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-glass);
-            flex-shrink: 0;
-        }
-
-        .layer-body {
-            display: flex;
-            flex-direction: column;
-            margin-left: 14px;
-            flex-grow: 1;
-        }
-
-        .layer-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 9.5px;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--brand-cyan);
-            margin-bottom: 2px;
-        }
-
-        .layer-title {
-            font-size: 14px;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: -0.01em;
-        }
-
-        .layer-status-pill {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10.5px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            background: rgba(16, 185, 129, 0.12);
-            color: var(--brand-emerald);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .status-pulse-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--brand-emerald);
-            box-shadow: 0 0 6px var(--brand-emerald);
-        }
-
-        /* Floating HUD Annotation Lines & Cards (Exploded View Indicators) */
-        .hud-callout {
+        .stage-floor-grid {
             position: absolute;
-            display: flex;
-            align-items: center;
+            bottom: -150px;
+            left: -50%;
+            width: 200%;
+            height: 480px;
+            background-image:
+                linear-gradient(to right, rgba(56, 189, 248, 0.1) 1px, transparent 1px),
+                linear-gradient(to top, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(600px) rotateX(74deg);
+            transform-origin: center bottom;
+            mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 80%);
+            -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 80%);
+            z-index: 2;
             pointer-events: none;
-            opacity: 0;
-            transform: translateZ(40px);
-            transition: opacity 0.25s ease, transform 0.25s ease;
-            white-space: nowrap;
-        }
-
-        .hud-callout.right {
-            left: 450px;
-        }
-
-        .hud-callout.left {
-            right: 450px;
-            flex-direction: row-reverse;
-        }
-
-        .hud-line {
-            width: 60px;
-            height: 1px;
-            background: linear-gradient(90deg, rgba(56, 189, 248, 0.8), rgba(99, 102, 241, 0.3));
-            position: relative;
-        }
-
-        .hud-callout.left .hud-line {
-            background: linear-gradient(270deg, rgba(56, 189, 248, 0.8), rgba(99, 102, 241, 0.3));
-        }
-
-        .hud-line::after {
-            content: '';
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--brand-cyan);
-            box-shadow: 0 0 8px var(--brand-cyan);
-            top: -2px;
-            right: 0;
-        }
-
-        .hud-callout.left .hud-line::after {
-            left: 0;
-            right: auto;
-        }
-
-        .hud-card {
-            background: rgba(10, 15, 29, 0.9);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 10px;
-            padding: 8px 14px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-            margin: 0 10px;
-        }
-
-        .hud-metric-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--brand-cyan);
-        }
-
-        .hud-metric-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 1px;
         }
 
         /* ========================================================================== */
-        /* STAGE OVERLAYS (TEXT SLIDES, STEP PILLS, SLOGAN SLAM)                      */
+        /* INTRO BLOCK                                                                */
         /* ========================================================================== */
-
-        /* 1. Initial Hero Eyebrow & Prompt */
-        .stage-hero-intro {
+        .intro-hero-block {
             position: absolute;
-            top: 14%;
+            top: 18%;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
             z-index: 20;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            max-width: 840px;
+            padding: 0 20px;
         }
 
         .intro-eyebrow {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.25);
             padding: 6px 14px;
             border-radius: 9999px;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.35);
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
-            font-weight: 700;
-            color: var(--brand-cyan);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        .intro-heading {
-            font-size: clamp(28px, 4.5vw, 48px);
             font-weight: 800;
-            letter-spacing: -0.025em;
-            color: #ffffff;
-            line-height: 1.15;
+            color: var(--brand-cyan);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
         }
 
-        .intro-heading span {
-            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+        .intro-title {
+            font-size: clamp(32px, 5.5vw, 64px);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 14px;
+            color: #ffffff;
+        }
+
+        .intro-title span {
+            background: linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #f43f5e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* 2. Interactive Left-side Feature Inspection Slides (Like the beverage video) */
-        .stage-feature-slider {
-            position: absolute;
-            left: clamp(24px, 7vw, 100px);
-            top: 50%;
-            transform: translateY(-50%);
-            max-width: 380px;
-            z-index: 25;
-            pointer-events: none;
-        }
-
-        .feature-slide {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
-
-        .feature-slide.active {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-            position: relative;
-        }
-
-        .feature-slide-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 800;
-            color: var(--brand-cyan);
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .feature-slide-title {
-            font-size: clamp(24px, 3vw, 36px);
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-            margin-bottom: 12px;
-        }
-
-        .feature-slide-desc {
-            font-size: 14.5px;
+        .intro-desc {
+            font-size: clamp(14px, 1.8vw, 17px);
             color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 16px;
+            line-height: 1.55;
+            margin-bottom: 24px;
         }
 
-        .feature-slide-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .feature-chip {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-glass);
-            color: #cbd5e1;
-        }
-
-        .feature-link-btn {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 12px;
-            padding: 10px 20px;
-            font-size: 13.5px;
-            font-weight: 800;
-            text-decoration: none;
+        .scroll-down-hint {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.4);
-            transition: all 0.25s ease;
-        }
-
-        .feature-link-btn:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
-            box-shadow: 0 12px 32px rgba(2, 132, 199, 0.6);
-        }
-
-        /* 3. Right-side Circular Step Progress Tracker (Matching video 0:07-0:09) */
-        .stage-steps-tracker {
-            position: absolute;
-            right: clamp(24px, 5vw, 64px);
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            z-index: 25;
-            pointer-events: none;
-        }
-
-        .step-indicator {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0.35;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .step-indicator.active {
-            opacity: 1;
-            transform: scale(1.08);
-        }
-
-        .step-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: 2px solid var(--text-faint);
-            background: transparent;
-            transition: all 0.3s ease;
-        }
-
-        .step-indicator.active .step-dot {
-            border-color: var(--brand-cyan);
-            background: var(--brand-cyan);
-            box-shadow: 0 0 14px var(--brand-cyan);
-        }
-
-        .step-name {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
-            color: var(--text-muted);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .step-indicator.active .step-name {
-            color: #ffffff;
-        }
-
-        /* 4. Massive Background 3D Slogan Slam (Matching "ZERO BULLSHIT" at 0:10) */
-        .stage-slogan-slam {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) translateZ(-400px) scale(0.6);
-            text-align: center;
-            pointer-events: none;
-            opacity: 0;
-            z-index: 5;
-            transition: opacity 0.35s ease, transform 0.35s var(--ease-out-expo);
-            white-space: nowrap;
-        }
-
-        .slogan-title {
-            font-size: clamp(54px, 9.5vw, 130px);
-            font-weight: 900;
-            letter-spacing: -0.04em;
-            line-height: 0.95;
-            color: rgba(255, 255, 255, 0.07);
-            text-transform: uppercase;
-            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.25);
-        }
-
-        .slogan-sub {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(14px, 2vw, 22px);
-            font-weight: 700;
-            letter-spacing: 0.3em;
             color: var(--brand-cyan);
-            margin-top: 14px;
-            text-transform: uppercase;
-            opacity: 0.9;
+            animation: bounceY 1.8s infinite ease-in-out;
         }
 
-        /* 5. Bottom Floating Scroll Hint Pill */
-        .stage-scroll-hint {
-            position: absolute;
-            bottom: 32px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(13, 19, 33, 0.75);
-            border: 1px solid var(--border-glass);
-            padding: 8px 18px;
-            border-radius: 9999px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11.5px;
-            color: var(--text-muted);
-            backdrop-filter: blur(12px);
-            z-index: 30;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-            animation: bounceHint 2.4s infinite ease-in-out;
-            pointer-events: none;
-        }
-
-        @keyframes bounceHint {
+        @keyframes bounceY {
 
             0%,
             100% {
-                transform: translateX(-50%) translateY(0);
+                transform: translateY(0);
             }
 
             50% {
-                transform: translateX(-50%) translateY(-6px);
+                transform: translateY(8px);
             }
         }
 
-        .mouse-icon {
-            width: 13px;
-            height: 20px;
-            border: 1.5px solid var(--brand-cyan);
-            border-radius: 8px;
-            position: relative;
-        }
-
-        .mouse-wheel {
-            width: 2.5px;
-            height: 4.5px;
-            background: var(--brand-cyan);
-            border-radius: 2px;
+        /* ========================================================================== */
+        /* RUNNERS MASTER WRAPPER                                                     */
+        /* ========================================================================== */
+        .runners-master-wrapper {
             position: absolute;
-            top: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: mouseScroll 1.6s infinite;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
         }
 
-        @keyframes mouseScroll {
-            0% {
-                top: 4px;
+        .runner-scene {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s;
+            will-change: transform, opacity;
+        }
+
+        .runner-scene.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* Central Stage Container */
+        .stage-interactive-hub {
+            position: relative;
+            width: clamp(280px, 34vw, 440px);
+            min-width: 280px;
+            height: clamp(380px, 56vh, 540px);
+            min-height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+            will-change: transform;
+            flex-shrink: 0;
+        }
+
+        /* Central Visual Card */
+        .hub-character-frame {
+            position: absolute;
+            inset: 0;
+            border-radius: 28px;
+            overflow: hidden;
+            background: #090e1c;
+            border: 2px solid var(--border-glass);
+            box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.95);
+            z-index: 2;
+        }
+
+        .hub-action-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            z-index: 1;
+            filter: contrast(1.1) brightness(0.92);
+            transition: transform 0.6s var(--ease-out-expo), filter 0.3s ease;
+        }
+
+        .hub-character-frame:hover .hub-action-video {
+            transform: scale(1.06);
+            filter: contrast(1.15) brightness(1.02);
+        }
+
+        .hub-live-badge {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            z-index: 6;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 12px;
+            border-radius: 9999px;
+            background: rgba(3, 7, 18, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(8px);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #f8fafc;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+        }
+
+        .live-dot-pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #ef4444;
+            box-shadow: 0 0 10px #ef4444;
+            animation: livePulse 1.3s infinite ease-in-out;
+        }
+
+        @keyframes livePulse {
+
+            0%,
+            100% {
+                transform: scale(1);
                 opacity: 1;
             }
 
+            50% {
+                transform: scale(1.45);
+                opacity: 0.5;
+            }
+        }
+
+        .hub-bg-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: contrast(1.08) brightness(0.88);
+            transition: transform 0.6s var(--ease-out-expo);
+        }
+
+        .hub-character-frame:hover .hub-bg-img {
+            transform: scale(1.05);
+        }
+
+        .hub-vignette {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,
+                    rgba(3, 7, 18, 0.2) 0%,
+                    rgba(3, 7, 18, 0.15) 35%,
+                    rgba(3, 7, 18, 0.82) 70%,
+                    rgba(3, 7, 18, 0.98) 100%);
+            pointer-events: none;
+        }
+
+        .hub-meta-info {
+            position: absolute;
+            bottom: 22px;
+            left: 22px;
+            right: 22px;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hub-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .hub-name {
+            font-size: clamp(22px, 2.5vw, 32px);
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        /* ========================================================================== */
+        /* ANIMATED WEAPON & GEAR ARSENAL (DOING ACTIONS!)                            */
+        /* ========================================================================== */
+        .weapon-arsenal-stage {
+            position: absolute;
+            inset: -40px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* 1. PUBG: Animated Bullet-Deflecting Cast-Iron Pan & Flare Gun */
+        .pubg-pan-container {
+            position: absolute;
+            top: 15%;
+            right: -60px;
+            width: 130px;
+            height: 130px;
+            cursor: pointer;
+            pointer-events: auto;
+            transform-style: preserve-3d;
+            animation: panFloat 3.2s infinite ease-in-out;
+            transition: transform 0.2s ease;
+        }
+
+        .pubg-pan-container:hover {
+            transform: scale(1.15) rotate(-8deg);
+        }
+
+        @keyframes panFloat {
+
+            0%,
             100% {
-                top: 11px;
-                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-12px) rotate(6deg);
+            }
+        }
+
+        .pan-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 15px rgba(250, 204, 21, 0.4));
+        }
+
+        /* Ricochet Sparks Canvas */
+        .ricochet-canvas {
+            position: absolute;
+            inset: -80px;
+            width: calc(100% + 160px);
+            height: calc(100% + 160px);
+            pointer-events: none;
+        }
+
+        /* PUBG Flare Gun Action */
+        .pubg-flare-container {
+            position: absolute;
+            bottom: 20%;
+            left: -50px;
+            width: 110px;
+            cursor: pointer;
+            pointer-events: auto;
+            animation: flareBob 2.8s infinite ease-in-out;
+            transition: transform 0.2s ease;
+        }
+
+        .pubg-flare-container:hover {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        @keyframes flareBob {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* 2. JETT: Orbital Spinning Blade Storm Daggers */
+        .jett-daggers-ring {
+            position: absolute;
+            inset: -50px;
+            pointer-events: none;
+            animation: daggersOrbit 12s linear infinite;
+        }
+
+        @keyframes daggersOrbit {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .floating-dagger {
+            position: absolute;
+            width: 32px;
+            height: 75px;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.3s var(--ease-out-expo);
+        }
+
+        .floating-dagger:hover {
+            transform: scale(1.4) translateY(-10px);
+            filter: drop-shadow(0 0 20px #38bdf8);
+        }
+
+        .dagger-0 {
+            top: 0%;
+            left: 50%;
+            transform: translateX(-50%) rotate(0deg);
+        }
+
+        .dagger-1 {
+            top: 30%;
+            right: 5%;
+            transform: rotate(72deg);
+        }
+
+        .dagger-2 {
+            bottom: 10%;
+            right: 20%;
+            transform: rotate(144deg);
+        }
+
+        .dagger-3 {
+            bottom: 10%;
+            left: 20%;
+            transform: rotate(216deg);
+        }
+
+        .dagger-4 {
+            top: 30%;
+            left: 5%;
+            transform: rotate(288deg);
+        }
+
+        /* 3. WAR ROBOTS: Recoiling Plasma Cannons & Energy Shield */
+        .wr-plasma-cannons {
+            position: absolute;
+            top: 10%;
+            right: -65px;
+            width: 140px;
+            height: 120px;
+            cursor: pointer;
+            pointer-events: auto;
+            animation: wrCannonIdle 2.5s infinite ease-in-out;
+        }
+
+        @keyframes wrCannonIdle {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .wr-energy-dome {
+            position: absolute;
+            inset: -30px;
+            border-radius: 50%;
+            border: 2px dashed rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.25), inset 0 0 25px rgba(56, 189, 248, 0.15);
+            animation: domeSpin 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes domeSpin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 4. JINX: Animated Fishbones & Pow-Pow */
+        .jinx-fishbones {
+            position: absolute;
+            top: 15%;
+            right: -60px;
+            width: 130px;
+            cursor: pointer;
+            pointer-events: auto;
+            animation: fishbonesBob 2.6s infinite ease-in-out;
+            transition: transform 0.2s ease;
+        }
+
+        .jinx-fishbones:hover {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        @keyframes fishbonesBob {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-2deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(4deg);
+            }
+        }
+
+        /* 5. WRAITH: Spinning 3D Kunai Heirloom & Cosmic Void */
+        .wraith-kunai {
+            position: absolute;
+            top: 20%;
+            left: -55px;
+            width: 110px;
+            cursor: pointer;
+            pointer-events: auto;
+            animation: kunaiTumble 4s infinite linear;
+            filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.6));
+        }
+
+        @keyframes kunaiTumble {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-14px) rotate(180deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+
+        /* 6. GERALT: Silver Sword & Glowing Quen Shield */
+        .geralt-sword {
+            position: absolute;
+            top: 10%;
+            right: -55px;
+            width: 70px;
+            height: 180px;
+            cursor: pointer;
+            pointer-events: auto;
+            animation: swordFloat 3s infinite ease-in-out;
+            filter: drop-shadow(0 0 15px rgba(226, 232, 240, 0.5));
+        }
+
+        @keyframes swordFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(15deg);
+            }
+
+            50% {
+                transform: translateY(-14px) rotate(22deg);
+            }
+        }
+
+        /* 7. ARTHUR MORGAN: Revolver with Spinning Cylinder & Gunsmoke */
+        .arthur-revolver {
+            position: absolute;
+            top: 20%;
+            right: -55px;
+            width: 130px;
+            cursor: pointer;
+            pointer-events: auto;
+            animation: gunBob 2.8s infinite ease-in-out;
+            transition: transform 0.2s ease;
+        }
+
+        .arthur-revolver:hover {
+            transform: scale(1.15) rotate(-6deg);
+        }
+
+        @keyframes gunBob {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-4deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+        }
+
+        /* 8. KRATOS: Leviathan Axe with Frost Mist */
+        .kratos-axe {
+            position: absolute;
+            top: 15%;
+            right: -60px;
+            width: 125px;
+            height: 150px;
+            cursor: pointer;
+            pointer-events: auto;
+            animation: axeFloat 3.4s infinite ease-in-out;
+            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.5));
+            transition: transform 0.2s ease;
+        }
+
+        .kratos-axe:hover {
+            transform: scale(1.15) rotate(10deg);
+        }
+
+        @keyframes axeFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(5deg);
+            }
+
+            50% {
+                transform: translateY(-12px) rotate(14deg);
+            }
+        }
+
+        /* Interactive Hint Pill on Hover */
+        .gear-interact-hint {
+            position: absolute;
+            top: -38px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(3, 7, 18, 0.85);
+            border: 1px solid rgba(250, 204, 21, 0.4);
+            color: #facc15;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            white-space: nowrap;
+            letter-spacing: 0.04em;
+            pointer-events: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                opacity: 0.85;
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.04);
             }
         }
 
         /* ========================================================================== */
-        /* DOCKED ENGINEERING CATALOG (SECTION AFTER 100% SCROLL)                     */
+        /* EXPLODED BURGER TELEMETRY CALLOUTS                                         */
         /* ========================================================================== */
-        .docked-catalog-section {
-            position: relative;
-            z-index: 20;
-            background: #080c16;
-            border-top: 1px solid var(--border-glass);
-            padding: 100px clamp(20px, 6vw, 80px) 80px clamp(20px, 6vw, 80px);
-            box-shadow: 0 -40px 80px rgba(0, 0, 0, 0.8);
+        .exploded-layer {
+            position: absolute;
+            pointer-events: auto;
+            z-index: 15;
+            will-change: transform, opacity;
+            transition: box-shadow 0.3s ease;
         }
 
-        .catalog-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .catalog-header {
-            text-align: center;
-            max-width: 720px;
-            margin: 0 auto 56px auto;
-        }
-
-        .catalog-eyebrow {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11.5px;
-            font-weight: 700;
-            color: var(--brand-cyan);
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .catalog-title {
-            font-size: clamp(32px, 4.5vw, 48px);
-            font-weight: 800;
-            letter-spacing: -0.025em;
-            color: #ffffff;
-            line-height: 1.2;
-            margin-bottom: 16px;
-        }
-
-        .catalog-desc {
-            font-size: 16px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* 2-Column Catalog Cards Grid */
-        .catalog-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            margin-bottom: 60px;
-        }
-
-        .catalog-card {
-            background: rgba(13, 19, 33, 0.85);
-            border: 1px solid var(--border-glass);
-            border-top: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 20px;
-            padding: 30px;
+        /* 1. TOP IDENTITY */
+        .layer-top-identity {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            margin-bottom: 20px;
+            transform: translateX(-50%);
             display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(20px);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
+            align-items: center;
+            gap: 12px;
+            background: rgba(13, 20, 38, 0.94);
+            border: 1.5px solid var(--border-glass);
+            padding: 8px 18px;
+            border-radius: 9999px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+            white-space: nowrap;
+            opacity: 0;
         }
 
-        .catalog-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(56, 189, 248, 0.45);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 30px -10px rgba(56, 189, 248, 0.18);
-        }
-
-        .catalog-card-tag {
+        .layer-top-identity .studio-tag {
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             font-weight: 800;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.1em;
             color: var(--brand-cyan);
             text-transform: uppercase;
-            margin-bottom: 12px;
         }
 
-        .catalog-card-title {
-            font-size: 22px;
+        .layer-top-identity .char-alias {
+            font-size: 13.5px;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 8px;
-            letter-spacing: -0.02em;
         }
 
-        .catalog-card-meta {
-            font-size: 13.5px;
+        /* 2. LEFT FLANK SPECS */
+        .layer-left-specs {
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            margin-right: 24px;
+            transform: translateY(-50%);
+            width: 280px;
+            background: rgba(10, 16, 31, 0.94);
+            border: 1.5px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 18px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            opacity: 0;
+        }
+
+        .hud-header-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
             color: var(--text-muted);
-            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .catalog-card-desc {
-            font-size: 14px;
-            color: #cbd5e1;
-            line-height: 1.65;
-            margin-bottom: 18px;
-            flex-grow: 1;
+        .hud-value-bold {
+            font-size: 15px;
+            font-weight: 800;
+            color: #ffffff;
         }
 
-        .catalog-tech-pills {
+        .platforms-chip-row {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            margin-bottom: 20px;
+            margin-top: 2px;
         }
 
-        .catalog-pill {
+        .platform-chip {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-glass);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            color: #ffffff;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        /* 3. RIGHT FLANK TELEMETRY */
+        .layer-right-telemetry {
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            margin-left: 24px;
+            transform: translateY(-50%);
+            width: 280px;
+            background: rgba(10, 16, 31, 0.94);
+            border: 1.5px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 18px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            opacity: 0;
+        }
+
+        .radar-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: var(--brand-emerald);
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 800;
+            width: fit-content;
+        }
+
+        .pulse-dot-radar {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--brand-emerald);
+            box-shadow: 0 0 8px var(--brand-emerald);
+            animation: pulseDot 1.6s infinite alternate;
+        }
+
+        .stat-huge-number {
+            font-size: 26px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        .stat-sub-note {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* 4. BOTTOM WEAPON/ACTION BAR */
+        .layer-bottom-weapon {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-top: 20px;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(10, 16, 31, 0.94);
+            border: 1.5px solid var(--border-glass);
+            padding: 10px 22px;
+            border-radius: 9999px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.85);
+            white-space: nowrap;
+            opacity: 0;
+        }
+
+        .weapon-badge-icon {
+            font-size: 14px;
+        }
+
+        .weapon-desc-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.02em;
+        }
+
+        /* ========================================================================== */
+        /* BOTTOM RUNNER RELAY SCRUBBER DOCK                                          */
+        /* ========================================================================== */
+        .runner-relay-dock {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(10, 16, 31, 0.88);
+            border: 1.5px solid var(--border-glass);
+            padding: 8px 14px;
+            border-radius: 9999px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.9), 0 0 30px rgba(56, 189, 248, 0.15);
+            z-index: 90;
+            user-select: none;
+        }
+
+        .scrubber-runner-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-glass);
-            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
         }
 
-        /* Action CTA Dock */
-        .cta-dock {
-            background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(10, 15, 29, 0.95));
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 24px;
-            padding: 40px;
+        .scrubber-runner-pill:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .scrubber-runner-pill.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(168, 85, 247, 0.3) 100%);
+            border-color: var(--brand-cyan);
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+        }
+
+        .scrubber-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-faint);
+            transition: all 0.25s ease;
+        }
+
+        .scrubber-runner-pill.active .scrubber-dot {
+            background: var(--brand-cyan);
+            box-shadow: 0 0 8px var(--brand-cyan);
+        }
+
+        /* ========================================================================== */
+        /* OUTRO SECTION                                                              */
+        /* ========================================================================== */
+        .outro-portfolio-dock {
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 30px -10px rgba(56, 189, 248, 0.2);
-            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 30;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s;
+            padding: 20px;
         }
 
-        .cta-text h3 {
-            font-size: 26px;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 6px;
+        .outro-portfolio-dock.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
         }
 
-        .cta-text p {
-            font-size: 14.5px;
-            color: var(--text-muted);
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        /* Site Footer */
-        .showcase-footer {
-            border-top: 1px solid var(--border-glass);
-            padding: 32px 20px;
+        .outro-dock-card {
+            max-width: 760px;
+            width: 100%;
+            background: rgba(10, 16, 31, 0.95);
+            border: 1.5px solid rgba(56, 189, 248, 0.4);
+            border-radius: 28px;
+            padding: clamp(28px, 5vw, 48px);
             text-align: center;
-            font-size: 13px;
-            color: var(--text-faint);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.95), 0 0 60px rgba(56, 189, 248, 0.2);
         }
 
-        .footer-social-links {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .footer-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .footer-link:hover {
+        .outro-dock-title {
+            font-size: clamp(26px, 4vw, 42px);
+            font-weight: 900;
             color: #ffffff;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .outro-dock-desc {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .outro-btn-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .outro-primary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+            border: 1.5px solid rgba(56, 189, 248, 0.5);
+            color: #ffffff;
+            font-size: 14.5px;
+            font-weight: 800;
+            padding: 12px 28px;
+            border-radius: 9999px;
+            text-decoration: none;
+            box-shadow: 0 8px 30px rgba(2, 132, 199, 0.45);
+            transition: all 0.25s ease;
+        }
+
+        .outro-primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 38px rgba(2, 132, 199, 0.65);
+        }
+
+        .outro-secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid var(--border-glass);
+            color: #ffffff;
+            font-size: 14.5px;
+            font-weight: 700;
+            padding: 12px 26px;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: all 0.25s ease;
         }
 
         /* ========================================================================== */
-        /* RESPONSIVE DESIGN FOR MOBILE & TABLETS                                     */
+        /* MOBILE RESPONSIVE                                                          */
         /* ========================================================================== */
-        @media (max-width: 900px) {
-            .scene-stage {
-                width: 340px;
-                height: 300px;
+        @media (max-width: 768px) {
+            .site-header {
+                padding: 0 12px;
             }
 
-            .server-monolith-cube {
-                width: 320px;
-            }
-
-            .arch-layer {
-                width: 310px;
-                height: 64px;
-                padding: 0 14px;
-            }
-
-            .layer-title {
-                font-size: 12.5px;
-            }
-
-            .layer-tag {
-                font-size: 8.5px;
-            }
-
-            .layer-status-pill {
+            .brand-subtitle {
                 display: none;
             }
 
-            .hud-callout {
+            .header-actions {
+                gap: 6px;
+            }
+
+            .nav-btn,
+            .sfx-pill-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .stage-interactive-hub {
+                width: clamp(260px, 80vw, 320px);
+                height: clamp(340px, 48vh, 400px);
+            }
+
+            .layer-left-specs,
+            .layer-right-telemetry {
                 display: none !important;
             }
 
-            .stage-feature-slider {
-                left: 20px;
-                right: 20px;
-                max-width: calc(100vw - 40px);
-                top: auto;
-                bottom: 80px;
-                transform: none;
-            }
-
-            .stage-steps-tracker {
-                right: 16px;
-                top: 25%;
-            }
-
-            .catalog-cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-dock {
-                flex-direction: column;
+            .layer-top-identity {
+                max-width: 90vw;
+                font-size: 11.5px;
+                padding: 8px 14px;
+                border-radius: 14px;
+                white-space: normal;
                 text-align: center;
+                margin-bottom: 12px;
             }
 
-            .cta-buttons {
-                width: 100%;
-                justify-content: center;
+            .layer-bottom-weapon {
+                max-width: 90vw;
+                font-size: 11.5px;
+                padding: 8px 14px;
+                border-radius: 14px;
+                white-space: normal;
+                text-align: center;
+                margin-top: 12px;
+            }
+
+            .runner-relay-dock {
+                width: calc(100% - 24px);
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 6px 10px;
+                bottom: 12px;
+                gap: 4px;
+            }
+
+            .scrubber-runner-pill {
+                padding: 5px 8px;
+                font-size: 10px;
             }
         }
     </style>
@@ -1064,26 +1298,24 @@
 
 <body>
 
-    <!-- Cyber Grid Background & Canvas -->
-    <div class="cyber-grid-backdrop"></div>
-    <div class="cyber-vignette"></div>
-    <canvas id="ambient-dust-canvas"></canvas>
-
-    <!-- Top Fixed Header -->
+    <!-- Header -->
     <header class="site-header">
-        <a href="./" class="header-brand">
+        <a href="index.html" class="header-brand">
             <img src="assets/profile_photo.png" alt="Rafiz Imtiaz" class="brand-avatar">
             <div class="brand-meta">
                 <span class="brand-name">
                     Rafiz Imtiaz
                     <span class="brand-status-dot"></span>
                 </span>
-                <span class="brand-subtitle">Cyber Architecture 2026</span>
             </div>
         </a>
 
-        <nav class="header-actions">
-            <a href="./" class="nav-btn">
+        <div class="header-actions">
+            <button type="button" class="sfx-pill-btn active" id="btn-toggle-sfx"
+                title="Toggle Procedural Sound Effects">
+                <span>🔊 Audio On</span>
+            </button>
+            <a href="index.html" class="nav-btn primary">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
                     style="width:14px;height:14px;">
                     <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
@@ -1091,611 +1323,1589 @@
                 </svg>
                 <span>Full Portfolio</span>
             </a>
-            <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="nav-btn primary">
-                <span>RPMS Live ↗</span>
-            </a>
-        </nav>
+        </div>
     </header>
 
-    <!-- Top Scroll Progress Line Indicator -->
-    <div class="scroll-progress-line" id="scroll-progress-line"></div>
+    <!-- Scroll Track -->
+    <div class="scrolly-container" id="scrolly-track">
+        <div class="sticky-stage" id="sticky-stage">
 
-    <!-- ========================================================================== -->
-    <!-- STICKY SCROLLYTELLING CONTAINER (480vh HEIGHT DRIVING TIMELINE)            -->
-    <!-- ========================================================================== -->
-    <div class="scrolly-container" id="scrolly-container">
-        <div class="sticky-viewport" id="sticky-viewport">
+            <div class="stage-aura-glow" id="stage-aura"></div>
+            <div class="stage-floor-grid" id="floor-grid"></div>
+            <canvas class="stage-canvas" id="speed-canvas"></canvas>
 
-            <!-- Ambient Stage Lighting Orbs -->
-            <div class="stage-glow-orb orb-top" id="orb-top"></div>
-            <div class="stage-glow-orb orb-bottom" id="orb-bottom"></div>
-            <div class="ground-grid-plane"></div>
-
-            <!-- Initial Hero Header (Fades out as scroll begins) -->
-            <div class="stage-hero-intro" id="hero-intro">
+            <!-- Intro Block -->
+            <div class="intro-hero-block" id="intro-block">
                 <div class="intro-eyebrow">
-                    <span>⚡ 2026 Interactive Scrollytelling</span>
+                    <span>Live Animated Weapons</span>
                 </div>
-                <h1 class="intro-heading">
-                    Deconstruct <span>Backend Architecture</span>
-                </h1>
-                <p style="font-size:14.5px; color:var(--text-muted); max-width:480px;">
-                    Scroll down to explode the monolithic stack into its live microservice layers, inspect telemetry,
-                    and review production telemetry.
+                <h1 class="intro-title">Hall of <span>Legends</span></h1>
+                <p class="intro-desc">
+                    Scroll down to command each legend's sprint. Watch their <strong>signature weapons, guns, and gear actively animate</strong>.
                 </p>
-            </div>
-
-            <!-- Massive 3D Background Slogan Reveal (Zoomed from behind, matching 0:10) -->
-            <div class="stage-slogan-slam" id="slogan-slam">
-                <div class="slogan-title">PRODUCTION GRADE</div>
-                <div class="slogan-sub">FAULT TOLERANT • HIGH CONCURRENCY • SCALABLE</div>
-            </div>
-
-            <!-- 3D SCENE STAGE: Server Architecture Exploded Stack -->
-            <div class="scene-stage" id="scene-stage">
-                <div class="server-monolith-cube" id="server-monolith">
-
-                    <!-- Layer 1: Client & Edge Gateway (Top Bun equivalent) -->
-                    <div class="arch-layer layer-top" id="layer-1">
-                        <div class="layer-icon-badge" style="color:#38bdf8; background:rgba(56,189,248,0.1);">
-                            ⚡
-                        </div>
-                        <div class="layer-body">
-                            <span class="layer-tag">Edge Gateway</span>
-                            <span class="layer-title">FastAPI Middleware & Auth Gateway</span>
-                        </div>
-                        <div class="layer-status-pill">
-                            <span class="status-pulse-dot"></span>
-                            <span>JWT / CORS</span>
-                        </div>
-                    </div>
-
-                    <!-- Callout HUD for Layer 1 -->
-                    <div class="hud-callout right" id="hud-1">
-                        <div class="hud-line"></div>
-                        <div class="hud-card">
-                            <div class="hud-metric-num">&lt; 14ms Latency</div>
-                            <div class="hud-metric-label">High-Throughput ASGI</div>
-                        </div>
-                    </div>
-
-                    <!-- Layer 2: Microservices & Event Stream -->
-                    <div class="arch-layer" id="layer-2">
-                        <div class="layer-icon-badge" style="color:#818cf8; background:rgba(99,102,241,0.1);">
-                            ⚙️
-                        </div>
-                        <div class="layer-body">
-                            <span class="layer-tag">Service Core</span>
-                            <span class="layer-title">Django ERP & Event Pipeline</span>
-                        </div>
-                        <div class="layer-status-pill">
-                            <span class="status-pulse-dot"></span>
-                            <span>Async Workers</span>
-                        </div>
-                    </div>
-
-                    <!-- Callout HUD for Layer 2 -->
-                    <div class="hud-callout left" id="hud-2">
-                        <div class="hud-line"></div>
-                        <div class="hud-card">
-                            <div class="hud-metric-num">Gantt Dispatcher</div>
-                            <div class="hud-metric-label">Resource Allocation</div>
-                        </div>
-                    </div>
-
-                    <!-- Layer 3: Geospatial & Telemetry Mesh (RPMS Core) -->
-                    <div class="arch-layer" id="layer-3">
-                        <div class="layer-icon-badge" style="color:#10b981; background:rgba(16,185,129,0.1);">
-                            🛰️
-                        </div>
-                        <div class="layer-body">
-                            <span class="layer-tag">Geospatial Engine</span>
-                            <span class="layer-title">RPMS River Sensor Telemetry</span>
-                        </div>
-                        <div class="layer-status-pill">
-                            <span class="status-pulse-dot"></span>
-                            <span>GIS / Telemetry</span>
-                        </div>
-                    </div>
-
-                    <!-- Callout HUD for Layer 3 -->
-                    <div class="hud-callout right" id="hud-3">
-                        <div class="hud-line"></div>
-                        <div class="hud-card">
-                            <div class="hud-metric-num">Nationwide GIS</div>
-                            <div class="hud-metric-label">IWM River Stations</div>
-                        </div>
-                    </div>
-
-                    <!-- Layer 4: High-Scale Clustered Database Foundation (Bottom Bun equivalent) -->
-                    <div class="arch-layer" id="layer-4">
-                        <div class="layer-icon-badge" style="color:#f59e0b; background:rgba(245,158,11,0.1);">
-                            🗄️
-                        </div>
-                        <div class="layer-body">
-                            <span class="layer-tag">Data Foundation</span>
-                            <span class="layer-title">PostgreSQL Spatial & MySQL Shards</span>
-                        </div>
-                        <div class="layer-status-pill">
-                            <span class="status-pulse-dot"></span>
-                            <span>PostGIS / ACID</span>
-                        </div>
-                    </div>
-
-                    <!-- Callout HUD for Layer 4 -->
-                    <div class="hud-callout left" id="hud-4">
-                        <div class="hud-line"></div>
-                        <div class="hud-card">
-                            <div class="hud-metric-num">Spatial Indexing</div>
-                            <div class="hud-metric-label">99.99% Data Integrity</div>
-                        </div>
-                    </div>
-
+                <div class="scroll-down-hint">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        style="width:16px;height:16px;">
+                        <path d="M12 5v14" />
+                        <path d="m19 12-7 7-7-7" />
+                    </svg>
+                    <span>Scroll Down to Activate the Animated Arsenal</span>
                 </div>
             </div>
 
-            <!-- Left-side Interactive Feature Slides (Like beverage video feature slides) -->
-            <div class="stage-feature-slider" id="feature-slider">
-                <!-- Slide 1 -->
-                <div class="feature-slide" id="f-slide-1">
-                    <div class="feature-slide-tag">Architecture Phase 01</div>
-                    <h3 class="feature-slide-title">Exploded Microservices</h3>
-                    <p class="feature-slide-desc">
-                        Deconstructed monolithic server stack into isolated, high-concurrency microservices with
-                        automated health monitoring, JWT access controls, and sub-15ms endpoint latency.
-                    </p>
-                    <div class="feature-slide-badges">
-                        <span class="feature-chip">FastAPI</span>
-                        <span class="feature-chip">Python 3.12</span>
-                        <span class="feature-chip">ASGI</span>
-                        <span class="feature-chip">Docker</span>
+            <!-- RUNNERS MASTER STAGE -->
+            <div class="runners-master-wrapper" id="runners-wrapper">
+
+                <!-- 1. JETT (Valorant - Riot Games) -->
+                <div class="runner-scene" data-index="0" data-color="#38bdf8" data-name="Jett">
+                    <div class="stage-interactive-hub" id="hub-wrap-0">
+                        <!-- ANIMATED ARSENAL: 5 Orbital Blade Storm Daggers -->
+                        <div class="weapon-arsenal-stage">
+                            <div class="jett-daggers-ring">
+                                <div class="floating-dagger dagger-0" title="Click to Throw Blade Storm Dagger">
+                                    <svg viewBox="0 0 32 75" fill="none">
+                                        <polygon points="16 2 24 28 19 72 16 74 13 72 8 28" fill="#38bdf8"
+                                            stroke="#ffffff" stroke-width="1.5" />
+                                        <line x1="16" y1="2" x2="16" y2="70" stroke="#ffffff" stroke-width="1" />
+                                        <circle cx="16" cy="30" r="3" fill="#ffffff" />
+                                    </svg>
+                                </div>
+                                <div class="floating-dagger dagger-1" title="Click to Throw Blade Storm Dagger">
+                                    <svg viewBox="0 0 32 75" fill="none">
+                                        <polygon points="16 2 24 28 19 72 16 74 13 72 8 28" fill="#38bdf8"
+                                            stroke="#ffffff" stroke-width="1.5" />
+                                        <line x1="16" y1="2" x2="16" y2="70" stroke="#ffffff" stroke-width="1" />
+                                    </svg>
+                                </div>
+                                <div class="floating-dagger dagger-2" title="Click to Throw Blade Storm Dagger">
+                                    <svg viewBox="0 0 32 75" fill="none">
+                                        <polygon points="16 2 24 28 19 72 16 74 13 72 8 28" fill="#38bdf8"
+                                            stroke="#ffffff" stroke-width="1.5" />
+                                        <line x1="16" y1="2" x2="16" y2="70" stroke="#ffffff" stroke-width="1" />
+                                    </svg>
+                                </div>
+                                <div class="floating-dagger dagger-3" title="Click to Throw Blade Storm Dagger">
+                                    <svg viewBox="0 0 32 75" fill="none">
+                                        <polygon points="16 2 24 28 19 72 16 74 13 72 8 28" fill="#38bdf8"
+                                            stroke="#ffffff" stroke-width="1.5" />
+                                        <line x1="16" y1="2" x2="16" y2="70" stroke="#ffffff" stroke-width="1" />
+                                    </svg>
+                                </div>
+                                <div class="floating-dagger dagger-4" title="Click to Throw Blade Storm Dagger">
+                                    <svg viewBox="0 0 32 75" fill="none">
+                                        <polygon points="16 2 24 28 19 72 16 74 13 72 8 28" fill="#38bdf8"
+                                            stroke="#ffffff" stroke-width="1.5" />
+                                        <line x1="16" y1="2" x2="16" y2="70" stroke="#ffffff" stroke-width="1" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hub-character-frame"
+                            style="border-color: rgba(56,189,248,0.45); box-shadow: 0 20px 60px rgba(56,189,248,0.25);">
+                            <div class="hub-live-badge"><span class="live-dot-pulse"></span> LIVE ACTION</div>
+                            <video class="hub-action-video" src="assets/characters/jett_ability.mp4" autoplay loop muted
+                                playsinline poster="assets/characters/jett.jpg"></video>
+                            <img src="assets/characters/jett.jpg" alt="Jett - Valorant" class="hub-bg-img"
+                                style="opacity:0.25;">
+                            <div class="hub-vignette"></div>
+                            <div class="hub-meta-info">
+                                <span class="hub-tag" style="color: #38bdf8;">VALORANT &bull; RIOT GAMES</span>
+                                <h2 class="hub-name">Jett</h2>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-top-identity" style="border-color: rgba(56,189,248,0.45);">
+                            <span class="studio-tag" style="color:#38bdf8;">Riot Games</span>
+                            <span style="opacity:0.3;">|</span>
+                            <span class="char-alias">South Korea &bull; Radiant Wind Assassin</span>
+                        </div>
+
+                        <div class="exploded-layer layer-left-specs" style="border-color: rgba(56,189,248,0.4);">
+                            <div>
+                                <span class="hud-header-label">📅 Official Release</span>
+                                <span class="hud-value-bold">June 2, 2020</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🕹️ Supported Platforms</span>
+                                <div class="platforms-chip-row">
+                                    <span class="platform-chip">PC</span>
+                                    <span class="platform-chip">PlayStation 5</span>
+                                    <span class="platform-chip">Xbox Series X/S</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚡ Combat Role</span>
+                                <span class="hud-value-bold" style="color:#38bdf8; font-size:13.5px;">Entry Fragger /
+                                    Duelist</span>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-right-telemetry" style="border-color: rgba(56,189,248,0.4);">
+                            <div class="radar-status-badge">
+                                <span class="pulse-dot-radar"></span>
+                                <span>950K In-Game Live</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚡ Monthly Active Players</span>
+                                <span class="stat-huge-number" style="color:#38bdf8;">28.5M</span>
+                            </div>
+                            <p class="stat-sub-note">#1 Picked Duelist across VCT Champions and global competitive
+                                queues.</p>
+                        </div>
+
+                        <div class="exploded-layer layer-bottom-weapon" style="border-color: rgba(56,189,248,0.45);">
+                            <span class="weapon-badge-icon">🌪️</span>
+                            <span class="weapon-desc-text">Ult: Blade Storm &bull; 5 Orbital Knives (Click Daggers to
+                                Throw)</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Slide 2 (RPMS Focus) -->
-                <div class="feature-slide" id="f-slide-2">
-                    <div class="feature-slide-tag">Project Deep Dive 02</div>
-                    <h3 class="feature-slide-title">River Pollution Monitoring (RPMS)</h3>
-                    <p class="feature-slide-desc">
-                        Government telemetry platform for the Institute of Water Modelling (IWM). Real-time sample
-                        collection, multi-tiered laboratory approvals, and geospatial mapping of river stations.
-                    </p>
-                    <div class="feature-slide-badges">
-                        <span class="feature-chip">GIS Integration</span>
-                        <span class="feature-chip">FastAPI Middleware</span>
-                        <span class="feature-chip">PostgreSQL</span>
-                        <span class="feature-chip">Telemetry</span>
+                <!-- 2. HEAVY COMBAT MECH (War Robots: Frontiers - MY.GAMES / Pixonic) -->
+                <div class="runner-scene" data-index="1" data-color="#0284c7" data-name="War Robots">
+                    <div class="stage-interactive-hub" id="hub-wrap-1">
+                        <!-- ANIMATED ARSENAL: Plasma Cannons & Aegis Shield -->
+                        <div class="weapon-arsenal-stage">
+                            <div class="wr-energy-dome"></div>
+                            <div class="wr-plasma-cannons" id="wr-cannon-btn" title="Click to Fire Twin Plasma Cannons">
+                                <svg viewBox="0 0 140 120" fill="none">
+                                    <!-- Barrel 1 -->
+                                    <rect x="20" y="30" width="70" height="18" rx="4" fill="#1e293b" stroke="#38bdf8"
+                                        stroke-width="2" />
+                                    <rect x="85" y="34" width="30" height="10" fill="#0284c7" />
+                                    <!-- Barrel 2 -->
+                                    <rect x="20" y="65" width="70" height="18" rx="4" fill="#1e293b" stroke="#38bdf8"
+                                        stroke-width="2" />
+                                    <rect x="85" y="69" width="30" height="10" fill="#0284c7" />
+                                    <!-- Energy Coils -->
+                                    <line x1="40" y1="26" x2="40" y2="87" stroke="#38bdf8" stroke-width="3" />
+                                    <line x1="60" y1="26" x2="60" y2="87" stroke="#38bdf8" stroke-width="3" />
+                                    <!-- Muzzle Flash Sparks -->
+                                    <polygon points="115 39 135 34 125 39 135 44" fill="#38bdf8" id="plasma-flash-1"
+                                        style="display:none;" />
+                                    <polygon points="115 74 135 69 125 74 135 79" fill="#38bdf8" id="plasma-flash-2"
+                                        style="display:none;" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="hub-character-frame"
+                            style="border-color: rgba(2,132,199,0.45); box-shadow: 0 20px 60px rgba(2,132,199,0.3);">
+                            <div class="hub-live-badge"><span class="live-dot-pulse"></span> LIVE ACTION</div>
+                            <video class="hub-action-video" src="assets/characters/warrobots_action.mp4" autoplay loop
+                                muted playsinline poster="assets/characters/warrobots.jpg"></video>
+                            <img src="assets/characters/warrobots.jpg" alt="War Robots: Frontiers Mech"
+                                class="hub-bg-img" style="opacity:0.25;">
+                            <div class="hub-vignette"></div>
+                            <div class="hub-meta-info">
+                                <span class="hub-tag" style="color: #38bdf8;">WAR ROBOTS: FRONTIERS &bull;
+                                    MY.GAMES</span>
+                                <h2 class="hub-name">Alpha Titan Mech</h2>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-top-identity" style="border-color: rgba(2,132,199,0.45);">
+                            <span class="studio-tag" style="color:#38bdf8;">Pixonic &bull; MY.GAMES</span>
+                            <span style="opacity:0.3;">|</span>
+                            <span class="char-alias">Tactical 6v6 Mech Warfare &bull; The Wild Ten</span>
+                        </div>
+
+                        <div class="exploded-layer layer-left-specs" style="border-color: rgba(2,132,199,0.4);">
+                            <div>
+                                <span class="hud-header-label">📅 Release Era</span>
+                                <span class="hud-value-bold">Early Access / 2024</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🕹️ Supported Platforms</span>
+                                <div class="platforms-chip-row">
+                                    <span class="platform-chip">PC (Steam)</span>
+                                    <span class="platform-chip">PlayStation 5</span>
+                                    <span class="platform-chip">Xbox Series X/S</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚙️ Technology Engine</span>
+                                <span class="hud-value-bold" style="color:#38bdf8; font-size:13.5px;">Unreal Engine 5
+                                    Physics</span>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-right-telemetry" style="border-color: rgba(2,132,199,0.4);">
+                            <div class="radar-status-badge">
+                                <span class="pulse-dot-radar"></span>
+                                <span>250M+ Franchise Pilots</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚡ Combat Deployments</span>
+                                <span class="stat-huge-number" style="color:#38bdf8;">14.2M</span>
+                            </div>
+                            <p class="stat-sub-note">Modular armor chassis with destructible parts and tactical orbital
+                                drops.</p>
+                        </div>
+
+                        <div class="exploded-layer layer-bottom-weapon" style="border-color: rgba(2,132,199,0.45);">
+                            <span class="weapon-badge-icon">⚡</span>
+                            <span class="weapon-desc-text">Ult: Twin Plasma Autocannons &bull; Aegis Shield (Click
+                                Cannons to Fire)</span>
+                        </div>
                     </div>
-                    <div>
-                        <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="feature-link-btn">
+                </div>
+
+                <!-- 3. THE LONE SURVIVOR (PUBG: BATTLEGROUNDS - KRAFTON) -->
+                <div class="runner-scene" data-index="2" data-color="#eab308" data-name="PUBG">
+                    <div class="stage-interactive-hub" id="hub-wrap-2">
+                        <!-- ANIMATED ARSENAL: Bullet-Deflecting Cast-Iron Pan & Flare Gun -->
+                        <div class="weapon-arsenal-stage">
+                            <!-- Bullet Deflecting Cast-Iron Pan -->
+                            <div class="pubg-pan-container" id="pubg-pan-btn"
+                                title="Click or Hover to Deflect Bullets with Frying Pan!">
+                                <div class="gear-interact-hint">🍳 Tap Pan to Deflect!</div>
+                                <canvas class="ricochet-canvas" id="pan-sparks-canvas"></canvas>
+                                <svg class="pan-svg" viewBox="0 0 130 130">
+                                    <!-- Pan Body -->
+                                    <circle cx="65" cy="65" r="46" fill="#18181b" stroke="#facc15" stroke-width="2.5" />
+                                    <circle cx="65" cy="65" r="41" fill="#27272a" />
+                                    <circle cx="65" cy="65" r="38" fill="#18181b" />
+                                    <!-- Metallic Glare -->
+                                    <path d="M45 40 A30 30 0 0 1 85 40" stroke="rgba(255,255,255,0.3)" stroke-width="3"
+                                        stroke-linecap="round" fill="none" />
+                                    <!-- Pan Handle -->
+                                    <rect x="58" y="105" width="14" height="24" rx="4" fill="#09090b" stroke="#71717a"
+                                        stroke-width="1.5" />
+                                    <circle cx="65" cy="122" r="3" fill="#ffffff" opacity="0.4" />
+                                </svg>
+                            </div>
+
+                            <!-- Red Flare Gun -->
+                            <div class="pubg-flare-container" id="pubg-flare-btn"
+                                title="Click to Fire Red Airdrop Flare Gun!">
+                                <svg viewBox="0 0 110 80" fill="none">
+                                    <!-- Flare Gun Body -->
+                                    <path d="M20 50 L50 48 L85 30 L95 34 L65 58 L30 65 Z" fill="#dc2626"
+                                        stroke="#fca5a5" stroke-width="2" />
+                                    <!-- Barrel -->
+                                    <rect x="70" y="24" width="30" height="14" rx="3" fill="#991b1b" stroke="#f87171"
+                                        stroke-width="1.5" transform="rotate(-22 70 24)" />
+                                    <!-- Trigger & Grip -->
+                                    <path d="M25 50 L10 75 L28 78 L38 58 Z" fill="#18181b" />
+                                    <circle cx="95" cy="18" r="6" fill="#fbbf24" id="flare-muzzle-spark"
+                                        style="display:none;" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="hub-character-frame"
+                            style="border-color: rgba(234,179,8,0.45); box-shadow: 0 20px 60px rgba(234,179,8,0.25);">
+                            <div class="hub-live-badge"><span class="live-dot-pulse"></span> LIVE ACTION</div>
+                            <video class="hub-action-video" src="assets/characters/pubg_action.mp4" autoplay loop muted
+                                playsinline poster="assets/characters/pubg.jpg"></video>
+                            <img src="assets/characters/pubg.jpg" alt="The Lone Survivor - PUBG" class="hub-bg-img"
+                                style="opacity:0.25;">
+                            <div class="hub-vignette"></div>
+                            <div class="hub-meta-info">
+                                <span class="hub-tag" style="color: #facc15;">PUBG: BATTLEGROUNDS &bull; KRAFTON</span>
+                                <h2 class="hub-name">The Lone Survivor</h2>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-top-identity" style="border-color: rgba(234,179,8,0.45);">
+                            <span class="studio-tag" style="color:#facc15;">PUBG Studios &bull; KRAFTON</span>
+                            <span style="opacity:0.3;">|</span>
+                            <span class="char-alias">The Pioneer King of Modern Battle Royale</span>
+                        </div>
+
+                        <div class="exploded-layer layer-left-specs" style="border-color: rgba(234,179,8,0.4);">
+                            <div>
+                                <span class="hud-header-label">📅 Official Launch</span>
+                                <span class="hud-value-bold">March 23, 2017</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🕹️ Supported Platforms</span>
+                                <div class="platforms-chip-row">
+                                    <span class="platform-chip">PC (Steam)</span>
+                                    <span class="platform-chip">PS5 / PS4</span>
+                                    <span class="platform-chip">Xbox Series X</span>
+                                    <span class="platform-chip">Mobile</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🏆 Total Global Copies</span>
+                                <span class="hud-value-bold" style="color:#facc15; font-size:13.5px;">75M+ Units
+                                    Sold</span>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-right-telemetry" style="border-color: rgba(234,179,8,0.4);">
+                            <div class="radar-status-badge"
+                                style="background: rgba(234,179,8,0.15); border-color: rgba(234,179,8,0.4); color: #facc15;">
+                                <span class="pulse-dot-radar"
+                                    style="background: #facc15; box-shadow: 0 0 8px #facc15;"></span>
+                                <span>#1 Steam World Record</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚡ All-Time Peak Concurrent</span>
+                                <span class="stat-huge-number" style="color:#facc15;">3.257M</span>
+                            </div>
+                            <p class="stat-sub-note">Highest all-time concurrent players in Steam history across all
+                                games.</p>
+                        </div>
+
+                        <div class="exploded-layer layer-bottom-weapon" style="border-color: rgba(234,179,8,0.45);">
+                            <span class="weapon-badge-icon">🍳</span>
+                            <span class="weapon-desc-text">Signature: Level 3 Cast-Iron Pan (Deflects All Bullets)
+                                &bull; Red Flare Gun</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. JINX (League of Legends - Riot Games) -->
+                <div class="runner-scene" data-index="3" data-color="#ec4899" data-name="Jinx">
+                    <div class="stage-interactive-hub" id="hub-wrap-3">
+                        <div class="weapon-arsenal-stage">
+                            <!-- Animated Fishbones Launcher -->
+                            <div class="jinx-fishbones" id="jinx-fish-btn"
+                                title="Click to Fire Fishbones Shark Rocket!">
+                                <div class="gear-interact-hint" style="color:#ec4899; border-color:#ec4899;">🚀 Tap
+                                    Fishbones!</div>
+                                <svg viewBox="0 0 130 90" fill="none">
+                                    <path d="M15 45 L50 20 L110 30 L125 50 L110 70 L50 65 Z" fill="#475569"
+                                        stroke="#ec4899" stroke-width="2.5" />
+                                    <!-- Shark Jaw -->
+                                    <polygon points="80 35 95 45 80 55" fill="#f43f5e" />
+                                    <circle cx="70" cy="35" r="4" fill="#fbbf24" />
+                                    <!-- Shark Teeth -->
+                                    <polygon points="90 35 95 40 100 35 105 40" fill="#ffffff" />
+                                    <polygon points="90 55 95 50 100 55 105 50" fill="#ffffff" />
+                                    <!-- Neon Sparks -->
+                                    <circle cx="120" cy="50" r="5" fill="#ec4899" id="jinx-rocket-flash"
+                                        style="display:none;" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="hub-character-frame"
+                            style="border-color: rgba(236,72,153,0.45); box-shadow: 0 20px 60px rgba(236,72,153,0.25);">
+                            <div class="hub-live-badge"><span class="live-dot-pulse"></span> LIVE ACTION</div>
+                            <video class="hub-action-video" src="assets/characters/jinx_action.mp4" autoplay loop muted
+                                playsinline poster="assets/characters/jinx.jpg"></video>
+                            <img src="assets/characters/jinx.jpg" alt="Jinx - League of Legends" class="hub-bg-img"
+                                style="opacity:0.25;">
+                            <div class="hub-vignette"></div>
+                            <div class="hub-meta-info">
+                                <span class="hub-tag" style="color: #f472b6;">LEAGUE OF LEGENDS &bull; RIOT GAMES</span>
+                                <h2 class="hub-name">Jinx</h2>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-top-identity" style="border-color: rgba(236,72,153,0.45);">
+                            <span class="studio-tag" style="color:#f472b6;">Riot Games</span>
+                            <span style="opacity:0.3;">|</span>
+                            <span class="char-alias">The Loose Cannon &bull; Arcane Netflix Star</span>
+                        </div>
+
+                        <div class="exploded-layer layer-left-specs" style="border-color: rgba(236,72,153,0.4);">
+                            <div>
+                                <span class="hud-header-label">📅 Official Release</span>
+                                <span class="hud-value-bold">October 10, 2013</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🕹️ Supported Platforms</span>
+                                <div class="platforms-chip-row">
+                                    <span class="platform-chip">PC</span>
+                                    <span class="platform-chip">macOS</span>
+                                    <span class="platform-chip">Wild Rift Mobile</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🎬 Netflix Accolade</span>
+                                <span class="hud-value-bold" style="color:#f472b6; font-size:13.5px;">Primetime Emmy
+                                    Winner</span>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-right-telemetry" style="border-color: rgba(236,72,153,0.4);">
+                            <div class="radar-status-badge">
+                                <span class="pulse-dot-radar"></span>
+                                <span>3.2M Peak Live</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚡ Monthly Active Population</span>
+                                <span class="stat-huge-number" style="color:#f472b6;">150M+</span>
+                            </div>
+                            <p class="stat-sub-note">Most iconic ADC hypercarry and global mascot of League of Legends.
+                            </p>
+                        </div>
+
+                        <div class="exploded-layer layer-bottom-weapon" style="border-color: rgba(236,72,153,0.45);">
+                            <span class="weapon-badge-icon">🚀</span>
+                            <span class="weapon-desc-text">Ult: Super Mega Death Rocket &bull; Fishbones Cannon (Tap to
+                                Fire Rocket)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. WRAITH (Apex Legends - Respawn / EA) -->
+                <div class="runner-scene" data-index="4" data-color="#a855f7" data-name="Wraith">
+                    <div class="stage-interactive-hub" id="hub-wrap-4">
+                        <div class="weapon-arsenal-stage">
+                            <!-- Spinning 3D Kunai Knife -->
+                            <div class="wraith-kunai" id="wraith-kunai-btn" title="Click to Spin Heirloom Kunai Knife!">
+                                <div class="gear-interact-hint" style="color:#c084fc; border-color:#c084fc;">🌀 Tap
+                                    Kunai Knife!</div>
+                                <svg viewBox="0 0 110 110" fill="none">
+                                    <polygon points="55 5 70 45 60 95 55 105 50 95 40 45" fill="#18181b"
+                                        stroke="#a855f7" stroke-width="2.5" />
+                                    <!-- Glowing Runes -->
+                                    <line x1="55" y1="20" x2="55" y2="85" stroke="#c084fc" stroke-width="2" />
+                                    <!-- Ring Pommel -->
+                                    <circle cx="55" cy="100" r="6" stroke="#c084fc" stroke-width="2" fill="none" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="hub-character-frame"
+                            style="border-color: rgba(168,85,247,0.45); box-shadow: 0 20px 60px rgba(168,85,247,0.25);">
+                            <div class="hub-live-badge"><span class="live-dot-pulse"></span> LIVE ACTION</div>
+                            <video class="hub-action-video" src="assets/characters/wraith_action.mp4" autoplay loop
+                                muted playsinline poster="assets/characters/wraith.jpg"></video>
+                            <img src="assets/characters/wraith.jpg" alt="Wraith - Apex Legends" class="hub-bg-img"
+                                style="opacity:0.25;">
+                            <div class="hub-vignette"></div>
+                            <div class="hub-meta-info">
+                                <span class="hub-tag" style="color: #c084fc;">APEX LEGENDS &bull; RESPAWN / EA</span>
+                                <h2 class="hub-name">Wraith</h2>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-top-identity" style="border-color: rgba(168,85,247,0.45);">
+                            <span class="studio-tag" style="color:#c084fc;">Respawn Entertainment</span>
+                            <span style="opacity:0.3;">|</span>
+                            <span class="char-alias">Interdimensional Skirmisher &bull; Void Walker</span>
+                        </div>
+
+                        <div class="exploded-layer layer-left-specs" style="border-color: rgba(168,85,247,0.4);">
+                            <div>
+                                <span class="hud-header-label">📅 Stealth Launch</span>
+                                <span class="hud-value-bold">February 4, 2019</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🕹️ Supported Platforms</span>
+                                <div class="platforms-chip-row">
+                                    <span class="platform-chip">PC (Steam / EA)</span>
+                                    <span class="platform-chip">PS5 / PS4</span>
+                                    <span class="platform-chip">Xbox Series X</span>
+                                    <span class="platform-chip">Nintendo Switch</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚡ Combat Specialization</span>
+                                <span class="hud-value-bold" style="color:#c084fc; font-size:13.5px;">Phase
+                                    Repositioning</span>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-right-telemetry" style="border-color: rgba(168,85,247,0.4);">
+                            <div class="radar-status-badge">
+                                <span class="pulse-dot-radar"></span>
+                                <span>340K Online Live</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚡ Total Apex Playerbase</span>
+                                <span class="stat-huge-number" style="color:#c084fc;">70M+</span>
+                            </div>
+                            <p class="stat-sub-note">#1 Picked Legend in competitive ALGS esports tournaments since
+                                Season 1.</p>
+                        </div>
+
+                        <div class="exploded-layer layer-bottom-weapon" style="border-color: rgba(168,85,247,0.45);">
+                            <span class="weapon-badge-icon">🌀</span>
+                            <span class="weapon-desc-text">Ult: Dimensional Rift &bull; Kunai Heirloom Knife (Tap to
+                                Spin &amp; Phase)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. GERALT OF RIVIA (The Witcher 3 - CD Projekt Red) -->
+                <div class="runner-scene" data-index="5" data-color="#94a3b8" data-name="Geralt">
+                    <div class="stage-interactive-hub" id="hub-wrap-5">
+                        <div class="weapon-arsenal-stage">
+                            <!-- Silver Sword -->
+                            <div class="geralt-sword" id="geralt-sword-btn"
+                                title="Click to Strike with Silver Witcher Blade!">
+                                <div class="gear-interact-hint" style="color:#e2e8f0; border-color:#e2e8f0;">⚔️ Tap
+                                    Silver Sword!</div>
+                                <svg viewBox="0 0 70 180" fill="none">
+                                    <polygon points="35 5 42 120 38 122 35 170 32 122 28 120" fill="#cbd5e1"
+                                        stroke="#ffffff" stroke-width="1.5" />
+                                    <!-- Crossguard -->
+                                    <rect x="18" y="120" width="34" height="6" rx="2" fill="#475569" stroke="#94a3b8"
+                                        stroke-width="1" />
+                                    <!-- Wolf Medallion Pommel -->
+                                    <circle cx="35" cy="172" r="5" fill="#e2e8f0" />
+                                    <!-- Glowing Runes -->
+                                    <line x1="35" y1="20" x2="35" y2="105" stroke="#38bdf8" stroke-width="1.5" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="hub-character-frame"
+                            style="border-color: rgba(148,163,184,0.45); box-shadow: 0 20px 60px rgba(148,163,184,0.2);">
+                            <div class="hub-live-badge"><span class="live-dot-pulse"></span> LIVE ACTION</div>
+                            <video class="hub-action-video" src="assets/characters/geralt_action.mp4" autoplay loop
+                                muted playsinline poster="assets/characters/geralt.jpg"></video>
+                            <img src="assets/characters/geralt.jpg" alt="Geralt of Rivia - The Witcher 3"
+                                class="hub-bg-img" style="opacity:0.25;">
+                            <div class="hub-vignette"></div>
+                            <div class="hub-meta-info">
+                                <span class="hub-tag" style="color: #cbd5e1;">THE WITCHER 3 &bull; CD PROJEKT RED</span>
+                                <h2 class="hub-name">Geralt of Rivia</h2>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-top-identity" style="border-color: rgba(148,163,184,0.45);">
+                            <span class="studio-tag" style="color:#cbd5e1;">CD Projekt Red</span>
+                            <span style="opacity:0.3;">|</span>
+                            <span class="char-alias">The White Wolf &bull; School of the Wolf Witcher</span>
+                        </div>
+
+                        <div class="exploded-layer layer-left-specs" style="border-color: rgba(148,163,184,0.4);">
+                            <div>
+                                <span class="hud-header-label">📅 Release Date</span>
+                                <span class="hud-value-bold">May 19, 2015</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🕹️ Supported Platforms</span>
+                                <div class="platforms-chip-row">
+                                    <span class="platform-chip">PC</span>
+                                    <span class="platform-chip">PS5 / PS4</span>
+                                    <span class="platform-chip">Xbox Series X/S</span>
+                                    <span class="platform-chip">Nintendo Switch</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🏆 Industry Accolade</span>
+                                <span class="hud-value-bold" style="color:#cbd5e1; font-size:13.5px;">250+ Game of the
+                                    Year Awards</span>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-right-telemetry" style="border-color: rgba(148,163,184,0.4);">
+                            <div class="radar-status-badge">
+                                <span class="pulse-dot-radar"></span>
+                                <span>RPG of the Decade</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚡ Lifetime Copies Sold</span>
+                                <span class="stat-huge-number" style="color:#cbd5e1;">50M+</span>
+                            </div>
+                            <p class="stat-sub-note">Regarded universally by critics as one of the greatest open-world
+                                RPGs ever made.</p>
+                        </div>
+
+                        <div class="exploded-layer layer-bottom-weapon" style="border-color: rgba(148,163,184,0.45);">
+                            <span class="weapon-badge-icon">⚔️</span>
+                            <span class="weapon-desc-text">Combat: Aerondight Silver Sword &bull; Quen Shield &bull;
+                                Igni Sign (Tap Sword to Strike)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. ARTHUR MORGAN (Red Dead Redemption 2 - Rockstar Games) -->
+                <div class="runner-scene" data-index="6" data-color="#f59e0b" data-name="Arthur">
+                    <div class="stage-interactive-hub" id="hub-wrap-6">
+                        <div class="weapon-arsenal-stage">
+                            <!-- Schofield Revolver -->
+                            <div class="arthur-revolver" id="arthur-gun-btn"
+                                title="Click to Fire Dual Schofield Revolver with Dead Eye!">
+                                <div class="gear-interact-hint" style="color:#f59e0b; border-color:#f59e0b;">🎯 Tap Gun
+                                    to Fire!</div>
+                                <svg viewBox="0 0 130 80" fill="none">
+                                    <!-- Barrel -->
+                                    <rect x="50" y="24" width="60" height="12" rx="2" fill="#71717a" stroke="#d4d4d8"
+                                        stroke-width="1.5" />
+                                    <!-- Cylinder -->
+                                    <rect x="34" y="20" width="20" height="20" rx="3" fill="#27272a" stroke="#f59e0b"
+                                        stroke-width="1.5" />
+                                    <!-- Grip -->
+                                    <path d="M30 35 L12 70 L30 75 L45 45 Z" fill="#78350f" stroke="#b45309"
+                                        stroke-width="1.5" />
+                                    <!-- Muzzle Flash -->
+                                    <circle cx="118" cy="30" r="7" fill="#fbbf24" id="arthur-muzzle-flash"
+                                        style="display:none;" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="hub-character-frame"
+                            style="border-color: rgba(245,158,11,0.45); box-shadow: 0 20px 60px rgba(245,158,11,0.25);">
+                            <div class="hub-live-badge"><span class="live-dot-pulse"></span> LIVE ACTION</div>
+                            <video class="hub-action-video" src="assets/characters/arthur_action.mp4" autoplay loop
+                                muted playsinline poster="assets/characters/arthur.jpg"></video>
+                            <img src="assets/characters/arthur.jpg" alt="Arthur Morgan - Red Dead Redemption 2"
+                                class="hub-bg-img" style="opacity:0.25;">
+                            <div class="hub-vignette"></div>
+                            <div class="hub-meta-info">
+                                <span class="hub-tag" style="color: #fbbf24;">RED DEAD REDEMPTION 2 &bull;
+                                    ROCKSTAR</span>
+                                <h2 class="hub-name">Arthur Morgan</h2>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-top-identity" style="border-color: rgba(245,158,11,0.45);">
+                            <span class="studio-tag" style="color:#fbbf24;">Rockstar Games</span>
+                            <span style="opacity:0.3;">|</span>
+                            <span class="char-alias">Van der Linde Gang Outlaw Gunslinger</span>
+                        </div>
+
+                        <div class="exploded-layer layer-left-specs" style="border-color: rgba(245,158,11,0.4);">
+                            <div>
+                                <span class="hud-header-label">📅 Official Launch</span>
+                                <span class="hud-value-bold">October 26, 2018</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🕹️ Supported Platforms</span>
+                                <div class="platforms-chip-row">
+                                    <span class="platform-chip">PC (Steam / Rockstar)</span>
+                                    <span class="platform-chip">PlayStation 4</span>
+                                    <span class="platform-chip">Xbox One</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⭐ Metacritic Score</span>
+                                <span class="hud-value-bold" style="color:#fbbf24; font-size:13.5px;">97/100 Universal
+                                    Acclaim</span>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-right-telemetry" style="border-color: rgba(245,158,11,0.4);">
+                            <div class="radar-status-badge">
+                                <span class="pulse-dot-radar"></span>
+                                <span>Masterpiece Status</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚡ Lifetime Global Sales</span>
+                                <span class="stat-huge-number" style="color:#fbbf24;">67M+</span>
+                            </div>
+                            <p class="stat-sub-note">Generated $725 Million in its opening weekend, the 2nd biggest
+                                entertainment launch in history.</p>
+                        </div>
+
+                        <div class="exploded-layer layer-bottom-weapon" style="border-color: rgba(245,158,11,0.45);">
+                            <span class="weapon-badge-icon">🎯</span>
+                            <span class="weapon-desc-text">Signature: Schofield Revolver &bull; Dead Eye Bullet-Time
+                                (Tap Gun to Fire)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. KRATOS (God of War - Santa Monica / Sony) -->
+                <div class="runner-scene" data-index="7" data-color="#f43f5e" data-name="Kratos">
+                    <div class="stage-interactive-hub" id="hub-wrap-7">
+                        <div class="weapon-arsenal-stage">
+                            <!-- Leviathan Axe -->
+                            <div class="kratos-axe" id="kratos-axe-btn"
+                                title="Click to Swing &amp; Recall the Leviathan Axe!">
+                                <div class="gear-interact-hint" style="color:#38bdf8; border-color:#38bdf8;">❄️ Tap
+                                    Leviathan Axe!</div>
+                                <svg viewBox="0 0 125 150" fill="none">
+                                    <!-- Handle -->
+                                    <path d="M40 140 L70 20 L76 22 L46 142 Z" fill="#78350f" stroke="#b45309"
+                                        stroke-width="1.5" />
+                                    <!-- Axe Head Curved Blade -->
+                                    <path d="M68 25 C95 10, 115 25, 120 55 C115 80, 85 85, 65 70 Z" fill="#334155"
+                                        stroke="#38bdf8" stroke-width="2.5" />
+                                    <!-- Frost Runes -->
+                                    <path d="M78 35 L88 45 L98 40 L108 55" stroke="#38bdf8" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <circle cx="100" cy="45" r="4" fill="#ffffff" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="hub-character-frame"
+                            style="border-color: rgba(244,63,94,0.45); box-shadow: 0 20px 60px rgba(244,63,94,0.25);">
+                            <div class="hub-live-badge"><span class="live-dot-pulse"></span> LIVE ACTION</div>
+                            <video class="hub-action-video" src="assets/characters/kratos_action.mp4" autoplay loop
+                                muted playsinline poster="assets/characters/kratos.jpg"></video>
+                            <img src="assets/characters/kratos.jpg" alt="Kratos - God of War" class="hub-bg-img"
+                                style="opacity:0.25;">
+                            <div class="hub-vignette"></div>
+                            <div class="hub-meta-info">
+                                <span class="hub-tag" style="color: #fb7185;">GOD OF WAR &bull; SANTA MONICA /
+                                    SONY</span>
+                                <h2 class="hub-name">Kratos</h2>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-top-identity" style="border-color: rgba(244,63,94,0.45);">
+                            <span class="studio-tag" style="color:#fb7185;">Santa Monica Studio &bull; Sony</span>
+                            <span style="opacity:0.3;">|</span>
+                            <span class="char-alias">The Ghost of Sparta &bull; Norse God of War</span>
+                        </div>
+
+                        <div class="exploded-layer layer-left-specs" style="border-color: rgba(244,63,94,0.4);">
+                            <div>
+                                <span class="hud-header-label">📅 Release Date</span>
+                                <span class="hud-value-bold">April 20, 2018</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🕹️ Supported Platforms</span>
+                                <div class="platforms-chip-row">
+                                    <span class="platform-chip">PC (Steam)</span>
+                                    <span class="platform-chip">PlayStation 5</span>
+                                    <span class="platform-chip">PlayStation 4</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">🏆 Game of the Year</span>
+                                <span class="hud-value-bold" style="color:#fb7185; font-size:13.5px;">The Game Awards
+                                    2018 GOTY</span>
+                            </div>
+                        </div>
+
+                        <div class="exploded-layer layer-right-telemetry" style="border-color: rgba(244,63,94,0.4);">
+                            <div class="radar-status-badge">
+                                <span class="pulse-dot-radar"></span>
+                                <span>35M+ Sold Globally</span>
+                            </div>
+                            <div>
+                                <span class="hud-header-label">⚡ Norse Saga Reach</span>
+                                <span class="stat-huge-number" style="color:#fb7185;">35.6M</span>
+                            </div>
+                            <p class="stat-sub-note">Critically acclaimed single-take camera direction with visceral
+                                Leviathan combat.</p>
+                        </div>
+
+                        <div class="exploded-layer layer-bottom-weapon" style="border-color: rgba(244,63,94,0.45);">
+                            <span class="weapon-badge-icon">❄️</span>
+                            <span class="weapon-desc-text">Ult: Leviathan Frost Axe &bull; Spartan Rage (Tap Axe to
+                                Freeze &amp; Recall)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Outro Section -->
+            <div class="outro-portfolio-dock" id="outro-dock">
+                <div class="outro-dock-card">
+                    <span class="intro-eyebrow" style="margin-bottom:12px;">
+                        <span>🏁 Relay Complete</span>
+                    </span>
+                    <h2 class="outro-dock-title">Ready to Explore the Engineering Behind It?</h2>
+                    <p class="outro-dock-desc">
+                        From interactive weapon physics, Web Audio synthesizers, and hardware-accelerated animations to
+                        distributed FastAPI microservices and real-time GIS river telemetry — explore Rafiz Imtiaz's
+                        full production codebase.
+                    </p>
+                    <div class="outro-btn-row">
+                        <a href="index.html" class="outro-primary-btn">
+                            <span>Enter Full Portfolio &rarr;</span>
+                        </a>
+                        <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="outro-secondary-btn">
                             <span>Open RPMS Platform ↗</span>
                         </a>
                     </div>
                 </div>
-
-                <!-- Slide 3 (Data & ERP) -->
-                <div class="feature-slide" id="f-slide-3">
-                    <div class="feature-slide-tag">Enterprise Ecosystem 03</div>
-                    <h3 class="feature-slide-title">High-Scale Data Pipelines</h3>
-                    <p class="feature-slide-desc">
-                        Engineered normalized database schemas with spatial indices, automated comparative statement
-                        procurement memos, and interactive Gantt scheduling for enterprise operations.
-                    </p>
-                    <div class="feature-slide-badges">
-                        <span class="feature-chip">Django ERP</span>
-                        <span class="feature-chip">Interactive Gantt</span>
-                        <span class="feature-chip">Spatial SQL</span>
-                        <span class="feature-chip">ACID Compliance</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right-side Progress Step Indicator (Matching video 0:07-0:09) -->
-            <div class="stage-steps-tracker" id="steps-tracker">
-                <div class="step-indicator" id="step-ind-1">
-                    <span class="step-dot"></span>
-                    <span class="step-name">01 • Explode</span>
-                </div>
-                <div class="step-indicator" id="step-ind-2">
-                    <span class="step-dot"></span>
-                    <span class="step-name">02 • Inspect RPMS</span>
-                </div>
-                <div class="step-indicator" id="step-ind-3">
-                    <span class="step-dot"></span>
-                    <span class="step-name">03 • Scaled Data</span>
-                </div>
-                <div class="step-indicator" id="step-ind-4">
-                    <span class="step-dot"></span>
-                    <span class="step-name">04 • Production</span>
-                </div>
-            </div>
-
-            <!-- Bottom Scroll Prompt Indicator -->
-            <div class="stage-scroll-hint" id="scroll-hint">
-                <div class="mouse-icon">
-                    <div class="mouse-wheel"></div>
-                </div>
-                <span>Scroll down & up to scrub timeline</span>
             </div>
 
         </div>
     </div>
 
-    <!-- ========================================================================== -->
-    <!-- DOCKED ENGINEERING CATALOG (DOCKS SMOOTHLY AT 100% SCROLL)                 -->
-    <!-- ========================================================================== -->
-    <section class="docked-catalog-section" id="docked-catalog">
-        <div class="catalog-container">
-
-            <div class="catalog-header">
-                <div class="catalog-eyebrow">
-                    <span>⚡ Engineered Production Systems</span>
-                </div>
-                <h2 class="catalog-title">Completed Architectures & Platforms</h2>
-                <p class="catalog-desc">
-                    Each system designed from the ground up for high concurrency, zero data loss, and seamless
-                    integration with modern cloud microservices.
-                </p>
-            </div>
-
-            <div class="catalog-cards-grid">
-                <!-- Card 1: RPMS -->
-                <div class="catalog-card" style="border-color: rgba(56, 189, 248, 0.4);">
-                    <div class="catalog-card-tag">IWM • Government Platform</div>
-                    <h3 class="catalog-card-title">River Pollution Monitoring System (RPMS)</h3>
-                    <div class="catalog-card-meta">Aug 2023 – Present • Lead Backend Developer</div>
-                    <p class="catalog-card-desc">
-                        Nationwide real-time river pollution monitoring platform built for the Institute of Water
-                        Modelling (IWM) to detect, report, and analyze industrial water pollution levels across river
-                        basins.
-                    </p>
-                    <div class="catalog-tech-pills">
-                        <span class="catalog-pill">FastAPI</span>
-                        <span class="catalog-pill">Python</span>
-                        <span class="catalog-pill">PostgreSQL</span>
-                        <span class="catalog-pill">GIS Integration</span>
-                    </div>
-                    <div>
-                        <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="feature-link-btn"
-                            style="padding:8px 16px; font-size:12.5px;">
-                            <span>Visit RPMS Live ↗</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 2: Django ERP -->
-                <div class="catalog-card">
-                    <div class="catalog-card-tag">Enterprise Operational Suite</div>
-                    <h3 class="catalog-card-title">Modular Django ERP Ecosystem</h3>
-                    <div class="catalog-card-meta">2023 – 2024 • ERP Systems Architect</div>
-                    <p class="catalog-card-desc">
-                        Central operational ERP suite with high-throughput Gantt chart resource scheduling, automated
-                        document generation, and role-based permissions across technical divisions.
-                    </p>
-                    <div class="catalog-tech-pills">
-                        <span class="catalog-pill">Django</span>
-                        <span class="catalog-pill">Interactive Gantt</span>
-                        <span class="catalog-pill">MySQL</span>
-                        <span class="catalog-pill">REST APIs</span>
-                    </div>
-                </div>
-
-                <!-- Card 3: Inventory System -->
-                <div class="catalog-card">
-                    <div class="catalog-card-tag">Supply Chain Automation</div>
-                    <h3 class="catalog-card-title">Synchronized Inventory & Procurement</h3>
-                    <div class="catalog-card-meta">2023 – 2024 • Backend Engineer</div>
-                    <p class="catalog-card-desc">
-                        Automated requisition tracking with real-time stock balance reconciliation, Comparative
-                        Statement (CS) vendor quotation analysis, and approval routing.
-                    </p>
-                    <div class="catalog-tech-pills">
-                        <span class="catalog-pill">Django</span>
-                        <span class="catalog-pill">Transactions</span>
-                        <span class="catalog-pill">PostgreSQL</span>
-                        <span class="catalog-pill">Audit Engine</span>
-                    </div>
-                </div>
-
-                <!-- Card 4: Database Optimization -->
-                <div class="catalog-card">
-                    <div class="catalog-card-tag">High Scale Performance</div>
-                    <h3 class="catalog-card-title">Geospatial Database Optimization</h3>
-                    <div class="catalog-card-meta">2022 – 2023 • Database & Systems Engineer</div>
-                    <p class="catalog-card-desc">
-                        Normalized relational schema structures, created spatial B-tree and R-tree indices for GIS
-                        telemetry, and fine-tuned execution plans for sub-second query performance.
-                    </p>
-                    <div class="catalog-tech-pills">
-                        <span class="catalog-pill">PostgreSQL</span>
-                        <span class="catalog-pill">PostGIS</span>
-                        <span class="catalog-pill">Query Tuning</span>
-                        <span class="catalog-pill">Clustering</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Action CTA Dock -->
-            <div class="cta-dock">
-                <div class="cta-text">
-                    <h3>Explore Rafiz's Complete Engineering Profile</h3>
-                    <p>Review professional experience, educational background, hobbies, or send a direct collaboration
-                        inquiry.</p>
-                </div>
-                <div class="cta-buttons">
-                    <a href="./" class="nav-btn primary" style="padding:12px 24px; font-size:14px;">
-                        <span>Enter Full Portfolio →</span>
-                    </a>
-                    <a href="./#contact" class="nav-btn"
-                        style="padding:12px 24px; font-size:14px; border-color:var(--border-glass);">
-                        <span>Contact Rafiz</span>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Showcase Footer -->
-    <footer class="showcase-footer">
-        <div class="footer-social-links">
-            <a href="https://github.com/RafizImtiaz" target="_blank" rel="noopener" class="footer-link">GitHub ↗</a>
-            <span>•</span>
-            <a href="https://substack.com/@rafizimtiaz" target="_blank" rel="noopener" class="footer-link"
-                style="color:#ff6719; font-weight:700;">Substack ↗</a>
-            <span>•</span>
-            <a href="https://linkedin.com" target="_blank" rel="noopener" class="footer-link">LinkedIn ↗</a>
-            <span>•</span>
-            <a href="http://gis.iwmbd.com:9097/" target="_blank" rel="noopener" class="footer-link">RPMS Live ↗</a>
-        </div>
-        <div>© <span id="footer-year">2026</span> Rafiz Imtiaz. All rights reserved. 2026 Cyber Architecture
-            Scrollytelling Engine.</div>
-    </footer>
+    <!-- Scrubber Dock -->
+    <nav class="runner-relay-dock" id="runner-dock" aria-label="Runner Relay Navigation">
+        <button type="button" class="scrubber-runner-pill active" data-index="0" title="1. Jett (Valorant)">
+            <span class="scrubber-dot"></span>
+            <span>Jett</span>
+        </button>
+        <button type="button" class="scrubber-runner-pill" data-index="1" title="2. War Robots: Frontiers">
+            <span class="scrubber-dot"></span>
+            <span>War Robots</span>
+        </button>
+        <button type="button" class="scrubber-runner-pill" data-index="2" title="3. PUBG: BATTLEGROUNDS">
+            <span class="scrubber-dot"></span>
+            <span>PUBG</span>
+        </button>
+        <button type="button" class="scrubber-runner-pill" data-index="3" title="4. Jinx (League of Legends)">
+            <span class="scrubber-dot"></span>
+            <span>Jinx</span>
+        </button>
+        <button type="button" class="scrubber-runner-pill" data-index="4" title="5. Wraith (Apex Legends)">
+            <span class="scrubber-dot"></span>
+            <span>Wraith</span>
+        </button>
+        <button type="button" class="scrubber-runner-pill" data-index="5" title="6. Geralt of Rivia (The Witcher 3)">
+            <span class="scrubber-dot"></span>
+            <span>Geralt</span>
+        </button>
+        <button type="button" class="scrubber-runner-pill" data-index="6" title="7. Arthur Morgan (RDR2)">
+            <span class="scrubber-dot"></span>
+            <span>Arthur</span>
+        </button>
+        <button type="button" class="scrubber-runner-pill" data-index="7" title="8. Kratos (God of War)">
+            <span class="scrubber-dot"></span>
+            <span>Kratos</span>
+        </button>
+    </nav>
 
     <!-- ========================================================================== -->
-    <!-- JAVASCRIPT: 60FPS LERPED SCROLLYTELLING & 3D ENGINE                        -->
+    <!-- INTERACTIVE KINETIC ARSENAL & AUDIO ENGINE                                 -->
     <!-- ========================================================================== -->
     <script>
-        document.getElementById('footer-year').textContent = new Date().getFullYear();
+        // -------------------------------------------------------------------------- //
+        // 1. Procedural Web Audio API Gaming Synthesizer (Weapon Sounds!)
+        // -------------------------------------------------------------------------- //
+        class SoundFX {
+            constructor() {
+                this.enabled = true;
+                this.ctx = null;
+                this.lastWhooshTime = 0;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC) this.ctx = new AC();
+                }
+            }
+
+            playPanClang() {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    // Metallic ping + low resonance
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(1420, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(320, this.ctx.currentTime + 0.35);
+
+                    gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.35);
+                } catch (e) { }
+            }
+
+            playGunshot() {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.18);
+
+                    gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.18);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.18);
+                } catch (e) { }
+            }
+
+            playPlasmaBlast() {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(120, this.ctx.currentTime + 0.22);
+
+                    gain.gain.setValueAtTime(0.22, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.22);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.22);
+                } catch (e) { }
+            }
+
+            playBladeSlash() {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1100, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(2400, this.ctx.currentTime + 0.08);
+
+                    gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.08);
+                } catch (e) { }
+            }
+
+            playFrostFreeze() {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1800, this.ctx.currentTime + 0.3);
+
+                    gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.3);
+                } catch (e) { }
+            }
+
+            playWhoosh(pitch = 280) {
+                if (!this.enabled) return;
+                const now = Date.now();
+                if (now - this.lastWhooshTime < 350) return;
+                this.lastWhooshTime = now;
+
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(pitch, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(pitch * 2.2, this.ctx.currentTime + 0.12);
+
+                    gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.12);
+                } catch (e) { }
+            }
+
+            playExplodeLock() {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(520, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.08);
+
+                    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.08);
+                } catch (e) { }
+            }
+
+            playClick() {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(740, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(0.07, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.05);
+                } catch (e) { }
+            }
+        }
+
+        const sfx = new SoundFX();
+        const btnToggleSfx = document.getElementById('btn-toggle-sfx');
+        if (btnToggleSfx) {
+            btnToggleSfx.addEventListener('click', () => {
+                sfx.enabled = !sfx.enabled;
+                btnToggleSfx.classList.toggle('active', sfx.enabled);
+                btnToggleSfx.querySelector('span').textContent = sfx.enabled ? '🔊 Audio On' : '🔇 Audio Muted';
+                if (sfx.enabled) sfx.playClick();
+            });
+        }
+
+        // Global unlock on very first touch/click anywhere on screen
+        document.addEventListener('pointerdown', () => {
+            sfx.init();
+            if (sfx.ctx && sfx.ctx.state === 'suspended') sfx.ctx.resume();
+        }, { once: true });
+
+        // Universal Fast Tap Listener (Instant Touch & Click Responsive)
+        function addTap(elem, handler) {
+            if (!elem) return;
+            let lastTime = 0;
+            const run = (e) => {
+                const now = Date.now();
+                if (now - lastTime < 140) return;
+                lastTime = now;
+                sfx.init();
+                if (sfx.ctx && sfx.ctx.state === 'suspended') sfx.ctx.resume();
+                handler(e);
+            };
+            elem.addEventListener('pointerdown', run);
+            elem.addEventListener('click', run);
+        }
 
         // -------------------------------------------------------------------------- //
-        // 1. Ambient Background Dust Canvas (Constellation Sparkles)
+        // 2. Interactive Weapon Action Handlers (Things Doing Something!)
         // -------------------------------------------------------------------------- //
-        (function initAmbientDust() {
-            const canvas = document.getElementById('ambient-dust-canvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            let width = canvas.width = window.innerWidth;
-            let height = canvas.height = window.innerHeight;
+        // PUBG: Bullet Deflecting Pan Sparks Canvas
+        const panCanvas = document.getElementById('pan-sparks-canvas');
+        let spawnPanSparks = (cx = 145, cy = 145) => { };
 
-            window.addEventListener('resize', () => {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
+        if (panCanvas) {
+            const pctx = panCanvas.getContext('2d');
+            panCanvas.width = 290;
+            panCanvas.height = 290;
+            const panSparks = [];
+
+            spawnPanSparks = function (cx = 145, cy = 145) {
+                for (let i = 0; i < 24; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 6 + 2;
+                    panSparks.push({
+                        x: cx,
+                        y: cy,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        life: 1,
+                        decay: Math.random() * 0.04 + 0.02,
+                        color: Math.random() > 0.4 ? '#facc15' : '#ef4444'
+                    });
+                }
+            };
+
+            function loopPanSparks() {
+                pctx.clearRect(0, 0, panCanvas.width, panCanvas.height);
+                for (let i = panSparks.length - 1; i >= 0; i--) {
+                    const s = panSparks[i];
+                    s.x += s.vx;
+                    s.y += s.vy;
+                    s.life -= s.decay;
+                    if (s.life <= 0) {
+                        panSparks.splice(i, 1);
+                        continue;
+                    }
+                    pctx.beginPath();
+                    pctx.arc(s.x, s.y, s.life * 2.5, 0, Math.PI * 2);
+                    pctx.fillStyle = s.color;
+                    pctx.shadowColor = s.color;
+                    pctx.shadowBlur = 8;
+                    pctx.fill();
+                }
+                requestAnimationFrame(loopPanSparks);
+            }
+            loopPanSparks();
+
+            // Periodic auto ricochet bullets
+            setInterval(() => {
+                const pubgScene = document.querySelector('.runner-scene[data-name="PUBG"]');
+                if (pubgScene && pubgScene.classList.contains('active')) {
+                    spawnPanSparks(145 + (Math.random() - 0.5) * 40, 145 + (Math.random() - 0.5) * 40);
+                    sfx.playPanClang();
+                }
+            }, 1800);
+        }
+
+        // Action Trigger Functions
+        const panBtn = document.getElementById('pubg-pan-btn');
+        function triggerPubgPan() {
+            spawnPanSparks(145, 145);
+            sfx.playPanClang();
+            if (panBtn) {
+                panBtn.style.transform = 'scale(1.28) rotate(-16deg)';
+                setTimeout(() => panBtn.style.transform = '', 220);
+            }
+        }
+        addTap(panBtn, triggerPubgPan);
+
+        const flareBtn = document.getElementById('pubg-flare-btn');
+        function triggerPubgFlare() {
+            const spark = document.getElementById('flare-muzzle-spark');
+            if (spark) {
+                spark.style.display = 'block';
+                setTimeout(() => spark.style.display = 'none', 300);
+            }
+            sfx.playGunshot();
+            if (flareBtn) {
+                flareBtn.style.transform = 'scale(1.3) translateY(-14px)';
+                setTimeout(() => flareBtn.style.transform = '', 250);
+            }
+        }
+        addTap(flareBtn, triggerPubgFlare);
+
+        // Jett Daggers
+        function triggerJettDagger(dagger) {
+            sfx.playBladeSlash();
+            if (dagger) {
+                dagger.style.transform = 'scale(1.6) translateY(-40px)';
+                dagger.style.opacity = '0';
+                setTimeout(() => {
+                    dagger.style.transform = '';
+                    dagger.style.opacity = '1';
+                }, 600);
+            }
+        }
+        document.querySelectorAll('.floating-dagger').forEach(dagger => {
+            addTap(dagger, (e) => {
+                e.stopPropagation();
+                triggerJettDagger(dagger);
+            });
+        });
+
+        // War Robots Plasma Cannons
+        const wrCannonBtn = document.getElementById('wr-cannon-btn');
+        function triggerWrCannons() {
+            sfx.playPlasmaBlast();
+            const f1 = document.getElementById('plasma-flash-1');
+            const f2 = document.getElementById('plasma-flash-2');
+            if (f1) f1.style.display = 'block';
+            if (f2) f2.style.display = 'block';
+            if (wrCannonBtn) {
+                wrCannonBtn.style.transform = 'translateX(-14px) scale(1.15)';
+                setTimeout(() => {
+                    if (f1) f1.style.display = 'none';
+                    if (f2) f2.style.display = 'none';
+                    wrCannonBtn.style.transform = '';
+                }, 200);
+            }
+        }
+        addTap(wrCannonBtn, triggerWrCannons);
+
+        // Jinx Fishbones
+        const jinxFishBtn = document.getElementById('jinx-fish-btn');
+        function triggerJinxRocket() {
+            sfx.playPlasmaBlast();
+            const f = document.getElementById('jinx-rocket-flash');
+            if (f) f.style.display = 'block';
+            if (jinxFishBtn) {
+                jinxFishBtn.style.transform = 'scale(1.3) rotate(14deg)';
+                setTimeout(() => {
+                    if (f) f.style.display = 'none';
+                    jinxFishBtn.style.transform = '';
+                }, 220);
+            }
+        }
+        addTap(jinxFishBtn, triggerJinxRocket);
+
+        // Wraith Kunai
+        const wraithKunaiBtn = document.getElementById('wraith-kunai-btn');
+        function triggerWraithKunai() {
+            sfx.playBladeSlash();
+            if (wraithKunaiBtn) {
+                wraithKunaiBtn.style.transform = 'scale(1.45) rotate(720deg)';
+                setTimeout(() => wraithKunaiBtn.style.transform = '', 400);
+            }
+        }
+        addTap(wraithKunaiBtn, triggerWraithKunai);
+
+        // Geralt Sword
+        const geraltSwordBtn = document.getElementById('geralt-sword-btn');
+        function triggerGeraltSword() {
+            sfx.playBladeSlash();
+            if (geraltSwordBtn) {
+                geraltSwordBtn.style.transform = 'scale(1.35) rotate(-38deg)';
+                setTimeout(() => geraltSwordBtn.style.transform = '', 300);
+            }
+        }
+        addTap(geraltSwordBtn, triggerGeraltSword);
+
+        // Arthur Gun
+        const arthurGunBtn = document.getElementById('arthur-gun-btn');
+        function triggerArthurGun() {
+            sfx.playGunshot();
+            const f = document.getElementById('arthur-muzzle-flash');
+            if (f) f.style.display = 'block';
+            if (arthurGunBtn) {
+                arthurGunBtn.style.transform = 'scale(1.3) rotate(-20deg)';
+                setTimeout(() => {
+                    if (f) f.style.display = 'none';
+                    arthurGunBtn.style.transform = '';
+                }, 190);
+            }
+        }
+        addTap(arthurGunBtn, triggerArthurGun);
+
+        // Kratos Axe
+        const kratosAxeBtn = document.getElementById('kratos-axe-btn');
+        function triggerKratosAxe() {
+            sfx.playFrostFreeze();
+            if (kratosAxeBtn) {
+                kratosAxeBtn.style.transform = 'scale(1.4) rotate(-50deg)';
+                setTimeout(() => kratosAxeBtn.style.transform = '', 350);
+            }
+        }
+        addTap(kratosAxeBtn, triggerKratosAxe);
+
+        // Tapping directly on the central character card triggers that legend's signature action!
+        const sceneActionMap = [
+            () => {
+                const daggers = document.querySelectorAll('.floating-dagger');
+                const randomDagger = daggers[Math.floor(Math.random() * daggers.length)];
+                triggerJettDagger(randomDagger);
+            },
+            triggerWrCannons,
+            triggerPubgPan,
+            triggerJinxRocket,
+            triggerWraithKunai,
+            triggerGeraltSword,
+            triggerArthurGun,
+            triggerKratosAxe
+        ];
+
+        document.querySelectorAll('.runner-scene').forEach((scene, idx) => {
+            const frame = scene.querySelector('.hub-character-frame');
+            if (frame && sceneActionMap[idx]) {
+                addTap(frame, () => {
+                    frame.style.transform = 'scale(0.97)';
+                    setTimeout(() => frame.style.transform = '', 160);
+                    sceneActionMap[idx]();
+                });
+            }
+        });
+
+        // -------------------------------------------------------------------------- //
+        // 3. Kinetic Particle Canvas (Speed Streaks When Scrolling)
+        // -------------------------------------------------------------------------- //
+        const canvas = document.getElementById('speed-canvas');
+        const ctx = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+        for (let i = 0; i < 70; i++) {
+            particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                speed: Math.random() * 3 + 1,
+                len: Math.random() * 25 + 5,
+                width: Math.random() * 2 + 0.5,
+                color: 'rgba(56, 189, 248, ' + (Math.random() * 0.4 + 0.1) + ')'
+            });
+        }
+
+        let scrollVelocity = 0;
+        let lastScrollY = window.scrollY;
+
+        function renderCanvas() {
+            ctx.clearRect(0, 0, w, h);
+            const speedBoost = Math.min(Math.abs(scrollVelocity) * 0.06, 14);
+
+            particles.forEach(p => {
+                p.x -= (p.speed + speedBoost);
+                if (p.x < -p.len) {
+                    p.x = w + Math.random() * 50;
+                    p.y = Math.random() * h;
+                }
+
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p.x + p.len + speedBoost * 3, p.y);
+                ctx.strokeStyle = p.color;
+                ctx.lineWidth = p.width;
+                ctx.stroke();
             });
 
-            const particles = [];
-            const count = Math.min(width > 768 ? 65 : 30, 80);
-
-            for (let i = 0; i < count; i++) {
-                particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    r: Math.random() * 1.5 + 0.5,
-                    vx: (Math.random() - 0.5) * 0.3,
-                    vy: (Math.random() - 0.5) * 0.3,
-                    alpha: Math.random() * 0.5 + 0.2,
-                    pulse: Math.random() * Math.PI * 2
-                });
-            }
-
-            function drawDust() {
-                ctx.clearRect(0, 0, width, height);
-                for (let i = 0; i < particles.length; i++) {
-                    const p = particles[i];
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.pulse += 0.02;
-
-                    if (p.x < 0) p.x = width;
-                    if (p.x > width) p.x = 0;
-                    if (p.y < 0) p.y = height;
-                    if (p.y > height) p.y = 0;
-
-                    const currentAlpha = p.alpha + Math.sin(p.pulse) * 0.15;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(56, 189, 248, ${Math.max(0, currentAlpha)})`;
-                    ctx.fill();
-                }
-                requestAnimationFrame(drawDust);
-            }
-            drawDust();
-        })();
+            requestAnimationFrame(renderCanvas);
+        }
+        renderCanvas();
 
         // -------------------------------------------------------------------------- //
-        // 2. 2026 Scrollytelling Interactive Scrub Engine
+        // 4. Smooth Lerped Scrollytelling Engine with Deep Linking & Burger Effect
         // -------------------------------------------------------------------------- //
-        (function initScrollytellingEngine() {
-            const scrollyContainer = document.getElementById('scrolly-container');
-            const progressLine = document.getElementById('scroll-progress-line');
+        const scrollyTrack = document.getElementById('scrolly-track');
+        const introBlock = document.getElementById('intro-block');
+        const outroDock = document.getElementById('outro-dock');
+        const stageAura = document.getElementById('stage-aura');
+        const scenes = document.querySelectorAll('.runner-scene');
+        const scrubberPills = document.querySelectorAll('.scrubber-runner-pill');
 
-            // DOM Elements to animate
-            const heroIntro = document.getElementById('hero-intro');
-            const sceneStage = document.getElementById('scene-stage');
-            const serverMonolith = document.getElementById('server-monolith');
-            const sloganSlam = document.getElementById('slogan-slam');
-            const scrollHint = document.getElementById('scroll-hint');
+        let targetProgress = 0;
+        let currentProgress = 0;
+        const totalCharacters = 8;
+        let activeCharIndex = -1;
+        let hasExplodedMap = {};
 
-            // 4 Architecture Layers
-            const layer1 = document.getElementById('layer-1');
-            const layer2 = document.getElementById('layer-2');
-            const layer3 = document.getElementById('layer-3');
-            const layer4 = document.getElementById('layer-4');
+        // Deep linking support via ?legend=pubg or ?progress=0.35
+        const urlParams = new URLSearchParams(window.location.search);
+        const legendMap = {
+            'jett': 0.15,
+            'warrobots': 0.25,
+            'pubg': 0.35,
+            'jinx': 0.45,
+            'wraith': 0.55,
+            'geralt': 0.65,
+            'arthur': 0.75,
+            'kratos': 0.85,
+            'outro': 0.95
+        };
+        const legendParam = urlParams.get('legend');
+        let isLockedByParam = false;
+        if (legendParam && legendMap[legendParam.toLowerCase()] !== undefined) {
+            targetProgress = legendMap[legendParam.toLowerCase()];
+            currentProgress = targetProgress;
+            isLockedByParam = true;
+        } else if (urlParams.has('progress')) {
+            targetProgress = parseFloat(urlParams.get('progress'));
+            currentProgress = targetProgress;
+            isLockedByParam = true;
+        }
 
-            // HUD Callout Elements
-            const hud1 = document.getElementById('hud-1');
-            const hud2 = document.getElementById('hud-2');
-            const hud3 = document.getElementById('hud-3');
-            const hud4 = document.getElementById('hud-4');
+        function updateScroll() {
+            if (isLockedByParam) return;
+            const trackRect = scrollyTrack.getBoundingClientRect();
+            const totalScrollable = scrollyTrack.offsetHeight - window.innerHeight;
+            const scrolled = -trackRect.top;
+            targetProgress = Math.max(0, Math.min(1, scrolled / totalScrollable));
 
-            // Feature Slides
-            const fSlide1 = document.getElementById('f-slide-1');
-            const fSlide2 = document.getElementById('f-slide-2');
-            const fSlide3 = document.getElementById('f-slide-3');
+            scrollVelocity = (window.scrollY - lastScrollY);
+            lastScrollY = window.scrollY;
+        }
 
-            // Step Indicators
-            const step1 = document.getElementById('step-ind-1');
-            const step2 = document.getElementById('step-ind-2');
-            const step3 = document.getElementById('step-ind-3');
-            const step4 = document.getElementById('step-ind-4');
+        window.addEventListener('scroll', () => {
+            isLockedByParam = false;
+            updateScroll();
+        }, { passive: true });
 
-            // Lerp state for silky smooth 60fps cinematic movement
-            let targetProgress = 0;
-            let currentProgress = 0;
-            const LERP_FACTOR = 0.085;
+        updateScroll();
 
-            function clamp(val, min, max) {
-                return Math.max(min, Math.min(max, val));
-            }
-
-            // Calculate scroll progress [0.0 to 1.0] of .scrolly-container
-            function updateTargetProgress() {
-                if (!scrollyContainer) return;
-                const rect = scrollyContainer.getBoundingClientRect();
-                const totalDist = scrollyContainer.offsetHeight - window.innerHeight;
-                if (totalDist <= 0) return;
-
-                const scrolled = -rect.top;
-                targetProgress = clamp(scrolled / totalDist, 0, 1);
-            }
-
-            window.addEventListener('scroll', updateTargetProgress, { passive: true });
-            window.addEventListener('resize', updateTargetProgress, { passive: true });
-            updateTargetProgress();
-
-            // Main Animation Frame Render Loop
-            function render() {
-                // Smooth interpolation (lerp)
-                currentProgress += (targetProgress - currentProgress) * LERP_FACTOR;
-                const p = currentProgress;
-
-                // Update top progress line
-                if (progressLine) {
-                    progressLine.style.width = (p * 100).toFixed(2) + '%';
-                }
-
-                // ================================================================== //
-                // PHASE 0: INTRO HERO HEADER (0.00 -> 0.14)
-                // ================================================================== //
-                if (heroIntro) {
-                    const heroAlpha = clamp(1 - (p / 0.12), 0, 1);
-                    const heroY = -(p / 0.12) * 50;
-                    heroIntro.style.opacity = heroAlpha.toFixed(3);
-                    heroIntro.style.transform = `translateY(${heroY.toFixed(1)}px)`;
-                    heroIntro.style.pointerEvents = heroAlpha > 0.3 ? 'auto' : 'none';
-                }
-
-                // Hide scroll hint past 0.7
-                if (scrollHint) {
-                    scrollHint.style.opacity = p > 0.85 ? '0' : '1';
-                }
-
-                // ================================================================== //
-                // PHASE 1: EXPLODED VIEW (0.10 -> 0.45) - Burger Component Analogy!
-                // Layers explode outward vertically with HUD telemetry lines popping out
-                // ================================================================== //
-                const explodeP = clamp((p - 0.08) / 0.30, 0, 1); // 0.08 to 0.38
-                const explodeEased = Math.sin((explodeP * Math.PI) / 2); // easeOutSine
-
-                // Layer Vertical Separation Offsets (px)
-                const yOffset1 = -120 * explodeEased;
-                const yOffset2 = -40 * explodeEased;
-                const yOffset3 = 40 * explodeEased;
-                const yOffset4 = 120 * explodeEased;
-
-                // Base tilt in 3D space
-                const pitchX = 20 - (explodeEased * 8); // tilts nicely to showcase depth
-                const yawY = -12 + (p * 28);           // rotates slowly across scroll
-
-                if (serverMonolith) {
-                    serverMonolith.style.transform = `rotateX(${pitchX.toFixed(2)}deg) rotateY(${yawY.toFixed(2)}deg)`;
-                }
-
-                if (layer1) layer1.style.transform = `translateY(${yOffset1.toFixed(1)}px) translateZ(${(-10 + explodeEased * 40).toFixed(1)}px)`;
-                if (layer2) layer2.style.transform = `translateY(${yOffset2.toFixed(1)}px) translateZ(${explodeEased * 20}px)`;
-                if (layer3) layer3.style.transform = `translateY(${yOffset3.toFixed(1)}px) translateZ(${explodeEased * 10}px)`;
-                if (layer4) layer4.style.transform = `translateY(${yOffset4.toFixed(1)}px) translateZ(${(-10 - explodeEased * 10).toFixed(1)}px)`;
-
-                // HUD Annotation Callout Pins (Visible in 0.18 -> 0.44)
-                const hudAlpha = (p >= 0.16 && p <= 0.44)
-                    ? clamp((p - 0.16) / 0.06, 0, 1) * clamp((0.44 - p) / 0.06, 0, 1)
-                    : 0;
-
-                [hud1, hud2, hud3, hud4].forEach((hud, idx) => {
-                    if (hud) {
-                        hud.style.opacity = hudAlpha.toFixed(3);
-                        const layerY = [yOffset1, yOffset2, yOffset3, yOffset4][idx];
-                        hud.style.transform = `translateY(${layerY.toFixed(1)}px) translateZ(50px)`;
-                    }
+        // Scrubber Pill Tap: Jump to character inspection state with instant feedback
+        scrubberPills.forEach((pill, idx) => {
+            addTap(pill, () => {
+                sfx.playClick();
+                isLockedByParam = false;
+                const targetP = (idx + 1.5) / 10;
+                const totalScrollable = scrollyTrack.offsetHeight - window.innerHeight;
+                window.scrollTo({
+                    top: targetP * totalScrollable,
+                    behavior: 'smooth'
                 });
+            });
+        });
 
-                // ================================================================== //
-                // PHASE 2: FEATURE INSPECTION & CAMERA ORBIT (0.40 -> 0.75)
-                // Left feature slides cycle 1, 2, 3 as user scrubs down
-                // ================================================================== //
-                // Slide 1 active: 0.15 - 0.38
-                // Slide 2 active (RPMS): 0.38 - 0.60
-                // Slide 3 active (Data): 0.60 - 0.78
-                if (fSlide1) fSlide1.classList.toggle('active', p >= 0.14 && p < 0.38);
-                if (fSlide2) fSlide2.classList.toggle('active', p >= 0.38 && p < 0.62);
-                if (fSlide3) fSlide3.classList.toggle('active', p >= 0.62 && p < 0.78);
+        // -------------------------------------------------------------------------- //
+        // 5. Main 60fps Animation Loop with Lerp & Exploded Burger Physics
+        // -------------------------------------------------------------------------- //
+        function loop() {
+            currentProgress += (targetProgress - currentProgress) * 0.1;
 
-                // Right step indicator dots
-                if (step1) step1.classList.toggle('active', p < 0.36);
-                if (step2) step2.classList.toggle('active', p >= 0.36 && p < 0.58);
-                if (step3) step3.classList.toggle('active', p >= 0.58 && p < 0.78);
-                if (step4) step4.classList.toggle('active', p >= 0.78);
+            // Phase 1: Intro Hero Block (0.00 to 0.08)
+            if (currentProgress < 0.08) {
+                const introAlpha = Math.max(0, 1 - (currentProgress / 0.08));
+                introBlock.style.opacity = introAlpha;
+                introBlock.style.transform = `translateY(${-currentProgress * 200}px)`;
+                introBlock.style.display = 'block';
+            } else {
+                introBlock.style.opacity = 0;
+                introBlock.style.display = 'none';
+            }
 
-                // Highlight RPMS Layer (Layer 3) during Phase 2
-                if (layer3) {
-                    if (p >= 0.38 && p < 0.62) {
-                        layer3.style.borderColor = 'rgba(56, 189, 248, 0.9)';
-                        layer3.style.boxShadow = '0 0 35px rgba(56, 189, 248, 0.5)';
-                    } else {
-                        layer3.style.borderColor = 'rgba(255, 255, 255, 0.14)';
-                        layer3.style.boxShadow = '0 16px 36px -10px rgba(0, 0, 0, 0.7)';
+            // Phase 2: Characters Relay (0.10 to 0.90)
+            const relayStart = 0.10;
+            const relayEnd = 0.90;
+            const charSpan = (relayEnd - relayStart) / totalCharacters;
+
+            let currentActiveIndex = -1;
+
+            scenes.forEach((scene, i) => {
+                const cStart = relayStart + i * charSpan;
+                const cEnd = cStart + charSpan;
+
+                if (currentProgress >= cStart - 0.03 && currentProgress <= cEnd + 0.03) {
+                    scene.classList.add('active');
+                    currentActiveIndex = i;
+
+                    const vid = scene.querySelector('.hub-action-video');
+                    if (vid && vid.paused) {
+                        vid.play().catch(() => { });
                     }
-                }
 
-                // ================================================================== //
-                // PHASE 3: SLOGAN SLAM & PERSPECTIVE PULL-BACK (0.75 -> 0.95)
-                // Slogan zooms from behind the 3D stack (matching "ZERO BULLSHIT" at 0:10)
-                // ================================================================== //
-                if (sloganSlam) {
-                    if (p >= 0.74 && p <= 0.97) {
-                        const slamProgress = clamp((p - 0.74) / 0.12, 0, 1);
-                        const slamOpacity = clamp((p - 0.74) / 0.08, 0, 1) * clamp((0.98 - p) / 0.05, 0, 1);
-                        const slamScale = 0.6 + (slamProgress * 0.45);
-                        const slamZ = -400 + (slamProgress * 300);
+                    const rel = Math.max(0, Math.min(1, (currentProgress - cStart) / charSpan));
 
-                        sloganSlam.style.opacity = slamOpacity.toFixed(3);
-                        sloganSlam.style.transform = `translate(-50%, -50%) translateZ(${slamZ.toFixed(0)}px) scale(${slamScale.toFixed(2)})`;
+                    const hubWrap = scene.querySelector('.stage-interactive-hub');
+                    const topIdentity = scene.querySelector('.layer-top-identity');
+                    const leftSpecs = scene.querySelector('.layer-left-specs');
+                    const rightTelemetry = scene.querySelector('.layer-right-telemetry');
+                    const bottomWeapon = scene.querySelector('.layer-bottom-weapon');
 
-                        // Reassemble & shrink monolith slightly to give spotlight to slogan
-                        if (sceneStage) {
-                            sceneStage.style.transform = `scale(${(1 - slamProgress * 0.25).toFixed(2)})`;
+                    const color = scene.getAttribute('data-color') || '#38bdf8';
+                    stageAura.style.background = `radial-gradient(circle at 50% 50%, ${color}33 0%, rgba(3, 7, 18, 0) 70%)`;
+
+                    // Sub-Phase A: SPRINT IN (rel: 0.00 to 0.28)
+                    if (rel < 0.28) {
+                        const inT = rel / 0.28;
+                        const easeIn = Math.sin((inT * Math.PI) / 2);
+
+                        const startX = (i % 2 === 0) ? -75 : 75;
+                        const curX = startX * (1 - easeIn);
+                        const curScale = 0.75 + easeIn * 0.25;
+                        const curRotate = (startX > 0 ? 8 : -8) * (1 - easeIn);
+
+                        hubWrap.style.transform = `translateX(${curX}vw) scale(${curScale}) rotateY(${curRotate}deg)`;
+
+                        // Exploded layers collapsed inside
+                        topIdentity.style.transform = `translateX(-50%) translateY(20px) scale(0.7)`;
+                        topIdentity.style.opacity = 0;
+
+                        if (leftSpecs) {
+                            leftSpecs.style.transform = `translateY(-50%) translateX(30px) scale(0.7)`;
+                            leftSpecs.style.opacity = 0;
                         }
-                    } else {
-                        sloganSlam.style.opacity = '0';
-                        if (sceneStage && p < 0.74) sceneStage.style.transform = 'scale(1)';
+
+                        if (rightTelemetry) {
+                            rightTelemetry.style.transform = `translateY(-50%) translateX(-30px) scale(0.7)`;
+                            rightTelemetry.style.opacity = 0;
+                        }
+
+                        bottomWeapon.style.transform = `translateX(-50%) translateY(-20px) scale(0.7)`;
+                        bottomWeapon.style.opacity = 0;
+                    }
+                    // Sub-Phase B: THE "BURGER EFFECT" EXPLODED INSPECTION (rel: 0.28 to 0.72)
+                    else if (rel >= 0.28 && rel <= 0.72) {
+                        if (!hasExplodedMap[i]) {
+                            hasExplodedMap[i] = true;
+                            sfx.playExplodeLock();
+                        }
+
+                        const inspectT = (rel - 0.28) / (0.72 - 0.28);
+                        const explodeFactor = Math.sin(inspectT * Math.PI);
+
+                        hubWrap.style.transform = `translateX(0px) scale(${1.0 + explodeFactor * 0.04}) rotateY(0deg)`;
+
+                        // Exploded Layers expand outwards smoothly in all 4 directions (Burger Effect)
+                        const offset = explodeFactor * 25;
+                        const scale = 0.9 + explodeFactor * 0.1;
+
+                        topIdentity.style.transform = `translateX(-50%) translateY(${-offset}px) scale(${scale})`;
+                        topIdentity.style.opacity = explodeFactor;
+
+                        if (leftSpecs) {
+                            leftSpecs.style.transform = `translateY(-50%) translateX(${-offset}px) scale(${scale})`;
+                            leftSpecs.style.opacity = explodeFactor;
+                        }
+
+                        if (rightTelemetry) {
+                            rightTelemetry.style.transform = `translateY(-50%) translateX(${offset}px) scale(${scale})`;
+                            rightTelemetry.style.opacity = explodeFactor;
+                        }
+
+                        bottomWeapon.style.transform = `translateX(-50%) translateY(${offset}px) scale(${scale})`;
+                        bottomWeapon.style.opacity = explodeFactor;
+                    }
+                    // Sub-Phase C: DASH OUT / RELAY EXIT (rel: 0.72 to 1.00)
+                    else {
+                        const outT = (rel - 0.72) / (1.00 - 0.72);
+                        const easeOut = Math.pow(outT, 2);
+
+                        const exitX = (i % 2 === 0) ? 80 : -80;
+                        const curX = exitX * easeOut;
+                        const curScale = 1.0 + easeOut * 0.3;
+                        const curRotate = (exitX > 0 ? 10 : -10) * easeOut;
+
+                        hubWrap.style.transform = `translateX(${curX}vw) scale(${curScale}) rotateY(${curRotate}deg)`;
+
+                        const collapseAlpha = Math.max(0, 1 - outT * 3);
+                        topIdentity.style.transform = `translateX(-50%) translateY(20px) scale(0.7)`;
+                        topIdentity.style.opacity = collapseAlpha;
+
+                        if (leftSpecs) {
+                            leftSpecs.style.transform = `translateY(-50%) translateX(30px) scale(0.7)`;
+                            leftSpecs.style.opacity = collapseAlpha;
+                        }
+
+                        if (rightTelemetry) {
+                            rightTelemetry.style.transform = `translateY(-50%) translateX(-30px) scale(0.7)`;
+                            rightTelemetry.style.opacity = collapseAlpha;
+                        }
+
+                        bottomWeapon.style.transform = `translateX(-50%) translateY(-20px) scale(0.7)`;
+                        bottomWeapon.style.opacity = collapseAlpha;
+
+                        if (outT > 0.3 && outT < 0.4) sfx.playWhoosh(340);
+                    }
+                } else {
+                    scene.classList.remove('active');
+                    hasExplodedMap[i] = false;
+                    const vid = scene.querySelector('.hub-action-video');
+                    if (vid && !vid.paused) {
+                        vid.pause();
                     }
                 }
+            });
 
-                requestAnimationFrame(render);
+            // Update Active Runner in Bottom Scrubber Dock
+            if (currentActiveIndex !== activeCharIndex) {
+                activeCharIndex = currentActiveIndex;
+                scrubberPills.forEach((p, idx) => {
+                    p.classList.toggle('active', idx === activeCharIndex);
+                });
             }
 
-            requestAnimationFrame(render);
-        })();
+            // Phase 3: Outro Conclusion Dock (0.90 to 1.00)
+            if (currentProgress > 0.88) {
+                const outroT = Math.min(1, (currentProgress - 0.88) / 0.10);
+                outroDock.classList.add('active');
+                outroDock.style.opacity = outroT;
+                outroDock.style.transform = `scale(${0.92 + outroT * 0.08})`;
+            } else {
+                outroDock.classList.remove('active');
+                outroDock.style.opacity = 0;
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        requestAnimationFrame(loop);
     </script>
 </body>
 
